@@ -61,6 +61,12 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'kolabria.urls'
 
+STATICFILES_DIRS = (
+    "/home/alok/tutorials/kolabria/static",
+)
+
+STATIC_URL = '/static/'
+
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
 )
@@ -71,4 +77,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.staticfiles',
+    'kolabria.home',
 )
