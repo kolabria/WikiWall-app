@@ -5,6 +5,8 @@ from django.conf.urls.defaults import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    
     (r'^home/$', 'kolabria.home.views.index'),
     (r'^date/$', 'kolabria.home.views.date'),
 #    (r'^time/$', 'tut.app.views.time'),
