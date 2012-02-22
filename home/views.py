@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import datetime
 
 def index(request):
-   return render_to_response({
+   return render_to_response('home/index.html', {
         'title': 'Kolabria Homepage',
         'content': 'This is the content of the page',
    }, RequestContext(request)) 
