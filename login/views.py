@@ -22,4 +22,4 @@ def registration(request):
             
             return HttpResponseRedirect("/")
     
-    return render_to_response('registration.html', {'form' : form}, context_instance=RequestContext(request))
+    return render_to_response('login/registration.html', {'form' : form}, context_instance=RequestContext(request))

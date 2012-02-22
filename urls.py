@@ -13,9 +13,9 @@ urlpatterns = patterns('',
     url(r'^date/$', 'kolabria.home.views.date'),
 #    (r'^accounts/', include('kolabria.accounts.urls')),
     url(r'^login/$', django.contrib.auth.views.login, 
-                    {'template_name': 'home.html'}, name = 'home'),
+                    {'template_name': 'login/home.html'}, name = 'home'),
     url(r'^logout/$', django.contrib.auth.views.logout, 
-                    {'template_name': 'logout.html'}),
+                    {'template_name': 'login/logout.html'}),
     url(r'^register/$', views.registration),
    
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
