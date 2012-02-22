@@ -1,6 +1,8 @@
 # Django settings for kolabria project.
 import os
 
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -27,21 +29,27 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/alok/tutorials/kolabria/media/'
+MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
+MEDIA_URL = ''
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    "/home/alok/tutorials/kolabria/static",
+)
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '&lx4lr@=vkjls72!45+wp0dkvi*r-q_npgll4_-novi0s%lv+x'
@@ -53,6 +61,13 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 
+# Email Configuration for password recovery, etc.
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = 'kolabria.test@gmail.com'
+EMAIL_HOST_PASSWORD = 'kolabria1234test'
+EMAIL_USE_TLS = True
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,15 +76,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'kolabria.urls'
 
-STATICFILES_DIRS = (
-    "/home/alok/tutorials/kolabria/static",
-)
-
-STATIC_URL = '/static/'
-
-TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), "templates"),
-)
+TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, "templates"))
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -80,3 +87,5 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'kolabria.home',
 )
+
+LOGIN_REDIRECT_URL = '/'

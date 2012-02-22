@@ -2811,6 +2811,7 @@ button.btn.small, input[type="submit"].btn.small {
   padding: 15px;
 }
 .modal-footer {
+  clear: both;
   padding: 14px 15px 15px;
   margin-bottom: 0;
   background-color: #f5f5f5;

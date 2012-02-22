@@ -1,10 +1,13 @@
 from django.shortcuts import HttpResponse, render_to_response
-from django.template import Context
+from django.template import Context, RequestContext
 from django.http import HttpResponse
 import datetime
 
 def index(request):
-    return HttpResponse('Hello World')
+   return render_to_response({
+        'title': 'Kolabria Homepage',
+        'content': 'This is the content of the page',
+   }, RequestContext(request)) 
 
 def date(request):
     today = datetime.date.today()
