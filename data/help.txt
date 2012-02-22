@@ -1,0 +1,3 @@
+DB goes in this directory.
+DB is not stored in git
+This text file is a placeholder so git can save this directory
