@@ -8,20 +8,18 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-#    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/', include(admin.site.urls)),
+
     url(r'^index/$', 'kolabria.home.views.index'),
     url(r'^date/$', 'kolabria.home.views.date'),
-#    (r'^accounts/', include('kolabria.accounts.urls')),
+
     url(r'^login/$', django.contrib.auth.views.login, 
                     {'template_name': 'login/home.html'}, name = 'home'),
     url(r'^logout/$', django.contrib.auth.views.logout, 
                     {'template_name': 'login/logout.html'}),
     url(r'^register/$', views.registration),
    
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
+#    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+#    (r'^accounts/', include('kolabria.accounts.urls')),
 )
