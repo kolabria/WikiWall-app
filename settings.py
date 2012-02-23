@@ -23,6 +23,8 @@ DATABASES = {
     }
 }
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 TIME_ZONE = 'America/Montreal'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
@@ -72,6 +74,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'kolabria.urls'
@@ -86,6 +89,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'kolabria.home',
+    'debug_toolbar',
 )
 
 LOGIN_REDIRECT_URL = '/'
