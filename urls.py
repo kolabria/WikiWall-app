@@ -19,7 +19,9 @@ urlpatterns = patterns('',
     url(r'^logout/$', django.contrib.auth.views.logout, 
                     {'template_name': 'login/logout.html'}),
     url(r'^register/$', views.registration),
-   
+  
+    url(r'^loggedin/$', views.loggedin),
+ 
 #    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 #    (r'^accounts/', include('kolabria.accounts.urls')),
 )
