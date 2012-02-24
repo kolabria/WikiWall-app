@@ -90,7 +90,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'kolabria.home',
-    'kolabria.walls',    
+    'kolabria.walls',
+    'south',
 )
 
 LOGIN_REDIRECT_URL = '/login'
