@@ -93,5 +93,5 @@ INSTALLED_APPS = (
     'kolabria.walls',    
 )
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/login'
 LOGIN_URL = '/login'
