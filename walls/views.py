@@ -8,7 +8,7 @@ from kolabria.walls.models import Wall
 
 @login_required
 def mywalls(request):
-    walls = Wall.objects.filter(id=request.user.id)
+    walls = Wall.objects.filter(owner=request.user.id)
     return render_to_response('walls/mywalls.html', {
         'title': 'Kolabria - My Whiteboards',
         'walls': walls,

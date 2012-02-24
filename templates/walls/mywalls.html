@@ -5,9 +5,9 @@
   <h1>Active WikiWalls:</h1>
   <ul>
   {% for wall in walls %}  
-  <li><a href="/editinfo/3" class="button">Edit Info</a><a href="/delete"
-class="button destroy">Delete</a><a href="/draw5/3" class="button">Go</a><a
-href="/draw5/3">wall {{ wall.name }}</a></li>
+  <li><a href="/editinfo/3" class="button">Edit Info</a>  |  <a href="/delete"
+class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
+|  <a href="/draw5/3">{{ wall.name }}</a></li>
   {% endfor %}
   </ul>
 
