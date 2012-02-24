@@ -18,7 +18,7 @@ urlpatterns = patterns('',
                     {'template_name': 'login/logout.html'}),
     url(r'^register/$', 'login.views.registration'),
     url(r'^loggedin/$', 'login.views.loggedin'),
-#    url(r'^mywalls/$', 'walls.views.mywalls'),
+    url(r'^mywalls/$', 'walls.views.mywalls'),
 )
 
 urlpatterns += patterns('',
