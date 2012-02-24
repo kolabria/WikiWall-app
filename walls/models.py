@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Walls(models.Model):
+class Wall(models.Model):
     STATUS_CHOICES = (
         (u'Active', u'Active'),
         (u'Private', u'Private'),
