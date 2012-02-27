@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^date/$', 'home.views.date'),
 
     url(r'^login/$', django.contrib.auth.views.login, 
-                    {'template_name': 'login/home.html'}, name = 'home'),
+                    {'template_name': 'login/login.html'}, name = 'home'),
     url(r'^public/$', django.contrib.auth.views.login, 
                     {'template_name': 'boot/publichome.html'}, name = 'home'),
     url(r'^logout/$', django.contrib.auth.views.logout, 

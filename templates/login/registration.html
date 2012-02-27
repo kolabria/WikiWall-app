@@ -1,14 +1,19 @@
 {% extends "base.html" %}
-
 {% block title %}Registration{% endblock %}
 
 {% block content %}
-
-	<h1>Registration</h1>
-
-	<form action="" method="post">{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="Create account">
-	</form>
-
+<div class="container-fluid">
+  <div class="row-fluid offset2">
+    <div class="span7">
+      <div class="hero-unit well">
+        <h2>Please enter your details</h2>
+        <hr />
+          <form action="" method="post">{% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" value="Create account">
+          </form>
+      </div><!--hero-->
+    </div><!--span -->
+  </div><!--row -->
+</div><!--container>
 {% endblock %}
