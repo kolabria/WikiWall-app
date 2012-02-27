@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^register/$', 'login.views.registration'),
     url(r'^loggedin/$', 'login.views.loggedin'),
     url(r'^mywalls/$', 'walls.views.mywalls'),
+    url(r'^private/$', 'walls.views.mywalls'),
 )
 
 urlpatterns += patterns('',

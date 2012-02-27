@@ -94,5 +94,5 @@ INSTALLED_APPS = (
     'south',
 )
 
-LOGIN_REDIRECT_URL = '/login'
+LOGIN_REDIRECT_URL = '/private'
 LOGIN_URL = '/login'
