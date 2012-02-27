@@ -34,35 +34,8 @@
   </head>
 
     <body>
-      {% comment %}#TODO: replace with topnav include?{% endcomment %} 
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="#">Kolabria</a>
-            <div class="nav-collapse">
-              <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-              </ul>
-              <form class="form-inline navbar-text pull-right">Login: 
-                  <input type="text" class="input-small" placeholder="Email">
-                  <input type="password" class="input-small" placeholder="Password">
-                  <button type="submit" class="btn">Go</button>
-              </form>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-
-        {% block content %}{% endblock content %}
-      
+     {% include "includes/topnav.html" %}
+     {% block content %}{% endblock content %}
     
      {% comment %}#TODO: replace with footer include?{% endcomment %} 
       <div class="row-fluid">

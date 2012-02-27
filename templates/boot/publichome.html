@@ -1,11 +1,17 @@
 {% extends "base.html" %}
+{% block title %}Home Public{% endblock %}
 {% block content %}
     <div class="container-fluid">
       <div class="row-fluid offset1">
         <div class="span9">
           <div class="hero-unit well">
+            {% if user.is_authenticated %}
+            <h1>Welcome {{ user.first_name }}</h1>
+            <p>You are now logged in!</p> 
+            {% else %}
             <h1>Welcome to Kolabria!</h1>
-            <h3>To begin please <a href="#">login</a> or <a href="#">signup</a> for an account.<h3> 
+            <h3>To begin please <a href="/login">login</a> or <a href="#">signup</a> for an account.<h3> 
+            {% endif %}
           </div>
         </div><!--span -->
       </div><!--row -->
