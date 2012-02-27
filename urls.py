@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import include, patterns, url
+from django.conf import settings
 import django.contrib.auth.views
 from kolabria import home
 from kolabria import login
@@ -14,6 +15,8 @@ urlpatterns = patterns('',
 
     url(r'^login/$', django.contrib.auth.views.login, 
                     {'template_name': 'login/home.html'}, name = 'home'),
+    url(r'^public/$', django.contrib.auth.views.login, 
+                    {'template_name': 'boot/publichome.html'}, name = 'home'),
     url(r'^logout/$', django.contrib.auth.views.logout, 
                     {'template_name': 'login/logout.html'}),
     url(r'^register/$', 'login.views.registration'),
@@ -25,3 +28,9 @@ urlpatterns += patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^includes/(?P<path>.*)$', 'django.views.static.serve',
+         {'document_root': '/home/alok/kolabria/kolabria/static/'}),
+    ) 
