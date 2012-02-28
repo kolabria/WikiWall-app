@@ -34,7 +34,7 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
           </div><!--/.well -->
         </div><!--/span-->
           
-        <div class="span6">
+        <div class="span8">
           <div class="alert alert-block">
             <a class="close" data-dismiss="alert">×</a>
             <p>This is your Account Page. You can manage your whiteboards here.</p>
@@ -51,6 +51,7 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
                   <th>Status</th>
                   <th>Modified</th>
                   <th><strong>Action</strong></th>
+                  <th>Link</th>
                 </tr>
               </thead>
               {% for wall in walls %}
@@ -68,6 +69,7 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
                     </ul>
                   </div>
                 </td>
+                <td>{{ wall.link }}</td>
               </tr>
               {% endfor %}
              </tbody>

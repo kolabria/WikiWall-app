@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^loggedin/$', 'login.views.loggedin'),
     url(r'^mywalls/$', 'walls.views.mywalls'),
     url(r'^private/$', 'walls.views.mywalls'),
+
+    url(r'^walls/<link>$', 'walls.views.view_wall'),
 )
 
 urlpatterns += patterns('',
