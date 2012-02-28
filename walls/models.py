@@ -12,9 +12,11 @@ class Wall(models.Model):
         (u'Private', u'Private'),
         (u'Inactive', u'Inactive'),
     )        
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=32)
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     owner = models.ForeignKey(User)
+    now_hash = md5(datetime.now().isoformat()).hexdigest()
+    link = models.CharField(default=now_hash, max_length=32)
 
 
     def __unicode__(self):
