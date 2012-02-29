@@ -22,7 +22,9 @@ class Wall(models.Model):
     name = models.CharField(max_length=32)
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     owner = models.ForeignKey(User)
-    link = models.CharField(default=hash_link, max_length=32, unique=True)
+    created = models.DateTimeField(null=True, auto_now_add=True)
+    modified = models.DateTimeField(null=True, auto_now=True)
+    link = models.CharField(null=True, default=hash_link, max_length=32, unique=True)
 
 
     def __unicode__(self):
