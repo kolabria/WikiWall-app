@@ -1,4 +1,5 @@
-# Django settings for kolabria project.
+# Django settings for kolabria - sqlproject.
+
 import os
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
@@ -10,58 +11,36 @@ ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
 
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
 MANAGERS = ADMINS
+
+
+
+
+
+# Database settings
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'mysql' or 'sqlite3'
-        'NAME': 'data/data.db',                 # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'mysql' or 'sqlite3'
+        'NAME': 'data/data.db',  # Or path to database file if using sqlite3.
+        'USER': '',     # Not used with sqlite3.
+        'PASSWORD': '', # Not used with sqlite3.
+        'HOST': '',     # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',     # Set to empty string for default. Not used with sqlite3.
     }
 }
 
-INTERNAL_IPS = ('127.0.0.1',)
 
-TIME_ZONE = 'America/Montreal'
-LANGUAGE_CODE = 'en-us'
-SITE_ID = 1
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': True,
+}
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
-USE_I18N = False
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    "/home/alok/kolabria/kolabria/static/",
-)
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '&lx4lr@=vkjls72!45+wp0dkvi*r-q_npgll4_-novi0s%lv+x'
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
-)
 
 # Email Configuration for password recovery, etc.
 EMAIL_HOST = 'smtp.gmail.com'
@@ -70,16 +49,7 @@ EMAIL_HOST_USER = 'kolabria.test@gmail.com'
 EMAIL_HOST_PASSWORD = 'kolabria1234test'
 EMAIL_USE_TLS = True
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
 
-ROOT_URLCONF = 'kolabria.urls'
-
-TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, "templates"))
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -94,5 +64,48 @@ INSTALLED_APPS = (
     'south',
 )
 
+
+INTERNAL_IPS = ('127.0.0.1',)
+LANGUAGE_CODE = 'en-us'
 LOGIN_REDIRECT_URL = '/private'
 LOGIN_URL = '/login'
+MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
+MEDIA_URL = '/media/'
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+#    'django.contrib.csrf.middleware.CsrfMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+ROOT_URLCONF = 'kolabria.urls'
+SECRET_KEY = '&lx4lr@=vkjls72!45+wp0dkvi*r-q_npgll4_-novi0s%lv+x'
+
+SITE_ID = 1
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    "/home/alok/kolabria/kolabria/static/",
+)
+
+
+
+
+
+
+
+TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, "templates"))
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.app_directories.load_template_source',
+#     'django.template.loaders.eggs.load_template_source',
+)
+TIME_ZONE = 'America/Montreal'
+USE_I18N = False
+
+
+
+
+
+
