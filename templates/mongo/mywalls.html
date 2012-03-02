@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
+{% endblock %}
+
+<div id="welcome">
+  <h1>Welcome {{ user.first_name }}</h1>
+</div>
+  <h1>Create a new Whiteboard:</h1>
+  <p><a href="/create" class="button">Create Whiteboard</a></p>
+  {% block content %}
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Account</li>
+                <li><a href="#"><i class="icon-home"></i> Home</a></li>
+                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
+                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
+                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+          
+        <div class="span8">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>This is your Account Page. You can manage your whiteboards here.</p>
+          </div><!-- alert-block -->
+          <hr/> 
+
+          <h3>Recent Whiteboards:</h3>
+          <p></p>
+          <table class="table">
+            <tbody>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Modified</th>
+                  <th><strong>Action</strong></th>
+                  <th>Link</th>
+                </tr>
+              </thead>
+              {% for wall in walls %}
+              <tr>
+                <td>{{ wall.name }}</td>
+                <td>{{ wall.status }}</td>
+                <td>{{ wall.modified }}</td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn" href="#">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">share</a></li>
+                      <li><a href="#">edit</a></li>
+                      <li><a href="#">delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+                <td>{{ wall.link }}</td>
+              </tr>
+              {% endfor %}
+             </tbody>
+            </table>
+        </div><!--/span-->
+      </div><!--/row-->
+{% endblock %}

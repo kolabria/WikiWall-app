@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Mongo Login{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row-fluid offset2">
+    <div class="span8">
+      <div class="hero-unit well">
+      {% if user.is_authenticated %}
+	  <h3>Welcome, {{ user.username }}. email: {{ user.email }}</h3> 
+      <p>Thanks for logging in. <a href="/logout">Log out</a></p>
+      {% else %}
+      <h3>Welcome to Kolabria! Please log in to continue.</h3>
+        <form action="." method="post">{% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="Log in">
+        </form>
+        
+        <a href="/mongo/register">Not registered?</a> 
+
+        <br/>
+       {% endif %}
+      </div>
+    </div><!--span -->
+  </div><!--row -->
+{% endblock %}
