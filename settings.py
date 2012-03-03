@@ -89,11 +89,11 @@ STATICFILES_DIRS = (
     "/home/alok/kolabria/kolabria/static/",
 )
 
-
-
-
-
-
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.media',
+    'context_processors.auth',
+    'context_processors.site_info',
+)
 
 TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, "templates"))
 TEMPLATE_LOADERS = (
@@ -103,9 +103,3 @@ TEMPLATE_LOADERS = (
 )
 TIME_ZONE = 'America/Montreal'
 USE_I18N = False
-
-
-
-
-
-
