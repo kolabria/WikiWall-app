@@ -9,14 +9,9 @@
       <div class="hero-unit well">
         {% if user.is_authenticated %}
         <h3>Welcome, {{ user.username }}.</h3>
-        <p>Thanks for logging in.</p>
+        <p>You are now signed into Kolabria.</p>
         <p><a href="/logout">Log out</a></p>
         <br/>
-        <h3>WikiWalls</h3>
-        <ul> 
-          <li>WikiWallName</li>
-          <li>AnotherWikiWallName</li>
-        </ul>
         {% else %} {% comment %}This code should never execute with @login_required{% endcomment %}
         <p>Warning! You are not authorized to view this page. Please <a
 href="/mongo/login/">login.</a></p>

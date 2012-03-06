@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout, login
 
 from mongoengine.django import auth
@@ -21,12 +22,13 @@ def mongo_login(request):
             login(request=request, user=user)            
             return render_to_response('mongo/loggedin.html',
                                       context_instance=RequestContext(request))
-            return HttpResponseRedirect('loggedin/')
+            return HttpResponseRedirect('walls/')
     data = {'title': 'Kolabria - Login Page',
             'form': form,}                        
     return render_to_response('mongo/login.html', data,
                               context_instance=RequestContext(request))
 
+@login_required
 def mongo_loggedin(request):
     return render_to_response('mongo/loggedin.html',
                               context_instance=RequestContext(request))
@@ -58,3 +60,12 @@ def mongo_register(request):
         # /register/register-success/
             return render_to_response('mongo/register-success.html',
                               context_instance=RequestContext(request))
+
+
+def mongo_walls(request):
+    walls = Wall.objects.filter(owner=request.user)
+    data = {'title': 'Kolabria - My Whiteboards',
+            'walls': walls,}
+    return render_to_response('mongo/mywalls.html', data,
+                              context_instance=RequestContext(request))
+

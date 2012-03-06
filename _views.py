@@ -8,7 +8,7 @@ from mongoengine.django import auth
 from mongoengine.django.auth import User
 
 from kolabria.forms import LoginForm, RegistrationForm
-from kolabria.models import Wall
+from kolabria.walls.models import Wall
 
 def mongo_login(request):
     if request.method == 'GET':
