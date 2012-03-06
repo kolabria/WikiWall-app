@@ -9,6 +9,7 @@ from mongoengine.django import auth
 from mongoengine.django.auth import User
 
 from kolabria.login.forms import LoginForm, RegistrationForm
+from kolabria.walls.models import Wall
 
 def mongo_login(request):
     if request.method == 'GET':
@@ -24,7 +25,7 @@ def mongo_login(request):
                                       context_instance=RequestContext(request))
             return HttpResponseRedirect('walls/')
     data = {'title': 'Kolabria - Login Page',
-            'form': form,}                        
+            'form': form,}
     return render_to_response('mongo/login.html', data,
                               context_instance=RequestContext(request))
 
@@ -36,8 +37,8 @@ def mongo_loggedin(request):
 def mongo_logout(request):
     if request.user.is_authenticated():
         logout(request)
-    return HttpResponseRedirect('/mongo/login/')
-        
+    return HttpResponseRedirect('/login/')
+
 def mongo_register(request):
     if request.method == 'GET':
         form = RegistrationForm()
@@ -56,8 +57,6 @@ def mongo_register(request):
             new_user.save()
             auth_user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=auth_user)
-        #TODO FIX broken redirect on registration -- now points to
-        # /register/register-success/
             return render_to_response('mongo/register-success.html',
                               context_instance=RequestContext(request))
 
@@ -68,4 +67,3 @@ def mongo_walls(request):
             'walls': walls,}
     return render_to_response('mongo/mywalls.html', data,
                               context_instance=RequestContext(request))
-

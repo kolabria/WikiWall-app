@@ -47,7 +47,7 @@
               </thead>
               {% for wall in walls %}
               <tr>
-                <td>{{ wall.name }}</td>
+                <td><a href="/walls/{{ wall.id }}">{{ wall.name }}</a></td>
                 <td>{{ wall.status }}</td>
                 <td>{{ wall.modified }}</td>
                 <td>

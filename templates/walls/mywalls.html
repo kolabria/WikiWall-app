@@ -56,9 +56,9 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
               </thead>
               {% for wall in walls %}
               <tr>
-                <td>{{ wall.name }}</td>
+                <td><a href="/wall/{{ wall.id}}">{{ wall.name }}</a></td>
                 <td>{{ wall.status }}</td>
-                <td>{{ wall.last_modified }}</td>
+                <td>{{ wall.modified }}</td>
                 <td>
                   <div class="btn-group">
                     <a class="btn" href="#">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
