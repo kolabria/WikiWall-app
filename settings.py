@@ -1,4 +1,4 @@
-# Django settings for kolabria project.
+# Django settings for kolabria - sqlproject.
 from mongoengine import connect
 import os
 
@@ -18,34 +18,41 @@ MANAGERS = ADMINS
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
-
 # Database settings
 connect('kolabria-mongo')
 
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': True,
-} 
-
-"""
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar_mongo.panel.MongoDebugPanel',
-)
-"""
-
 DATABASES = {
     'default': {
-        'ENGINE': '',      # Add 'mysql' or 'sqlite3'
-        'NAME': '',        # Or path to database file if using sqlite3.
-        'USER': '',        # Not used with sqlite3.
-        'PASSWORD': '',    # Not used with sqlite3.
-        'HOST': '',        # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',        # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'mysql' or 'sqlite3'
+        'NAME': 'data/data.db',  # Or path to database file if using sqlite3.
+        'USER': '',     # Not used with sqlite3.
+        'PASSWORD': '', # Not used with sqlite3.
+        'HOST': '',     # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',     # Set to empty string for default. Not used with sqlite3.
     }
 }
 
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': True,
+}
+
+
+
+
+
+# Email Configuration for password recovery, etc.
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = 'kolabria.test@gmail.com'
+EMAIL_HOST_PASSWORD = 'kolabria1234test'
+EMAIL_USE_TLS = True
+
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
-#    'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -57,12 +64,12 @@ INSTALLED_APPS = (
 #    'south',
 )
 
-INTERNAL_IPS = ('127.0.0.1',)
 
+INTERNAL_IPS = ('127.0.0.1',)
 LANGUAGE_CODE = 'en-us'
 LOGIN_REDIRECT_URL = '/private'
 LOGIN_URL = '/login'
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
 MEDIA_URL = '/media/'
 
 MIDDLEWARE_CLASSES = (
@@ -75,7 +82,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'kolabria.urls'
 SECRET_KEY = '&lx4lr@=vkjls72!45+wp0dkvi*r-q_npgll4_-novi0s%lv+x'
-
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SITE_ID = 1
 STATIC_URL = '/static/'
@@ -83,7 +89,7 @@ STATICFILES_DIRS = (
     "/home/alok/kolabria/kolabria/static/",
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
+TEMPLAGE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'context_processors.auth',
     'context_processors.site_info',
@@ -98,11 +104,8 @@ TEMPLATE_LOADERS = (
 TIME_ZONE = 'America/Montreal'
 USE_I18N = False
 
-"""
-# Email Configuration for password recovery, etc.
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = "587"
-EMAIL_HOST_USER = 'kolabria.test@gmail.com'
-EMAIL_HOST_PASSWORD = 'kolabria1234test'
-EMAIL_USE_TLS = True
-"""
+
+
+
+
+
