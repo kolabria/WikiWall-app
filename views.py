@@ -34,7 +34,7 @@ def mongo_loggedin(request):
 
 def mongo_logout(request):
     if request.user.is_authenticated():
-        logout(request.user)
+        logout(request)
     return HttpResponseRedirect('/mongo/login/')
         
 def mongo_register(request):
@@ -49,16 +49,15 @@ def mongo_register(request):
         if form.is_valid():
             user_name = request.POST['username']
             email = request.POST['email']
-            pass_word = request.POST['password']
+            pass_word = request.POST['password1']
             new_user = User.create_user(username=user_name, email=email,
                                         password=pass_word)
             new_user.save()
             auth_user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=auth_user)
-        return HttpResponseRedirect('mongo/register-success/')
-
-def mongo_register_success(request):
-    return render_to_response('mongo/register-success.html',
+        #TODO FIX broken redirect on registration -- now points to
+        # /register/register-success/
+            return render_to_response('mongo/register-success.html',
                               context_instance=RequestContext(request))
 
 

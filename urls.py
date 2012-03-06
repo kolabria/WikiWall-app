@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'views.mongo_logout'),
     url(r'^register/$', 'views.mongo_register'),
 
-    url(r'^$', 'views.mongo_walls'),
+    url(r'^walls/$', 'views.mongo_walls'),
 )
 
 if settings.DEBUG:
