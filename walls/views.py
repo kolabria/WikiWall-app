@@ -56,10 +56,6 @@ def create_wall(request):
     data = {'title': 'Kolabria', }
     return render_to_response('walls/created.html', data,
                               context_instance=RequestContext(request))
-                 
-#    data = {'title': 'Kolabria', 'form': form, }
-#    return render_to_response('walls/create.html', data,
-#                              context_instance=RequestContext(request))
 
 @login_required
 def created_wall(request):
@@ -67,3 +63,7 @@ def created_wall(request):
     data = {'title': 'Kolabria', }
     return render_to_response('walls/created.html', data, 
                               context_instance=RequestContext(request))
+
+@login_required
+def delete_wall(request):
+    pass

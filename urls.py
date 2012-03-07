@@ -3,6 +3,7 @@ from django.conf import settings
 
 from kolabria.login import views
 from kolabria.walls.views import my_walls, thewall, create_wall, created_wall
+from kolabria.walls.views import delete_wall
 
 urlpatterns = patterns('',
     url(r'^login/$', 'views.mongo_login'),
@@ -13,8 +14,9 @@ urlpatterns = patterns('',
     url(r'^walls/$', 'views.mongo_walls'),
     url(r'^walls/<wid>$', 'view_wall'),
     url(r'^thewall/$', thewall),
-    url(r'^create/$', create_wall, name='create-wall'),
-    url(r'^created/$', created_wall, name='created-wall'),
+    url(r'^create/$', create_wall),
+    url(r'^created/$', created_wall),
+    url(r'^delete/$', delete_wall),
 )
 
 if settings.DEBUG:
