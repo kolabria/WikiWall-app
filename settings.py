@@ -69,7 +69,7 @@ INTERNAL_IPS = ('127.0.0.1',)
 LANGUAGE_CODE = 'en-us'
 LOGIN_REDIRECT_URL = '/private'
 LOGIN_URL = '/login'
-MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
+MEDIA_ROOT = '/home/alok/dev/kolabria/media'
 MEDIA_URL = '/media/'
 
 MIDDLEWARE_CLASSES = (
@@ -86,7 +86,7 @@ SESSION_ENGINE = 'mongoengine.django.sessions'
 SITE_ID = 1
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    "/home/alok/kolabria/kolabria/static/",
+    "/home/alok/dev/kolabria/static/",
 )
 
 TEMPLAGE_CONTEXT_PROCESSORS = (
