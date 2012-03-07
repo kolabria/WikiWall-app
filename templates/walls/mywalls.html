@@ -16,6 +16,15 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
 |  <a href="/draw5/3">{{ wall.name }}</a></li>
   {% endfor %}
   </ul>
+
+{% comment %}
+        <div class="span8">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>This is your Account Page. You can manage your whiteboards here.</p>
+          </div><!-- alert-block -->
+          <hr/> 
+        </div><!-- span -->
 {% endcomment %}
 
 {% block content %}
@@ -33,16 +42,11 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
-          
-        <div class="span8">
-          <div class="alert alert-block">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>This is your Account Page. You can manage your whiteboards here.</p>
-          </div><!-- alert-block -->
-          <hr/> 
 
+      
+ 
           <h3>Recent Whiteboards:</h3>
-          <p></p>
+          <hr/> 
           <table class="table">
             <tbody>
               <thead>
@@ -75,5 +79,5 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
              </tbody>
             </table>
         </div><!--/span-->
-      </div><!--/row-->
+    </div><!--/row-->
 {% endblock %}
