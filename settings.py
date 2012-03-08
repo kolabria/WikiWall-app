@@ -64,6 +64,7 @@ LOGIN_REDIRECT_URL = '/private'
 LOGIN_URL = '/login'
 
 MEDIA_URL = '/media/'
+MEDIA_PATH = os.path.join(PROJECT_PATH, 'media')
 MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
 
 MIDDLEWARE_CLASSES = (
