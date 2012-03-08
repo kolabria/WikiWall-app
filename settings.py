@@ -2,10 +2,10 @@
 from mongoengine import connect
 import os
 
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -18,28 +18,13 @@ MANAGERS = ADMINS
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
+
 # Database settings
 connect('kolabria-mongo')
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'mysql' or 'sqlite3'
-        'NAME': 'data/data.db',  # Or path to database file if using sqlite3.
-        'USER': '',     # Not used with sqlite3.
-        'PASSWORD': '', # Not used with sqlite3.
-        'HOST': '',     # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',     # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': True,
 }
-
-
-
-
 
 # Email Configuration for password recovery, etc.
 EMAIL_HOST = 'smtp.gmail.com'
@@ -47,8 +32,6 @@ EMAIL_PORT = "587"
 EMAIL_HOST_USER = 'kolabria.test@gmail.com'
 EMAIL_HOST_PASSWORD = 'kolabria1234test'
 EMAIL_USE_TLS = True
-
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -59,11 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
 #    'debug_toolbar_mongo',
-#    'kolabria.home',
-#    'kolabria.walls',
-#    'south',
 )
-
 
 INTERNAL_IPS = ('127.0.0.1',)
 LANGUAGE_CODE = 'en-us'
@@ -84,6 +63,7 @@ ROOT_URLCONF = 'kolabria.urls'
 SECRET_KEY = '&lx4lr@=vkjls72!45+wp0dkvi*r-q_npgll4_-novi0s%lv+x'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SITE_ID = 1
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     "/home/alok/kolabria/kolabria/static/",
@@ -103,9 +83,3 @@ TEMPLATE_LOADERS = (
 )
 TIME_ZONE = 'America/Montreal'
 USE_I18N = False
-
-
-
-
-
-
