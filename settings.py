@@ -5,7 +5,9 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+DIRNAME = os.path.dirname(__file__)
+
+PROJECT_PATH = os.path.realpath(DIRNAME)
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -60,8 +62,9 @@ INTERNAL_IPS = ('127.0.0.1',)
 LANGUAGE_CODE = 'en-us'
 LOGIN_REDIRECT_URL = '/private'
 LOGIN_URL = '/login'
-MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
+
 MEDIA_URL = '/media/'
+MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -77,8 +80,9 @@ SESSION_ENGINE = 'mongoengine.django.sessions'
 SITE_ID = 1
 
 STATIC_URL = '/static/'
+STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 STATICFILES_DIRS = (
-    "/home/alok/kolabria/kolabria/static/",
+    STATIC_PATH,
 )
 
 TEMPLAGE_CONTEXT_PROCESSORS = (
