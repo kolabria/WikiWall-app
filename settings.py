@@ -1,5 +1,5 @@
 # Django settings for kolabria - sqlproject.
-
+from mongoengine import connect
 import os
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
@@ -15,12 +15,11 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 MANAGERS = ADMINS
 
-
-
-
-
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+)
 # Database settings
-
+connect('kolabria-mongo')
 
 DATABASES = {
     'default': {
@@ -59,9 +58,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'kolabria.home',
-    'kolabria.walls',
-    'south',
+#    'debug_toolbar_mongo',
+#    'kolabria.home',
+#    'kolabria.walls',
+#    'south',
 )
 
 
@@ -74,7 +74,7 @@ MEDIA_URL = '/media/'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-#    'django.contrib.csrf.middleware.CsrfMiddleware',
+    'django.contrib.csrf.middleware.CsrfMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -82,14 +82,14 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'kolabria.urls'
 SECRET_KEY = '&lx4lr@=vkjls72!45+wp0dkvi*r-q_npgll4_-novi0s%lv+x'
-
+SESSION_ENGINE = 'mongoengine.django.sessions'
 SITE_ID = 1
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     "/home/alok/kolabria/kolabria/static/",
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
+TEMPLAGE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'context_processors.auth',
     'context_processors.site_info',
@@ -103,3 +103,9 @@ TEMPLATE_LOADERS = (
 )
 TIME_ZONE = 'America/Montreal'
 USE_I18N = False
+
+
+
+
+
+

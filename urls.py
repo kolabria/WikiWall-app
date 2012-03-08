@@ -1,35 +1,22 @@
 from django.conf.urls.defaults import include, patterns, url
 from django.conf import settings
-import django.contrib.auth.views
-from kolabria import home
-from kolabria import login
-from kolabria import walls
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
+from kolabria.login import views
+from kolabria.walls.views import my_walls, thewall, create_wall, created_wall
+from kolabria.walls.views import delete_wall
 
 urlpatterns = patterns('',
-    url(r'^index/$', 'home.views.index'),
-    url(r'^date/$', 'home.views.date'),
+    url(r'^login/$', 'views.mongo_login'),
+    url(r'^loggedin/$', 'views.mongo_loggedin'),
+    url(r'^logout/$', 'views.mongo_logout'),
+    url(r'^register/$', 'views.mongo_register'),
 
-    url(r'^login/$', django.contrib.auth.views.login, 
-                    {'template_name': 'login/login.html'}, name = 'home'),
-    url(r'^public/$', django.contrib.auth.views.login, 
-                    {'template_name': 'boot/publichome.html'}, name = 'home'),
-    url(r'^logout/$', django.contrib.auth.views.logout, 
-                    {'template_name': 'login/logout.html'}),
-    url(r'^register/$', 'login.views.registration'),
-    url(r'^loggedin/$', 'login.views.loggedin'),
-    url(r'^mywalls/$', 'walls.views.mywalls'),
-    url(r'^private/$', 'walls.views.mywalls'),
-
-    url(r'^walls/<link>$', 'walls.views.view_wall'),
-)
-
-urlpatterns += patterns('',
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
+    url(r'^walls/$', 'views.mongo_walls'),
+    url(r'^walls/<wid>$', 'view_wall'),
+    url(r'^thewall/$', thewall),
+    url(r'^create/$', create_wall),
+    url(r'^created/$', created_wall),
+    url(r'^delete/$', delete_wall),
 )
 
 if settings.DEBUG:

@@ -3,18 +3,11 @@ TODO List for Kolabria v0.50
 #TODO 
 -add view for create_wall
 -add view for open_wall
--update wall models with template logic to render users walls
-fix /logout on topnav
-update wall models to include dates for last_viewed
+-fix /logout on topnav
+-update wall models to include dates for last_viewed
 
 #LATER:
-Create default database fixtures for user walls, instantiate walls for user
 Remove redirect interrupt from Django Debug Toolbar in settings.py
 
 #DONE: 
-Skin logout page
 /public should redirect a logged in user to /private with mywalls view
-Skin Register page flow
-add /private url mapped to secure /mywalls
-Skin /mywalls and /private pages with layout from mockapp/
-update wall models to include dates for created, last_modified, 

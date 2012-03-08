@@ -4,30 +4,12 @@
     <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
 {% endblock %}
 
-{% comment %}
 <div id="welcome">
   <h1>Welcome {{ user.first_name }}</h1>
 </div>
-  <h1>Active WikiWalls:</h1>
-  <ul>
-  {% for wall in walls %}  
-  <li><a href="/editinfo/3" class="button">Edit Info</a>  |  <a href="/delete"
-class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
-|  <a href="/draw5/3">{{ wall.name }}</a></li>
-  {% endfor %}
-  </ul>
-
-{% comment %}
-        <div class="span8">
-          <div class="alert alert-block">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>This is your Account Page. You can manage your whiteboards here.</p>
-          </div><!-- alert-block -->
-          <hr/> 
-        </div><!-- span -->
-{% endcomment %}
-
-{% block content %}
+  <h1>Create a new Whiteboard:</h1>
+  <p><a href="/create" class="button">Create Whiteboard</a></p>
+  {% block content %}
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span2">
@@ -42,11 +24,27 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
-
-      
- 
-          <h3>Recent Whiteboards:</h3>
+          
+        <div class="span8">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>This is your Account Page. You can manage your whiteboards here.</p>
+          </div><!-- alert-block -->
           <hr/> 
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="hero-unit well">
+                <h2>Welcome to Kolabria!</h2>
+                <h3>You do not have any Whiteboards.</h3> 
+                <p><a href="/create">Create a Whiteboard</a> to get started!</p>
+              </div>
+            </div><!--span -->
+          </div><!--row -->
+
+
+          <h3>Recent Whiteboards:</h3>
+          <p></p>
           <table class="table">
             <tbody>
               <thead>
@@ -60,7 +58,7 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
               </thead>
               {% for wall in walls %}
               <tr>
-                <td><a href="/wall/{{ wall.id}}">{{ wall.name }}</a></td>
+                <td><a href="/walls/{{ wall.id }}">{{ wall.name }}</a></td>
                 <td>{{ wall.status }}</td>
                 <td>{{ wall.modified }}</td>
                 <td>
@@ -69,7 +67,7 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
                     <ul class="dropdown-menu">
                       <li><a href="#">share</a></li>
                       <li><a href="#">edit</a></li>
-                      <li><a href="#">delete</a></li>
+                      <li><a href="/walls/delete/{{ wall.id}}">delete</a></li>
                     </ul>
                   </div>
                 </td>
@@ -79,5 +77,5 @@ class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
              </tbody>
             </table>
         </div><!--/span-->
-    </div><!--/row-->
+      </div><!--/row-->
 {% endblock %}
