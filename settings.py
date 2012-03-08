@@ -7,9 +7,7 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
+ADMINS = ( """ ('Your Name', 'your_email@domain.com'), """)
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
@@ -21,24 +19,22 @@ AUTHENTICATION_BACKENDS = (
 # Database settings
 connect('kolabria-mongo')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'mysql' or 'sqlite3'
-        'NAME': 'data/data.db',  # Or path to database file if using sqlite3.
-        'USER': '',     # Not used with sqlite3.
-        'PASSWORD': '', # Not used with sqlite3.
-        'HOST': '',     # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',     # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
-
 DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': True,
+    'INTERCEPT_REDIRECTS': False,
 }
 
-
-
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+#    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar_mongo.panel.MongoDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
 
 
 # Email Configuration for password recovery, etc.
@@ -48,8 +44,6 @@ EMAIL_HOST_USER = 'kolabria.test@gmail.com'
 EMAIL_HOST_PASSWORD = 'kolabria1234test'
 EMAIL_USE_TLS = True
 
-
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
@@ -58,7 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'debug_toolbar',
-#    'debug_toolbar_mongo',
+    'debug_toolbar_mongo',
 #    'kolabria.home',
 #    'kolabria.walls',
 #    'south',
