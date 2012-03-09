@@ -22,5 +22,5 @@ urlpatterns = patterns('',
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^includes/(?P<path>.*)$', 'django.views.static.serve',
-         {'document_root': '/home/alok/kolabria/kolabria/static/'}),
+         {'document_root': '/home/alok/dev/kolabria/static/'}),
     ) 

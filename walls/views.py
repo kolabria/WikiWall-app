@@ -34,7 +34,7 @@ def thewall(request):
     wall = Wall.objects.get(id='4f562576e857721363000000')
     data = {'title': 'Kolabria',
             'wall': wall,}
-    return render_to_response('walls/wall.html', data, 
+    return render_to_response('walls/wiki.html', data, 
                               context_instance=RequestContext(request))
 
 
