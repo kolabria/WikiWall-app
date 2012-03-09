@@ -1,27 +1,14 @@
 from django.conf.urls.defaults import include, patterns, url
 from django.conf import settings
 
-from kolabria.login import views
-from kolabria.walls.views import my_walls, thewall, create_wall, created_wall
-from kolabria.walls.views import delete_wall
-
 urlpatterns = patterns('',
-    url(r'^login/$', 'views.mongo_login'),
-    url(r'^loggedin/$', 'views.mongo_loggedin'),
-    url(r'^logout/$', 'views.mongo_logout'),
-    url(r'^register/$', 'views.mongo_register'),
-
-    url(r'^walls/$', 'views.mongo_walls'),
-    url(r'^walls/<wid>$', 'view_wall'),
-
-    url(r'^thewall/$', thewall),
-    url(r'^create-wall/$', create_wall),
-    url(r'^created-wall/$', created_wall),
-    url(r'^delete-wall/$', delete_wall),
+    (r'', include('login.urls')),
+    (r'', include('walls.urls')),
 )
 
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^includes/(?P<path>.*)$', 'django.views.static.serve',
+    #TODO: generalize static serve doc root
          {'document_root': '/home/alok/kolabria/kolabria/static/'}),
-    ) 
+    )

@@ -11,7 +11,16 @@ from mongoengine.django.auth import User
 from kolabria.login.forms import LoginForm, RegistrationForm
 from kolabria.walls.models import Wall
 
-def mongo_login(request):
+
+def public(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/walls')
+    else:
+        return HttpResponseRedirect('/login')
+
+def login(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/walls')
     if request.method == 'GET':
         form = LoginForm()
     else:
@@ -21,25 +30,24 @@ def mongo_login(request):
             pass_word = request.POST['password']
             user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=user)            
-            return render_to_response('mongo/loggedin.html',
-                                      context_instance=RequestContext(request))
             return HttpResponseRedirect('walls/')
+    
     data = {'title': 'Kolabria - Login Page',
             'form': form,}
     return render_to_response('mongo/login.html', data,
                               context_instance=RequestContext(request))
 
 @login_required
-def mongo_loggedin(request):
+def loggedin(request):
     return render_to_response('mongo/loggedin.html',
                               context_instance=RequestContext(request))
 
-def mongo_logout(request):
+def logout(request):
     if request.user.is_authenticated():
         logout(request)
-    return HttpResponseRedirect('/login/')
+    return HttpResponseRedirect('public/')
 
-def mongo_register(request):
+def register(request):
     if request.method == 'GET':
         form = RegistrationForm()
         data = {'title': 'Kolabria - Registration Page',
@@ -61,7 +69,7 @@ def mongo_register(request):
                               context_instance=RequestContext(request))
 
 
-def mongo_walls(request):
+def walls(request):
     walls = Wall.objects.filter(owner=request.user)
     data = {'title': 'Kolabria - My Whiteboards',
             'walls': walls,}
