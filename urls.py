@@ -13,10 +13,11 @@ urlpatterns = patterns('',
 
     url(r'^walls/$', 'views.mongo_walls'),
     url(r'^walls/<wid>$', 'view_wall'),
+
     url(r'^thewall/$', thewall),
-    url(r'^create/$', create_wall),
-    url(r'^created/$', created_wall),
-    url(r'^delete/$', delete_wall),
+    url(r'^create-wall/$', create_wall),
+    url(r'^created-wall/$', created_wall),
+    url(r'^delete-wall/$', delete_wall),
 )
 
 if settings.DEBUG:

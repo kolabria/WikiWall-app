@@ -20,14 +20,16 @@
           </div><!--/.well -->
         </div><!--/span-->
 
-          <h3>Enter Whiteboard Details:</h3>
-          <hr/> 
-            <form action="." method="post">{% csrf_token %}
-                {{ form.as_p}}
-                <input type="submit" value="Create Whiteboard">
-            </form>
-            
- 
-       </div><!--/span-->
-    </div><!--/row-->
+        <div class="span8 ">
+          <div class="hero-unit well">
+              <h3>Enter Whiteboard Details:</h3>
+              <hr/> 
+                <form action="." method="post">{% csrf_token %}
+                    {{ form.as_p}}
+                    <input type="submit" value="Create Whiteboard">
+                </form>
+          </div>
+        </div><!--span -->
+      </div><!--row -->
+
 {% endblock %}

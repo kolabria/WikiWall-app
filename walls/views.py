@@ -49,7 +49,6 @@ def create_wall(request):
                                            name=request.POST['name'])
             new_wall.save()
             data = {'title': 'Kolabria', 'wall': new_wall,}
-       #     return HttpResponseRedirect('/created')
             return render_to_response('walls/created.html', data,
                               context_instance=RequestContext(request))
 
