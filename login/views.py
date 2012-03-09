@@ -11,14 +11,13 @@ from mongoengine.django.auth import User
 from kolabria.login.forms import LoginForm, RegistrationForm
 from kolabria.walls.models import Wall
 
-
 def public(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/walls')
     else:
         return HttpResponseRedirect('/login')
 
-def login(request):
+def login_user(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/walls')
     if request.method == 'GET':
@@ -30,7 +29,7 @@ def login(request):
             pass_word = request.POST['password']
             user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=user)            
-            return HttpResponseRedirect('walls/')
+            return HttpResponseRedirect('/walls')
     
     data = {'title': 'Kolabria - Login Page',
             'form': form,}
@@ -42,10 +41,9 @@ def loggedin(request):
     return render_to_response('mongo/loggedin.html',
                               context_instance=RequestContext(request))
 
-def logout(request):
-    if request.user.is_authenticated():
-        logout(request)
-    return HttpResponseRedirect('public/')
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
 
 def register(request):
     if request.method == 'GET':

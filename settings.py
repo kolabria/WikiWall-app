@@ -60,7 +60,7 @@ INSTALLED_APPS = (
 
 INTERNAL_IPS = ('127.0.0.1',)
 LANGUAGE_CODE = 'en-us'
-LOGIN_REDIRECT_URL = '/private'
+LOGIN_REDIRECT_URL = '/walls'
 LOGIN_URL = '/login'
 
 MEDIA_URL = '/media/'
