@@ -33,12 +33,12 @@ def login_user(request):
     
     data = {'title': 'Kolabria - Login Page',
             'form': form,}
-    return render_to_response('mongo/login.html', data,
+    return render_to_response('login/login.html', data,
                               context_instance=RequestContext(request))
 
 @login_required
 def loggedin(request):
-    return render_to_response('mongo/loggedin.html',
+    return render_to_response('login/loggedin.html',
                               context_instance=RequestContext(request))
 
 def logout_user(request):
@@ -50,7 +50,7 @@ def register(request):
         form = RegistrationForm()
         data = {'title': 'Kolabria - Registration Page',
                 'form': form,}
-        return render_to_response('mongo/register.html', data,
+        return render_to_response('login/register.html', data,
                                   context_instance=RequestContext(request))
     else:
         form = RegistrationForm(request.POST)
@@ -64,12 +64,4 @@ def register(request):
             auth_user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=auth_user)
             return render_to_response('mongo/register-success.html',
-                              context_instance=RequestContext(request))
-
-
-def walls(request):
-    walls = Wall.objects.filter(owner=request.user)
-    data = {'title': 'Kolabria - My Whiteboards',
-            'walls': walls,}
-    return render_to_response('mongo/mywalls.html', data,
                               context_instance=RequestContext(request))

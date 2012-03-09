@@ -14,7 +14,7 @@ def walls(request):
     walls = Wall.objects.filter(owner=request.user)
     data = {'title': 'Kolabria - My Whiteboards',
             'walls': walls,}
-    return render_to_response('mongo/mywalls.html', data,
+    return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
 
 @login_required
@@ -55,12 +55,20 @@ def config_wall(request):
 def delete_wall(request):
     pass
 
+
+@login_required
+def idwall(request):
+    wall = Wall.objects.get(id='4f562576e857721363000000')
+    data = {'title': 'Kolabria',
+            'wall': wall,}
+    return render_to_response('walls/idwall.html', data, 
+                              context_instance=RequestContext(request))
+
+
 @login_required
 def thewall(request):
     wall = Wall.objects.get(id='4f562576e857721363000000')
     data = {'title': 'Kolabria',
             'wall': wall,}
-    return render_to_response('walls/wall.html', data, 
+    return render_to_response('walls/thewall.html', data, 
                               context_instance=RequestContext(request))
-
-

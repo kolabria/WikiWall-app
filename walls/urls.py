@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^config-wall/$', views.config_wall),
     url(r'^delete-wall/$', views.delete_wall),
 
+    url(r'^idwall/$', views.idwall),
     url(r'^thewall/$', views.thewall),
 )

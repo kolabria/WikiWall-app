@@ -4,29 +4,6 @@
     <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
 {% endblock %}
 
-{% comment %}
-<div id="welcome">
-  <h1>Welcome {{ user.first_name }}</h1>
-</div>
-  <h1>Active WikiWalls:</h1>
-  <ul>
-  {% for wall in walls %}  
-  <li><a href="/editinfo/3" class="button">Edit Info</a>  |  <a href="/delete"
-class="button destroy">Delete</a>  |  <a href="/draw5/3" class="button">Go</a>
-|  <a href="/draw5/3">{{ wall.name }}</a></li>
-  {% endfor %}
-  </ul>
-
-{% comment %}
-        <div class="span8">
-          <div class="alert alert-block">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>This is your Account Page. You can manage your whiteboards here.</p>
-          </div><!-- alert-block -->
-          <hr/> 
-        </div><!-- span -->
-{% endcomment %}
-
 {% block content %}
     <div class="container-fluid">
       <div class="row-fluid">
