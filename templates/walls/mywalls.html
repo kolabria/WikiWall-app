@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
+    Kolabria - My Wikiboards</title>
 {% endblock %}
 
 {% block content %}
@@ -21,6 +21,7 @@
           <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">New Whiteboard</a>
         </div><!--/span2 -->
 
+    {% comment %}       
         <div class="span6">
           <div class="well">
             <a class="close" data-dismiss="alert">×</a>
@@ -29,6 +30,7 @@
             
           </div><!--/.well -->
         </div><!--/span6 -->
+    {% endcomment %}       
 
         <div class="span6 offset3">
           <div class="alert alert-block">
@@ -37,7 +39,7 @@
           </div><!-- alert-block -->
         </div><!--/span6 -->
 
-        <div class="span7 ">
+        <div class="span6 ">
           <h3>Recent Whiteboards:</h3>
           <table class="table">
             <thead>

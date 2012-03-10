@@ -4,6 +4,7 @@ from django.conf import settings
 import views 
 
 urlpatterns = patterns('',
+    url(r'^$', views.public),
     url(r'^public/$', views.public),
     url(r'^login/$', views.login_user),
     url(r'^loggedin/$', views.loggedin),
