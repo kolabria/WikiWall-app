@@ -19,11 +19,11 @@ def walls(request):
 
 @login_required
 def view_wall(request, wid):
-    # Get a specific wall by id
-    wall = Wall.objects.filter(id=wid)
+    # Get a specific wall by Mongo object id
+    wall = Wall.objects.get(id=wid)
     data = {'title': 'Kolabria',
             'wall': wall,}
-    return render_to_response('walls/wall.html', data, 
+    return render_to_response('walls/newwall.html', data, 
                               context_instance=RequestContext(request))
 
 
