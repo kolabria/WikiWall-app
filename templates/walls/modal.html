@@ -25,14 +25,14 @@
         </div><!--/span2 -->
 
         <!-- Create New Wall Form -->
-          <div id="create" class="modal hide fade">
+          <div id="create" class="modal hide fade ">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
               <h3>Enter Whiteboard Details</h3>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
               <form action="." method="post">{% csrf_token %}
-                {{ new_form.as_p}}
+                {{ new_form.as_p }}
             </div>
                 <div class="modal-footer">
                   <input type="submit" value="Create Whiteboard" class="btn btn-primary">
