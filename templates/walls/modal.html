@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Kolabria - My Wikiboards</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row-fluid">
+        <div class="span2">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Account</li>
+                <li><a href="#"><i class="icon-home"></i> Home</a></li>
+                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
+                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
+                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+            </ul>
+          </div><!--/.well sidebar-nav -->
+         
+          {% comment %}{% url walls.views.create_wall %}{% endcomment %}
+
+          <a data-toggle="modal" class="btn btn-primary btn-large" href="#create">Create New Whiteboard</a>
+        </div><!--/span2 -->
+
+        <!-- sample modal content -->
+          <div id="create" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Enter Whiteboard Details</h3>
+            </div>
+            <div class="modal-body">
+              <form action="." method="post">{% csrf_token %}
+                {{ form.as_p}}
+            </div>
+                <div class="modal-footer">
+                  <input type="submit" value="Create Whiteboard" class="btn btn-primary">
+                  <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
+                </div>
+              </form>
+          </div>          
+
+        <div class="span6 offset3">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>This is your Account Page. You can manage your whiteboards here.</p>
+          </div><!-- alert-block -->
+        </div><!--/span6 -->
+
+        <div class="span6 ">
+          <h3>Recent Whiteboards:</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Board Name</th>
+                <th>Status</th>
+                <th>Last Modified</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for wall in walls %}
+              <tr>
+                <td><a href="/walls/{{ wall.id }}">{{ wall.name }}</a></td> {% comment %} {% url kolabria.walls.views.view_wall wall.id %} {% endcomment %}
+                <td>{{ wall.status }}</td>
+                <td>{{ wall.modified }}</td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">share</a></li>
+                      <li><a href="#">edit</a></li>
+                      <li><a href="#">delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+                </tr>
+              {% endfor %}
+             </tbody>
+            </table>
+        </div><!--/span-->
+      </div><!--/row-->
+{% endblock content %}
