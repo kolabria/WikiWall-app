@@ -32,7 +32,7 @@
             </div>
             <div class="modal-body">
               <form action="." method="post">{% csrf_token %}
-                {{ form.as_p}}
+                {{ wall_form.as_p}}
             </div>
                 <div class="modal-footer">
                   <input type="submit" value="Create Whiteboard" class="btn btn-primary">

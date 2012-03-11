@@ -12,10 +12,11 @@ from kolabria.walls.forms import NewWallForm
 def modal(request):
     # Generate New Wall Form logic but hide form behind modal
     if request.method == 'GET':
+        wall_form = NewWallForm()
         form = NewWallForm()
     else:  # request.method == 'POST'
-        form = NewWallForm(request.POST)
-        if form.is_valid():
+        wall_form = NewWallForm(request.POST)
+        if wall_form.is_valid():
             new_wall = Wall.objects.create(owner=request.user,
                                            name=request.POST['name'])
             new_wall.save()
@@ -26,7 +27,7 @@ def modal(request):
     # Get walls page with modal pop-up
     walls = Wall.objects.filter(owner=request.user)
     data = {'title': 'Kolabria', 
-            'form': form,
+            'wall_form': wall_form,
             'walls': walls, }
     return render_to_response('walls/modal.html', data,
                               context_instance=RequestContext(request))
