@@ -24,7 +24,7 @@
           <a data-toggle="modal" class="btn btn-primary btn-large" href="#create">Create New Whiteboard</a>
         </div><!--/span2 -->
 
-        <!-- sample modal content -->
+        <!-- Create New Wall Form -->
           <div id="create" class="modal hide fade">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
@@ -32,14 +32,49 @@
             </div>
             <div class="modal-body">
               <form action="." method="post">{% csrf_token %}
-                {{ wall_form.as_p}}
+                {{ new_form.as_p}}
             </div>
                 <div class="modal-footer">
                   <input type="submit" value="Create Whiteboard" class="btn btn-primary">
                   <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
                 </div>
               </form>
-          </div>          
+          </div>
+  
+          <!-- Edit Wall Details -->
+          <div id="edit" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Update Whiteboard Details</h3>
+            </div>
+            <div class="modal-body">
+              <form action="." method="post">{% csrf_token %}
+                {{ edit_form.as_p}}
+            </div>
+                <div class="modal-footer">
+                  <input type="submit" value="Update Whiteboard" class="btn btn-primary">
+                  <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
+                </div>
+              </form>
+          </div>
+
+          <!-- Edit Wall Details -->
+          <div id="delete/{{ wall.id }}" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Delete Whiteboard</h3>
+            </div>
+            <div class="modal-body">
+              <form action="." method="post">{% csrf_token %}
+                {{ delete_form.as_p}}
+            </div>
+                <div class="modal-footer">
+                  <input type="submit" value="Delete Whiteboard" class="btn btn-primary">
+                  <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
+                </div>
+              </form>
+          </div>
+
 
         <div class="span6 offset3">
           <div class="alert alert-block">
@@ -69,9 +104,9 @@
                   <div class="btn-group">
                     <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">share</a></li>
-                      <li><a href="#">edit</a></li>
-                      <li><a href="#">delete</a></li>
+                      <li><a href="#edit/{{ wall.id }}">share</a></li>
+                      <li><a data-toggle="modal" href="#edit">edit</a></li>
+                      <li><a data-toggle="modal" href="#delete {{ wall.id }}">delete</a></li>
                     </ul>
                   </div>
                 </td>

@@ -5,18 +5,19 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from kolabria.walls.models import Wall
-from kolabria.walls.forms import NewWallForm
+from kolabria.walls.forms import NewWallForm, EditWallForm, DeleteWallForm
 
 
 @login_required
 def modal(request):
     # Generate New Wall Form logic but hide form behind modal
     if request.method == 'GET':
-        wall_form = NewWallForm()
-        form = NewWallForm()
+        new_form = NewWallForm()
+        edit_form = EditWallForm()
+        del_form = DeleteWallForm()
     else:  # request.method == 'POST'
-        wall_form = NewWallForm(request.POST)
-        if wall_form.is_valid():
+        new_form = NewWallForm(request.POST)
+        if new_form.is_valid():
             new_wall = Wall.objects.create(owner=request.user,
                                            name=request.POST['name'])
             new_wall.save()
@@ -27,7 +28,9 @@ def modal(request):
     # Get walls page with modal pop-up
     walls = Wall.objects.filter(owner=request.user)
     data = {'title': 'Kolabria', 
-            'wall_form': wall_form,
+            'new_form': new_form,
+            'edit_form': new_form,
+            'del_form': new_form,
             'walls': walls, }
     return render_to_response('walls/modal.html', data,
                               context_instance=RequestContext(request))
