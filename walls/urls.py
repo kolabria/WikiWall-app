@@ -7,9 +7,11 @@ urlpatterns = patterns('',
     url(r'^walls/$', views.walls),
     url(r'^walls/(?P<wid>\w+)/$', views.view_wall),
 
-    url(r'^create-wall/$', views.create_wall),
-    url(r'^config-wall/$', views.config_wall),
-    url(r'^delete-wall/$', views.delete_wall),
+    url(r'^walls/create/$', views.create_wall),
+    url(r'^walls/edit/(?P<wid>\w+)/$', views.edit_wall),
+    url(r'^walls/delete/(?P<wid>\w+)/$', views.delete_wall),
+    
+    url(r'^walls/create-msg/$', views.create_msg),
 
     url(r'^idwall/$', views.idwall),
     url(r'^thewall/$', views.thewall),

@@ -14,23 +14,13 @@
                 <li><a href="#"><i class="icon-home"></i> Home</a></li>
                 <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
                 <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="icon-cog"></i> Appliances</a></li>
                 <li><a href="#"><i class="icon-user"></i> Profile</a></li>
             </ul>
           </div><!--/.well sidebar-nav -->
-          <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">New Whiteboard</a>
+          <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
+          <a class="btn btn-primary btn-large" href="/walls/create-msg">Create a New Message</a>
         </div><!--/span2 -->
-
-    {% comment %}       
-        <div class="span6">
-          <div class="well">
-            <a class="close" data-dismiss="alert">×</a>
-            <h2>Welcome to Kolabria!</h2>
-            <h4>You do not have any Whiteboards. Create a <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">New Whiteboard</a></h4>
-            
-          </div><!--/.well -->
-        </div><!--/span6 -->
-    {% endcomment %}       
 
         <div class="span6 offset3">
           <div class="alert alert-block">
@@ -48,7 +38,6 @@
                 <th>Status</th>
                 <th>Last Modified</th>
                 <th>Action</th>
-                <th>Link</th>
               </tr>
             </thead>
             <tbody>
@@ -62,13 +51,12 @@
                     <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a href="#">share</a></li>
-                      <li><a href="#">edit</a></li>
-                      <li><a href="#">delete</a></li>
+                      <li><a href="/walls/edit/{{ wall.id }}">edit</a></li>
+                      <li><a href="/delete/{{ wall.id }}">delete</a></li>
                     </ul>
                   </div>
                 </td>
-                <td><a href="/walls/{{ wall.id }}">{{ wall.id}}</td>
-              </tr>
+                </tr>
               {% endfor %}
              </tbody>
             </table>

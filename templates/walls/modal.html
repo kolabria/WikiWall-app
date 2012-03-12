@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
       <div class="row-fluid">
         <div class="span2">
           <div class="well sidebar-nav">
@@ -14,70 +14,29 @@
                 <li><a href="#"><i class="icon-home"></i> Home</a></li>
                 <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
                 <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="icon-cog"></i> Appliances</a></li>
                 <li><a href="#"><i class="icon-user"></i> Profile</a></li>
             </ul>
           </div><!--/.well sidebar-nav -->
-         
-          {% comment %}{% url walls.views.create_wall %}{% endcomment %}
-
-          <a data-toggle="modal" class="btn btn-primary btn-large" href="#create">Create New Whiteboard</a>
+          <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
+          <a class="btn btn-primary btn-large" href="{% url walls.views.create_msg %}">Create a New Message</a>
         </div><!--/span2 -->
 
-        <!-- Create New Wall Form -->
-          <div id="create" class="modal hide fade ">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal" >&times;</a>
-              <h3>Enter Whiteboard Details</h3>
-            </div>
-            <div class="modal-body ">
-              <form action="." method="post">{% csrf_token %}
-                {{ new_form.as_p }}
-            </div>
-                <div class="modal-footer">
-                  <input type="submit" value="Create Whiteboard" class="btn btn-primary">
-                  <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
-                </div>
-              </form>
-          </div>
-  
-          <!-- Edit Wall Details -->
-          <div id="edit" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal" >&times;</a>
-              <h3>Update Whiteboard Details</h3>
-            </div>
-            <div class="modal-body">
-              <form action="." method="post">{% csrf_token %}
-                {{ edit_form.as_p}}
-            </div>
-                <div class="modal-footer">
-                  <input type="submit" value="Update Whiteboard" class="btn btn-primary">
-                  <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
-                </div>
-              </form>
-          </div>
+        {% if messages %}
+        <div class="span6 offset3">
+            {% for message in messaage %}
+          <div class="alert alert-block alert">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>{{ message }}</p>
+          </div><!-- alert-block -->
+            {% endfor %}
+        {% endif %}
+        </div><!--/span6 -->
 
-          <!-- Edit Wall Details -->
-          <div id="delete/{{ wall.id }}" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal" >&times;</a>
-              <h3>Delete Whiteboard</h3>
-            </div>
-            <div class="modal-body">
-              <form action="." method="post">{% csrf_token %}
-                {{ delete_form.as_p}}
-            </div>
-                <div class="modal-footer">
-                  <input type="submit" value="Delete Whiteboard" class="btn btn-primary">
-                  <a href="#" class="btn" data-dismiss="modal" >Cancel</a>
-                </div>
-              </form>
-          </div>
-
+        <hr/>
 
         <div class="span6 offset3">
-          <div class="alert alert-block">
+          <div class="alert alert-block alert">
             <a class="close" data-dismiss="alert">×</a>
             <p>This is your Account Page. You can manage your whiteboards here.</p>
           </div><!-- alert-block -->
@@ -92,7 +51,7 @@
                 <th>Status</th>
                 <th>Last Modified</th>
                 <th>Action</th>
-                </tr>
+              </tr>
             </thead>
             <tbody>
               {% for wall in walls %}
@@ -104,13 +63,13 @@
                   <div class="btn-group">
                     <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="#edit/{{ wall.id }}">share</a></li>
-                      <li><a data-toggle="modal" href="#edit">edit</a></li>
-                      <li><a data-toggle="modal" href="#delete {{ wall.id }}">delete</a></li>
+                      <li><a href="#">share</a></li>
+                      <li><a href="/edit-wall/{{ wall.id }}">edit</a></li>
+                      <li><a href="/delete-wall/{{ wall.id }}">delete</a></li>
                     </ul>
                   </div>
                 </td>
-                </tr>
+               </tr>
               {% endfor %}
              </tbody>
             </table>

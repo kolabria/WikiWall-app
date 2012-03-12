@@ -3,10 +3,11 @@ from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from kolabria.walls.models import Wall
 from kolabria.walls.forms import NewWallForm, EditWallForm, DeleteWallForm
-
+from datetime import datetime
 
 @login_required
 def modal(request):
@@ -34,6 +35,17 @@ def modal(request):
             'walls': walls, }
     return render_to_response('walls/modal.html', data,
                               context_instance=RequestContext(request))
+
+@login_required
+def create_msg(request):
+    # Get walls page with modal pop-up
+    walls = Wall.objects.filter(owner=request.user)
+    messages.success(request, 'message updated.')
+    data = {'title': 'Kolabria', 
+            'walls': walls, }
+    return render_to_response('walls/modal.html', data,
+                              context_instance=RequestContext(request))
+
 
 
 @login_required
@@ -93,10 +105,30 @@ def create_wall(request):
                               context_instance=RequestContext(request))
 
 @login_required
-def config_wall(request):
-    data = {'title': 'Kolabria', }
-    return render_to_response('walls/created.html', data, 
+def edit_wall(request, wid):
+    # Generate New Wall Form logic but hide form behind modal
+    edit_wall = Wall.objects.get(id=wid)
+    if request.method == 'GET':
+        edit_form = EditWallForm()
+        edit_form.initial['name'] = edit_wall.name
+        edit_form.initial['description'] = edit_wall.description
+    else:  # request.method == 'POST'
+        edit_form = EditWallForm(request.POST)
+        if edit_form.is_valid():
+            edit_wall['name'] = request.POST['name']
+            edit_wall['description'] = request.POST['description']
+            edit_wall['modified'] = datetime.now()
+            edit_wall.save()
+            data = {'title': 'Kolabria', 'edit_form': edit_wall,}
+            messages.success(request, 'Board details updated.')
+            return render_to_response('walls/modal.html', data,
                               context_instance=RequestContext(request))
+    data = {'title': 'Kolabria', 
+            'edit_form': edit_form,
+            'walls': walls, }
+    return render_to_response('walls/update.html', data,
+          context_instance=RequestContext(request))
+
 
 @login_required
 def delete_wall(request):
