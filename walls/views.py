@@ -9,7 +9,7 @@ from kolabria.walls.forms import NewWallForm, EditWallForm, DeleteWallForm
 from datetime import datetime
 
 @login_required
-def modal(request):
+def walls(request):
     # Generate New Wall Form logic but hide form behind modal
     if request.method == 'GET':
         new_form = NewWallForm()
@@ -32,37 +32,29 @@ def modal(request):
             'edit_form': new_form,
             'del_form': new_form,
             'walls': walls, }
-    return render_to_response('walls/modal.html', data,
+    return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
 
-
 @login_required
-def new_wall(request):
+def create_wall(request):
+    walls = Wall.objects.filter(owner=request.user)
     if request.method == 'GET':
         form = NewWallForm()
     else:
         form = NewWallForm(request.POST)
         if form.is_valid():
             new_wall = Wall.objects.create(owner=request.user,
-                                           name=request.POST['name'])
+                                           name=request.POST['name'],
+                                           description=request.POST['description'])
             new_wall.save()
-            data = {'title': 'Kolabria', 'wall': new_wall,}
-            return render_to_response('walls/created.html', data,
+            data = {'title': 'Kolabria', 'walls': walls, 'new_wall': new_wall,}
+            return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
 
     data = {'title': 'Kolabria', 'form': form }
-    return render_to_response('walls/modal.html', data,
+    return render_to_response('walls/create.html', data,
                               context_instance=RequestContext(request))
 
-
-@login_required
-def walls(request):
-    # Get walls for this user
-    walls = Wall.objects.filter(owner=request.user)
-    data = {'title': 'Kolabria - My Whiteboards',
-            'walls': walls,}
-    return render_to_response('walls/mywalls.html', data,
-                              context_instance=RequestContext(request))
 
 @login_required
 def view_wall(request, wid):
@@ -74,28 +66,12 @@ def view_wall(request, wid):
                               context_instance=RequestContext(request))
 
 
-@login_required
-def create_wall(request):
-    if request.method == 'GET':
-        form = NewWallForm()
-    else:
-        form = NewWallForm(request.POST)
-        if form.is_valid():
-            new_wall = Wall.objects.create(owner=request.user,
-                                           name=request.POST['name'])
-            new_wall.save()
-            data = {'title': 'Kolabria', 'wall': new_wall,}
-            return render_to_response('walls/created.html', data,
-                              context_instance=RequestContext(request))
-
-    data = {'title': 'Kolabria', 'form': form }
-    return render_to_response('walls/create.html', data,
-                              context_instance=RequestContext(request))
 
 @login_required
 def edit_wall(request, wid):
     # Generate New Wall Form logic but hide form behind modal
     edit_wall = Wall.objects.get(id=wid)
+    walls = Wall.objects.filter(owner=request.user)
     if request.method == 'GET':
         edit_form = EditWallForm()
         edit_form.initial['name'] = edit_wall.name
@@ -107,20 +83,41 @@ def edit_wall(request, wid):
             edit_wall['description'] = request.POST['description']
             edit_wall['modified'] = datetime.now()
             edit_wall.save()
-            data = {'title': 'Kolabria', 'edit_form': edit_wall,}
-            return render_to_response('walls/modal.html', data,
+            data = {'title': 'Kolabria - Edit Board Details', 
+                    'walls': walls, 
+                    'edit_wall': edit_wall,}
+            return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
-    data = {'title': 'Kolabria', 
+    data = {'title': 'Kolabria - Update Board Details - Input Form', 
             'edit_form': edit_form,
-            'walls': walls, }
+            }
     return render_to_response('walls/update.html', data,
           context_instance=RequestContext(request))
 
 
 @login_required
-def delete_wall(request):
-    pass
+def delete_wall(request, wid):
+    del_wall = Wall.objects.get(id=wid)
+    data = {'title': 'Kolabria - Delete Board Confirmation',
+            'del_wall': del_wall,}
+    if request.method == 'GET':
+        del_form = DeleteWallForm()
+        data['del_form'] = del_form
+    else:  # handle 'POST' in request
+        checkbox = request.POST['confirm_delete']
+        if checkbox:
+            walls = Wall.objects.filter(owner=request.user)
+            deleted_wall = del_wall
+            del_wall.delete()
+            data = {'deleted_wall': deleted_wall,
+                    'walls': walls,}
+            return render_to_response('walls/mywalls.html', data,
+                                      context_instance=RequestContext(request))
+        #TODO add else logic to handle no confirmation selected
+    return render_to_response('walls/delete.html', data,
+                              context_instance=RequestContext(request))
 
+# Remaining Views are for internal dev and debug use only 
 
 @login_required
 def idwall(request):
