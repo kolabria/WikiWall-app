@@ -47,7 +47,9 @@ def create_wall(request):
                                            name=request.POST['name'],
                                            description=request.POST['description'])
             new_wall.save()
-            data = {'title': 'Kolabria', 'walls': walls, 'new_wall': new_wall,}
+            data = {'title': 'Kolabria', 
+                    'walls': walls, 
+                    'new_wall': new_wall,}
             return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
 
@@ -104,7 +106,7 @@ def delete_wall(request, wid):
         del_form = DeleteWallForm()
         data['del_form'] = del_form
     else:  # handle 'POST' in request
-        checkbox = request.POST['confirm_delete']
+        checkbox = request.POST['confirmation']
         if checkbox:
             walls = Wall.objects.filter(owner=request.user)
             deleted_wall = del_wall

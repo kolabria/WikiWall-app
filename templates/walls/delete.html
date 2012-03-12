@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Account</li>
+                <li><a href="#"><i class="icon-home"></i> Home</a></li>
+                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
+                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
+                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+
+        <div class="span8 ">
+          <div class="hero-unit well">
+              <h3>Confirm Deletion:</h3>
+              <hr/> 
+              <form action="." method="post">{% csrf_token %}
+                  <p>Please select this checkbox to confirm deletion</p>
+                    {{ del_form.as_p}}
+                    <input type="submit" value="Delete Whiteboard">
+                </form>
+          </div>
+        </div><!--span -->
+      </div><!--row -->
+
+{% endblock %}

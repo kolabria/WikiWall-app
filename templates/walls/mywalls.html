@@ -21,6 +21,42 @@
           <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
         </div><!--/span2 -->
 
+        {% if new_wall %}
+        <div class="span6 offset3">
+          <div class="alert alert-success alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>Created New Board: {{ new_wall.name }}</p>
+            <p>Owner Email: {{ new_wall.owner.email}}</p>
+            <p>Date Created: {{ new_wall.created }}</p>
+          </div><!-- alert-block -->
+        </div><!--/span6 -->
+        {% endif %}
+
+        {% if edit_wall %}
+        <div class="span6 offset3">
+          <div class="alert alert-success alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>Updated Board: {{ edit_wall.name }}</p>
+            <p>Owner Email: {{ edit_wall.owner.email}}</p>
+            <p>Last Modified: {{ edit_wall.modified }}</p>
+            <p>Date Created: {{ edit_wall.created }}</p>
+          </div><!-- alert-block -->
+        </div><!--/span6 -->
+        {% endif %}
+
+        {% if del_wall %}
+        <div class="span6 offset3">
+          <div class="alert alert-success alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <p>Deleted Board: {{ del_wall.name }}</p>
+            <p>Owner Email: {{ del_wall.owner.email}}</p>
+            <p>Date Created: {{ edit_wall.created }}</p>
+          </div><!-- alert-block -->
+        </div><!--/span6 -->
+        {% endif %}
+
+
+
         <div class="span6 offset3">
           <div class="alert alert-block">
             <a class="close" data-dismiss="alert">×</a>
@@ -51,7 +87,7 @@
                     <ul class="dropdown-menu">
                       <li><a href="#">share</a></li>
                       <li><a href="/walls/edit/{{ wall.id }}">edit</a></li>
-                      <li><a href="/delete/{{ wall.id }}">delete</a></li>
+                      <li><a href="/walls/delete/{{ wall.id }}">delete</a></li>
                     </ul>
                   </div>
                 </td>
