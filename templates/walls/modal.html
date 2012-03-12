@@ -22,19 +22,6 @@
           <a class="btn btn-primary btn-large" href="{% url walls.views.create_msg %}">Create a New Message</a>
         </div><!--/span2 -->
 
-        {% if messages %}
-        <div class="span6 offset3">
-            {% for message in messaage %}
-          <div class="alert alert-block alert">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>{{ message }}</p>
-          </div><!-- alert-block -->
-            {% endfor %}
-        {% endif %}
-        </div><!--/span6 -->
-
-        <hr/>
-
         <div class="span6 offset3">
           <div class="alert alert-block alert">
             <a class="close" data-dismiss="alert">×</a>

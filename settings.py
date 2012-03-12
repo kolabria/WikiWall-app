@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
-    'django.contrib.messages',
+#    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
@@ -67,7 +67,7 @@ LOGIN_URL = '/login'
 MEDIA_URL = '/media/'
 MEDIA_PATH = os.path.join(PROJECT_PATH, 'media')
 MEDIA_ROOT = '/home/alok/kolabria/kolabria/media'
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+#MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.csrf.middleware.CsrfMiddleware',
@@ -90,7 +90,7 @@ STATICFILES_DIRS = (
 
 TEMPLAGE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
-    'django.contrib.messages.middleware.MessageMiddleware',
+#    'django.contrib.messages.middleware.MessageMiddleware',
     'context_processors.auth',
     'context_processors.site_info',
 )

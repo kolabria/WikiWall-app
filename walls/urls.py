@@ -11,8 +11,6 @@ urlpatterns = patterns('',
     url(r'^walls/edit/(?P<wid>\w+)/$', views.edit_wall),
     url(r'^walls/delete/(?P<wid>\w+)/$', views.delete_wall),
     
-    url(r'^walls/create-msg/$', views.create_msg),
-
     url(r'^idwall/$', views.idwall),
     url(r'^thewall/$', views.thewall),
     url(r'^modal/$', views.modal),
