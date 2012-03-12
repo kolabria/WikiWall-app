@@ -23,9 +23,10 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
           <div class="hero-unit well">
               <h3>Update Whiteboard Details:</h3>
               <hr/> 
-                <form action="." method="post">
+                <form action="." method="post" class="form-horizontal">
                     {{ edit_form.as_p}}
-                    <input type="submit" value="Update Whiteboard">
+                    <a href="/walls/" class="btn ">Cancel</a>
+                    <input type="submit" value="Update Whiteboard" class="btn btn-primary">
                 </form>
           </div>
         </div><!--span -->

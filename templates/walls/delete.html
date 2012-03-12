@@ -24,11 +24,11 @@
           <div class="hero-unit well">
               <h3>Confirm Deletion:</h3>
               <hr/> 
-              <form action="." method="post">{% csrf_token %}
+              <form action="." method="post" class="form-horizontal">
                   <p>Please select this checkbox to confirm deletion</p>
-                    {{ del_form.as_p}}
-                    <input type="submit" value="Delete Whiteboard">
-                </form>
+                    {{ del_form }}
+                    <input type="submit" value="Delete Whiteboard" class="btn btn-primary">
+              </form>
           </div>
         </div><!--span -->
       </div><!--row -->

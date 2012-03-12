@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'bootstrap',
     'debug_toolbar',
     'debug_toolbar_mongo',
 )

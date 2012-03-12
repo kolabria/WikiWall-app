@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
+    <title>Kolabria WikiWall - Create a new Whiteboard</title>
 {% endblock %}
 
 {% block content %}
@@ -24,9 +24,12 @@
           <div class="hero-unit well">
               <h3>Enter Whiteboard Details:</h3>
               <hr/> 
-                <form action="." method="post">{% csrf_token %}
-                    {{ form.as_p}}
-                    <input type="submit" value="Create Whiteboard">
+                <form action="." method="post" class="form-horizontal">
+                    {% if errorlist %}
+                    <ul class="errorlist"><li>{{ error }}</li></ul>
+                    {% endif %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Create Whiteboard" class="btn btn-primary">
                 </form>
           </div>
         </div><!--span -->

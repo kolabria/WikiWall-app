@@ -31,6 +31,7 @@ def walls(request):
             'new_form': new_form,
             'edit_form': new_form,
             'del_form': new_form,
+            'deleted_wall': request.session['deleted_wall'],
             'walls': walls, }
     return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
@@ -111,11 +112,14 @@ def delete_wall(request, wid):
             walls = Wall.objects.filter(owner=request.user)
             deleted_wall = del_wall
             del_wall.delete()
+            request.session['deleted_wall'] = deleted_wall
             data = {'deleted_wall': deleted_wall,
                     'walls': walls,}
-            return render_to_response('walls/mywalls.html', data,
-                                      context_instance=RequestContext(request))
-        #TODO add else logic to handle no confirmation selected
+            return HttpResponseRedirect('/walls/')
+
+        else:
+            pass
+            #TODO add else logic to handle no confirmation selected
     return render_to_response('walls/delete.html', data,
                               context_instance=RequestContext(request))
 

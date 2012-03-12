@@ -3,3 +3,5 @@ mongoengine>=0.6
 ipython
 -e git+https://github.com/django-debug-toolbar/django-debug-toolbar.git#egg=django_debug_toolbar
 -e git+https://github.com/hmarr/django-debug-toolbar-mongo.git#egg=django_debug_toolbar_mongo
+-e git+https://github.com/earle/django-bootstrap.git#egg=django_bootstrap
+
