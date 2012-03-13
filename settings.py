@@ -22,7 +22,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Database settings
-connect('kolabria-mongo')
+connect('kolabria-new')
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,

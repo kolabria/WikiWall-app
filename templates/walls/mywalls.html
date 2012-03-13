@@ -10,22 +10,6 @@
 
       {% include "includes/sidebar.html" %}
 
-{% comment %}
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Account</li>
-                <li><a href="#"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
-                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="#"><i class="icon-cog"></i> Appliances</a></li>
-                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-            </ul>
-          </div><!--/.well sidebar-nav -->
-          <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
-        </div><!--/span2 -->
-{% endcomment %}
-
         {% if new_wall %}
         <div class="span6 offset3">
           <div class="alert alert-success alert-block">
@@ -100,6 +84,19 @@
               {% endfor %}
              </tbody>
             </table>
+<<<<<<< Updated upstream
         </div><!--/span-->
+=======
+          </div><!--/span-->
+        {% else %}
+        <div class="span6 ">
+          <div class="hero-unit well">
+              <h3>No Whiteboards Found:</h3>
+              <hr/>
+              <p>Click here to <a href="/walls/create" span="btn btn-primary">Create a New Whiteboard</a></p>
+          </div>
+        </div><!--span -->
+      {% endif %}
+>>>>>>> Stashed changes
       </div><!--/row-->
 {% endblock content %}

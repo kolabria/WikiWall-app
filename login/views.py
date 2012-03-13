@@ -11,6 +11,7 @@ from mongoengine.django.auth import User
 from kolabria.login.forms import LoginForm, RegistrationForm
 from kolabria.walls.models import Wall
 
+
 def public(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/walls')
@@ -63,5 +64,14 @@ def register(request):
             new_user.save()
             auth_user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=auth_user)
-            return render_to_response('mongo/register-success.html',
+            return render_to_response('login/register-success.html',
+                              context_instance=RequestContext(request))
+        else:
+            data = {'title': 'Kolabria - Registration Error',
+                    'form': form,}
+            return render_to_response('login/register.html',
+                              context_instance=RequestContext(request))
+    data = {'title': 'Kolabria - Form Error',
+            'form': form,}
+    return render_to_response('login/register.html', data,
                               context_instance=RequestContext(request))
