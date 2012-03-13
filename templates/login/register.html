@@ -8,10 +8,15 @@
       <div class="hero-unit well">
         <h2>Please enter your details</h2>
         <hr />
-          <form action="" method="post">{% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Create account">
-          </form>
+        <form action="" method="post">
+          {% for field in form %}
+          <p>
+            {{ field.label_tag}}: {{ field }}
+            {{ field.errors }}
+            </p>
+          {% endfor %}
+        <input type="submit" value="Create account">
+        </form>
       </div><!--hero-->
     </div><!--span -->
   </div><!--row -->

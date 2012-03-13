@@ -63,5 +63,5 @@ def register(request):
             new_user.save()
             auth_user = authenticate(username=user_name, password=pass_word)
             login(request=request, user=auth_user)
-            return render_to_response('mongo/register-success.html',
+            return render_to_response('login/register-success.html',
                               context_instance=RequestContext(request))
