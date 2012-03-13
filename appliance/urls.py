@@ -6,7 +6,6 @@ import views
 urlpatterns = patterns('appliance',
     url(r'^detail/(?P<box>\w+)/$', views.detail), 
     url(r'^register/(?P<box>\w+)/$', views.register),
-    url(r'^pair/$(?P<box>\w+)/$', views.pair),
     url(r'^edit/(?P<box>\w+)/$', views.edit),
     url(r'^remove/(?P<box>\w+)/$', views.remove),
     url(r'^$', views.appliances),
