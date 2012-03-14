@@ -1,8 +1,13 @@
 from django.conf.urls.defaults import include, patterns, url
-from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
-import views 
+urlpatterns = patterns('',
+            (r'^appliance/$', login_required(TemplateView.as_view(
+                              template_name="appliance/myappliances.html"))),
+)
 
+"""
 urlpatterns = patterns('appliance',
     url(r'^detail/(?P<box>\w+)/$', views.detail), 
     url(r'^register/(?P<box>\w+)/$', views.register),
@@ -11,6 +16,11 @@ urlpatterns = patterns('appliance',
     url(r'^$', views.appliances),
 )
 
+from django.conf import settings
+
+import views 
+
+
 urlpatterns += patterns('',
     url(r'^appliances/$', views.appliances),
 
@@ -18,3 +28,4 @@ urlpatterns += patterns('',
     url(r'^the-appliance/$', views.the_appliance),
     url(r'^id-appliance/$', views.id_appliance),
 )
+"""
