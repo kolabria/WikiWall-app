@@ -53,6 +53,7 @@
           </div><!-- alert-block -->
         </div><!--/span6 -->
 
+      {% if walls %}
         <div class="span6 ">
           <h3>Recent Whiteboards:</h3>
           <table class="table">
@@ -91,8 +92,8 @@
               <h3>No Whiteboards Found:</h3>
               <hr/>
               <p>Click here to <a href="/walls/create" span="btn btn-primary">Create a New Whiteboard</a></p>
-          </div>
+            </div>
+        {% endif %}
         </div><!--span -->
-      {% endif %}
       </div><!--/row-->
 {% endblock content %}
