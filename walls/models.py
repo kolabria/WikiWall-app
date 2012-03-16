@@ -1,8 +1,11 @@
 from mongoengine import connect, Document
 from mongoengine import ReferenceField, StringField, DateTimeField
+from mongoengine import EmailField, ListField
+
 from mongoengine.django.auth import User
-from datetime import datetime
 from kolabria.account.models import Account
+from datetime import datetime
+from django import forms
 
 class Wall(Document):
     """
@@ -24,6 +27,8 @@ class Wall(Document):
                          required=True)
     created = DateTimeField(default=datetime.now(), required=True)
     modified = DateTimeField(default=datetime.now(), required=True)
+    sharing = ListField(EmailField())
+    viewing = ListField(EmailField())
 
     def __unicode__(self):
         """

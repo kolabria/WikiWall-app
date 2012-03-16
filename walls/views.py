@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 from kolabria.walls.models import Wall
 from kolabria.walls.forms import NewWallForm, EditWallForm, DeleteWallForm
+from kolabria.walls.forms import ShareWallForm
+from mongoengine import StringField
 from datetime import datetime
 
 @login_required
@@ -49,6 +51,26 @@ def view_wall(request, wid):
     return render_to_response('walls/newwall.html', data, 
                               context_instance=RequestContext(request))
 
+
+@login_required
+def share_wall(request, wid):
+    form = ShareWallForm(request.POST or None)
+    wall = Wall.objects.get(id=wid)
+    sharing = wall.sharing
+#    viewing = wall.viewing
+    data = {'title': 'Kolabria',
+            'wall': wall,
+            'form': form,
+            'sharing': sharing,
+          #  'viewing': viewing,
+           }
+    if form.is_valid():
+        wall.sharing.append(request.POST['shared'])
+        wall.save()
+        return render_to_response('walls/share.html', data,
+                                  context_instance=RequestContext(request))
+    return render_to_response('walls/share.html', data, 
+                              context_instance=RequestContext(request))
 
 
 @login_required

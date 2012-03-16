@@ -1,5 +1,6 @@
 from bootstrap.forms import BootstrapForm, Fieldset
 from mongoengine.django.auth import User
+from mongoengine import EmailField
 from django import forms
 
 class NewWallForm(BootstrapForm):
@@ -25,3 +26,13 @@ class DeleteWallForm(BootstrapForm):
             Fieldset("Please Confirm Delete", "confirmation", ),
         )
     confirmation = forms.BooleanField(False)
+
+class ShareWallForm(BootstrapForm):
+    class Meta:
+        layout = (
+            Fieldset("Invite users by email", "name", ),
+        )
+    shared = forms.EmailField(max_length=60, required=True)
+
+
+

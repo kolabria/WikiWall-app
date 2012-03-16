@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Kolabria WikiWall - Create a new Whiteboard
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+      {% include "includes/sidebar.html" %}
+
+      <div class="span6 offset3">
+        <div class="alert alert-block">
+          <a class="close" data-dismiss="alert">×</a>
+          <p>This is your Account Page. You can manage your whiteboards here.</p>
+        </div><!-- alert-block -->
+      </div><!--/span6 -->
+
+      <div class="span6 offset3">
+        <div class="hero-unit well">
+            <h3>Share the Whiteboard: {{ wall.name }}<h3>
+          <hr/> 
+          <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
+            {% if errorlist %}
+            <ul class="errorlist"><li>{{ error }}</li></ul>
+            {% endif %}
+            {{ form.as_p }}
+          <input type="submit" value="Share Whiteboard" class="btn btn-primary pull-right">
+          </form>
+          <br />
+        {% if sharing %}
+          <h3>Sharing with the following users:</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>email</th>
+                <th>Access Level</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for shared in sharing %}
+              <tr>
+                <td>{{ shared }}</td>
+                <td>Writing</td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/walls/share/{{ wall.id }}">share</a></li>
+                      <li><a href="/walls/unshare/{{ wall.id }}">unshare</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+             </tbody>
+           </table
+        {% endif %}
+          </div><!--/span-->
+    </div><!--row -->
+
+{% endblock %}
