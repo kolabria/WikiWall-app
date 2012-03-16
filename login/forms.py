@@ -6,6 +6,10 @@ class UserCreationForm(forms.Form):
     """
     A form that creates a user, with no privileges, from the given username and password.
     """
+    email = forms.EmailField(label="email", help_text = "Enter your email address",
+                       error_messages = {'invalid': "This is not a valid email address"})
+    #TODO EMAIL FIELD validation - does user exist in system? 
+    #is email from prohibited domain?
     username = forms.RegexField(label="Username", max_length=30, regex=r'^[\w.@+-]+$',
         help_text = "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.",
         error_messages = {'invalid': "This value may contain only letters, numbers and @/./+/-/_ characters."})
