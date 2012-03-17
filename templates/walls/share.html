@@ -19,14 +19,16 @@
 
       <div class="span6 offset3">
         <div class="hero-unit well">
-            <h3>Share the Whiteboard: {{ wall.name }}<h3>
+            <h3>Invite users by email to share the whiteboard: {{ wall.name }}<h3>
           <hr/> 
           <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
+            <fieldset class="control-group error">
+            </fieldset>
             {% if errorlist %}
-            <ul class="errorlist"><li>{{ error }}</li></ul>
+            <p class="error">{{ error }}</p>
             {% endif %}
             {{ form.as_p }}
-          <input type="submit" value="Share Whiteboard" class="btn btn-primary pull-right">
+              <input type="submit" value="Share Whiteboard" class="btn btn-primary pull-right">
           </form>
           <br />
         {% if sharing %}
@@ -44,13 +46,7 @@
                 <td>{{ shared }}</td>
                 <td>Writing</td>
                 <td>
-                  <div class="btn-group">
-                    <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/walls/share/{{ wall.id }}">share</a></li>
-                      <li><a href="/walls/unshare/{{ wall.id }}">unshare</a></li>
-                    </ul>
-                  </div>
+                  <a class="btn" href="/walls/share/{{ wall.id }}">unshare</a>
                 </td>
               </tr>
               {% endfor %}

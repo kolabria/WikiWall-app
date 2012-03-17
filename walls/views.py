@@ -14,8 +14,11 @@ from datetime import datetime
 def walls(request):
     # Generate New Wall Form logic but hide form behind modal
     walls = Wall.objects.filter(owner=request.user)
+    shared_walls = Wall.objects.filter(sharing=request.user.email)
     data = {'title': 'Kolabria', 
-            'walls': walls, }
+            'walls': walls, 
+            'shared_walls': shared_walls,
+            }
     return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
 
@@ -64,12 +67,29 @@ def share_wall(request, wid):
             'sharing': sharing,
           #  'viewing': viewing,
            }
+
     if form.is_valid():
         wall.sharing.append(request.POST['shared'])
+        if request.POST['unshare']:
+            wall.sharing.remove(request.POST['unshare'])
         wall.save()
         return render_to_response('walls/share.html', data,
                                   context_instance=RequestContext(request))
     return render_to_response('walls/share.html', data, 
+                              context_instance=RequestContext(request))
+
+
+@login_required
+def unshare_wall(request, wid, email):
+    wall = Wall.objects.get(id=wid)
+    data = {'title': 'Kolabria - Unshare Wall with user',
+            'wid': wid,
+            'email': email,
+           }
+    if email in wall.sharing:
+        wall.sharing.remove(email)
+        wall.save()
+    return render_to_response('walls/share.html', data,
                               context_instance=RequestContext(request))
 
 

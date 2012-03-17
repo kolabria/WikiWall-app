@@ -61,6 +61,7 @@
               <tr>
                 <th>Board Name</th>
                 <th>Status</th>
+                <th>Permissions</th>
                 <th>Last Modified</th>
                 <th>Action</th>
               </tr>
@@ -70,6 +71,7 @@
               <tr id="{{ wall.id }}">
                 <td><a href="/walls/{{ wall.id }}">{{ wall.name }}</a></td> {% comment %} {% url kolabria.walls.views.view_wall wall.id %} {% endcomment %}
                 <td>{{ wall.status }}</td>
+                <td>owner</td>
                 <td>{{ wall.modified }}</td>
                 <td>
                   <div class="btn-group">
@@ -83,6 +85,27 @@
                 </td>
               </tr>
               {% endfor %}
+
+              {% for swall in shared_walls %} 
+              <tr id="{{ swall.id }}">
+                <td><a href="/walls/{{ swall.id }}">{{ swall.name }}</a></td> {% comment %} {% url kolabria.walls.views.view_wall wall.id %} {% endcomment %}
+                <td>{{ swall.status }}</td>
+                <td>sharing</td>
+                <td>{{ swall.modified }}</td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn" href="/walls/{{ swall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/walls/share/{{ swall.id }}">share</a></li>
+                      <li><a href="/walls/edit/{{ swall.id }}">edit</a></li>
+                      <li><a href="/walls/delete/{{ swall.id }}">delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+
+
              </tbody>
             </table>
           </div><!--/span-->
