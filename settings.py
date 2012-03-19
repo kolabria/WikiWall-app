@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'bootstrap',
     'debug_toolbar',
     'debug_toolbar_mongo',
+    'crispy_forms',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
