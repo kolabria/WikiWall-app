@@ -55,10 +55,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
 #    'django.contrib.sites',
     'django.contrib.staticfiles',
-    'bootstrap',
+#    'bootstrap',
+    'crispy_forms',
+    'django_mongoforms',
     'debug_toolbar',
     'debug_toolbar_mongo',
-    'crispy_forms',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
