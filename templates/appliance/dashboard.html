@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+   Kolabria WWA - {{ box_id}}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+     <div class="row-fluid">
+       <div class="span8">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <h3>Welcome! This is your New Appliance.</h3>
+            <p>Appliance name: <a href="/box/{{ box_id}}">{{ box_id }}</a></p>
+         </div><!-- alert-block -->
+          <hr/> 
+       </div><!--/span-->
+     </div><!--/row-->
+   
+    <div class="row-fluid">
+      <div class="hero-unit span7">
+        <form class="form-vertical">
+          <fieldset>
+            <legend >Select board to Publish</legend>
+            <div class="control-group">
+                <div class="controls">
+                  <select multiple="multiple" id="multiSelect">
+                    <option>Wall Name 1 - ted@email</option>
+                    <option>Wall Name 2 - alok@email</option>
+                    <option>Wall Name 3 - gabriel@email</option>
+                    <option>Wall Name 4 - cindy@email</option>
+                  </select>
+                </div>
+                  <br />
+                  <button class="btn btn-large offset1">Unpublish</button>
+                  <button type="submit" class="btn btn-primary btn-large ">Publish</button>
+              </div> 
+            </div>
+          </div> 
+        </fieldset>
+      </form>
+{% endblock %}
+
+      {% comment %}
+            <p>Appliance location: <a href="/appliance/{{ appliance.location }}">{{ appliance.location }}</a></p>
+            <p>Appliance Owner email: {{ appliance.owner.email }}</p>
+            <p>Appliance id: {{ appliance.id }}</p>
+      {% endcomment %} 

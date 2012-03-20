@@ -1,9 +1,10 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
+from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 #from kolabria.walls.forms import NewBoxForm, EditBoxForm, RemoveBoxForm
 from datetime import datetime
@@ -18,60 +19,29 @@ def appliances(request):
                        context_instance=RequestContext(request))
 
 
-def detail(request, box_id):
-    box = Box.objects.get(id=box_id)
-    box_name = box.name
-    data = {'title': 'Kolabria | Manage Appliances | Appliance Detail',
-            'box': box,}
-    render_to_response('appliance/detail.html', data,
-                       context_instance=RequestContext(request))
-
-
-def register(request, box_id):
-    box = Box.objects.get(id=box_id)
-    box_name = box.name
-    data = {'title': 'Kolabria | Manage Appliances | Register Applianc',
-            'box': box,}
-    render_to_response('appliance/register.html', data,
-                       context_instance=RequestContext(request))
-
-
-def pair(request, box_id):
-    box = Box.objects.get(id=box_id)
-    box_name = box.name
-    data = {'title': 'Kolabria | Manage Appliances | Pair Appliance',
-            'box': box,}
-    render_to_response('appliance/pair.html', data,
-                       context_instance=RequestContext(request))
-
-
-def edit(request, box_id):
-    box = Box.objects.get(id=box_id)
-    box_name = box.name
-    data = {'title': 'Kolabria | Manage Appliances | Edit Appliance Details',
-            'box': box,}
-    render_to_response('appliance/edit.html', data,
-                       context_instance=RequestContext(request))
-
-
-def remove(request, box_id):
-    box = Box.objects.get(id=box_id)
-    box_name = box.name
-    data = {'title': 'Kolabria | Manage Appliances | Remove Appliance',
-            'box': box,}
-    render_to_response('appliance/remove.html', data,
-                       context_instance=RequestContext(request))
-
-
+def route_box(request):
+    user_agent = request.META['HTTP_USER_AGENT']
+    data = {'title': 'Kolabria - Appliance Dashboard',}
+    if user_agent[:4] == 'WWA-':
+        box_id = user_agent[4:]
+        data['box_id'] = box_id
+        return render_to_response('appliance/dashboard.html', data,
+                           context_instance=RequestContext(request))
+    return HttpResponseRedirect('/')
 
     # Views below this comment are for internal dev and debug purposes only
 
-def the_appliance(request, box_id):
+def the_box(request, box_id):
     box = Box.objects.get(id=box_id)
     box_name = box.name
+    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
+#    walls = [ Wall.objects(published=wall_id) for wall_id in box.walls ]
     data = {'title': 'Kolabria | Manage Appliances | Appliance Detail',
-            'box': box,}
-    render_to_response('appliance/the-appliance.html', data,
+            'box': box,
+            'box_id': box_id,
+            'box_name': box_name, 
+            'walls': walls, }
+    return render_to_response('appliance/the_box.html', data,
                        context_instance=RequestContext(request))
 
 

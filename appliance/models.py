@@ -1,5 +1,6 @@
 from mongoengine import connect, Document
-from mongoengine import ReferenceField, StringField, DateTimeField
+from mongoengine import ReferenceField, StringField, DateTimeField, ListField
+from mongoengine import ObjectIdField
 from mongoengine.django.auth import User
 from datetime import datetime
 from kolabria.account.models import Account
@@ -24,7 +25,7 @@ class Box(Document):
                          max_length=16,
                          choices=STATUS_CHOICES,
                          required=True)
-    walls = ListField(Wall(unique=True))
+    walls = ListField(StringField())
     activated = DateTimeField(default=datetime.now(), required=True)
     modified = DateTimeField(default=datetime.now(), required=True)
 

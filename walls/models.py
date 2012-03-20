@@ -1,6 +1,6 @@
 from mongoengine import connect, Document
 from mongoengine import ReferenceField, StringField, DateTimeField
-from mongoengine import EmailField, ListField
+from mongoengine import EmailField, ListField, ObjectIdField
 
 from mongoengine.django.auth import User
 from kolabria.account.models import Account
@@ -27,6 +27,7 @@ class Wall(Document):
                          required=True)
     created = DateTimeField(default=datetime.now(), required=True)
     modified = DateTimeField(default=datetime.now(), required=True)
+    published = ListField(StringField())
     sharing = ListField(EmailField())
     viewing = ListField(EmailField())
 
