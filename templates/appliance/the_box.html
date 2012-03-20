@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+   Kolabria WWA - {{ box_id}}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+     <div class="row-fluid">
+       <div class="span8">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+            <h3>Welcome! This is your New Appliance.</h3>
+            <p>Appliance id: <a href="/box/{{ box_id }}">{{ box_id }}</a></p>
+            <p>Appliance name: {{ box_name }}</p>
+            <p>Appliance owner: {{ box.owner.email }}</p>
+            <p>Available Walls: </p> 
+            {% for wall in box.walls %}
+            <ul>
+                <li>{{ wall }}</li>
+            </ul> 
+            {% endfor %} 
+         </div><!-- alert-block -->
+          <hr/> 
+       </div><!--/span-->
+     </div><!--/row-->
+   
+    <div class="row-fluid">
+      <div class="hero-unit span7">
+        <form class="form-vertical">
+          <fieldset>
+            <legend >Select board to Publish</legend>
+            <div class="control-group">
+                <div class="controls">
+                  <select multiple="multiple" id="multiSelect">
+                    {% for wall in walls %}
+                    <option>{{ wall.name }} - {{ wall.owner.email }}</option>
+                    {% endfor %} 
+                  </select>
+                </div>
+                  <br />
+                  <button class="btn btn-large ">Unpublish</button>
+                  <button type="submit" class="btn btn-primary btn-large ">Publish</button>
+              </div> 
+            </div>
+          </div> 
+        </fieldset>
+      </form>
+{% endblock %}
+
+      {% comment %}
+            <p>Appliance location: <a href="/appliance/{{ appliance.location }}">{{ appliance.location }}</a></p>
+            <p>Appliance Owner email: {{ appliance.owner.email }}</p>
+            <p>Appliance id: {{ appliance.id }}</p>
+      {% endcomment %} 
