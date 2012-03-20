@@ -11,10 +11,10 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Account</li>
-                <li><a href="#"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
-                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+                <li><a href="/walls/"><i class="icon-home"></i> Home</a></li>
+                <li class="active"><a href="/walls/"><i class="icon-th" ></i> Whiteboards</a></li>
+                <li><a href="/appliances/"><i class="icon-cog"></i> Appliances</a></li>
+                <li><a href="/profile/"><i class="icon-user"></i> Profile</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -24,10 +24,33 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
               <h3>Update Whiteboard Details:</h3>
               <hr/> 
                 <form action="." method="post" class="form-horizontal">
-                    {{ edit_form.as_p}}
+                    {{ update_form.as_p}}
                     <a href="/walls/" class="btn ">Cancel</a>
                     <input type="submit" value="Update Whiteboard" class="btn btn-primary">
                 </form>
+                <br/>
+        {% if sharing %}
+          <h3>Sharing with the following users:</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>email</th>
+                <th>Access Level</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for email in sharing %}
+              <tr>
+                <td>{{ email }}</td>
+                <td>Writing</td>
+                <td>
+                    <a class="btn" href="/walls/unshare?wall={{ wall.id }}&email={{ email }}">unshare</a>
+                </td>
+              </tr>
+              {% endfor %}
+             </tbody>
+           </table
+        {% endif %}
           </div>
         </div><!--span -->
       </div><!--row -->
