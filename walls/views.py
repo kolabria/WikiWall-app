@@ -126,25 +126,13 @@ def update_wall(request, wid):
 @login_required
 def delete_wall(request, wid):
     del_wall = Wall.objects.get(id=wid)
+    del_form = DeleteWallForm(request.POST or None)
     data = {'title': 'Kolabria - Delete Board Confirmation',
-            'del_wall': del_wall,}
-    if request.method == 'GET':
-        del_form = DeleteWallForm()
-        data['del_form'] = del_form
-    else:  # handle 'POST' in request
-        checkbox = request.POST['confirmation']
-        if checkbox:
-            walls = Wall.objects.filter(owner=request.user)
-            deleted_wall = del_wall
-            del_wall.delete()
-            request.session['deleted_wall'] = deleted_wall
-            data = {'deleted_wall': deleted_wall,
-                    'walls': walls,}
-            return HttpResponseRedirect('/walls/')
-
-        else:
-            pass
-            #TODO add else logic to handle no confirmation selected
+            'del_wall': del_wall,
+            'del_form': del_form,}
+    if del_form.is_valid():
+        del_wall.delete()
+        return HttpResponseRedirect('/walls/')
     return render_to_response('walls/delete.html', data,
                               context_instance=RequestContext(request))
 
