@@ -1,22 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}
-    <title>Kolabria WikiWall Appliance - Detail View</title>
-{% endblock %}
-
 {% block content %}
     <div class="container-fluid">
-      <div class="row-fluid">
+     <div class="row-fluid">
        <div class="span8">
           <div class="alert alert-block">
             <a class="close" data-dismiss="alert">×</a>
             <h3>Welcome! This is your New Appliance.</h3>
-            <p>Appliance name: <a href="/appliance/{{ appliance.name }}">{{ appliance.name }}</a></p>
-            <p>Appliance location: <a href="/appliance/{{ appliance.location }}">{{ appliance.location }}</a></p>
-            <p>Appliance Owner email: {{ appliance.owner.email }}</p>
-            <p>Appliance id: {{ appliance.id }}</p>
-          </div><!-- alert-block -->
+            <p>Appliance id: <a href="/box/{{ box_id }}">{{ box_id }}</a></p>
+            <p>Appliance name: {{ box_name }}</p>
+            <p>Location: {{ box.location }}</p>
+            <p>Owner Email: {{ box.owner.email }}</p>
+            <br/>
+            <h3>Available Walls | Wall Owner Email | Wall.id | Wall.published</h3> 
+            {% for wall in walls %}
+              <p>{{ wall.name }}  |  {{ wall.owner.email }}  |  {{ wall.id }}  |  {{ wall.published }} </p>
+            {% endfor %} 
+         </div><!-- alert-block -->
           <hr/> 
        </div><!--/span-->
-      </div><!--/row-->
-      {% endblock %}
+     </div><!--/row-->
+   
+    <div class="row-fluid">
+       <div class="span8">
+        <h3>Select an available whiteboard to publish</h3>
+    
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Board Name</th>
+              <th>Status</th>
+              <th>Permissions</th>
+              <th>Last Modified</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for wall in walls %}
+            <tr id="{{ wall.id }}">
+              <td><a href="/walls/{{ wall.id }}">{{ wall.name }}</a></td>
+              <td>{{ wall.status }}</td>
+              <td>owner</td>
+              <td>{{ wall.modified }}</td>
+              <td>
+                <div class="btn-group">
+                  <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/walls/share/{{ wall.id }}">share</a></li>
+                    <li><a href="/box/unpublish/{{ wall.id }}">unpublish</a></li>
+                    <li><a href="/walls/delete/{{ wall.id }}">delete</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+      </div>
+    </div> 
+{% endblock %}
