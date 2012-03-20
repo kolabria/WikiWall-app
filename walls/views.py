@@ -27,20 +27,18 @@ def walls(request):
 @login_required
 def create_wall(request):
     walls = Wall.objects.filter(owner=request.user)
-    if request.method == 'GET':
-        form = NewWallForm()
-    else:
-        form = NewWallForm(request.POST)
-        if form.is_valid():
-            new_wall = Wall.objects.create(owner=request.user,
-                                           name=request.POST['name'],
-                                           description=request.POST['description'])
-            new_wall.save()
-            data = {'title': 'Kolabria', 
-                    'walls': walls, 
-                    'new_wall': new_wall,}
-            return render_to_response('walls/mywalls.html', data,
-                              context_instance=RequestContext(request))
+    form = NewWallForm(request.POST or None)
+
+    if form.is_valid():
+        new_wall = Wall.objects.create(owner=request.user,
+                                       name=request.POST['name'])
+        new_wall.save()
+        data = {'title': 'Kolabria', 
+                'walls': walls, 
+                'new_wall': new_wall,
+                'form': form, }
+        return render_to_response('walls/mywalls.html', data,
+                          context_instance=RequestContext(request))
 
     data = {'title': 'Kolabria', 'form': form }
     return render_to_response('walls/create.html', data,
@@ -72,8 +70,8 @@ def share_wall(request, wid):
 
     if form.is_valid():
         wall.sharing.append(request.POST['shared'])
-        if request.POST['unshare']:
-            wall.sharing.remove(request.POST['unshare'])
+#        if request.POST['unshare']:
+#            wall.sharing.remove(request.POST['unshare'])
         wall.save()
         return render_to_response('walls/share.html', data,
                                   context_instance=RequestContext(request))

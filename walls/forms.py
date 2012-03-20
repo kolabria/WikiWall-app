@@ -9,7 +9,7 @@ from mongoforms import MongoForm
 from kolabria.walls.models import Wall
 from django import forms
 
-
+"""
 class NewWallForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
@@ -19,6 +19,13 @@ class NewWallForm(forms.Form):
         self.helper.form_class = 'form-horizontal'
     name = forms.CharField()
 
+class NewWallForm(MongoForm):
+    class Meta:
+        document = Wall
+        field = ('name',)
+    name =  forms.CharField(widget=forms.Textarea)
+
+"""
 class DeleteWallForm(BootstrapForm):
     class Meta:
         layout = (
@@ -26,28 +33,13 @@ class DeleteWallForm(BootstrapForm):
         )
     confirmed = forms.BooleanField(initial=False, required=True)
 
-"""
-class NewWallForm(MongoForm):
-    class Meta:
-        document = Wall
-        field = ('name',)
-    name =  forms.CharField(widget=forms.Textarea)
-
 class NewWallForm(BootstrapForm):
     class Meta:
         layout = (
             Fieldset("Please enter details", "name", "description", ),
         )
     name = forms.CharField(max_length=30, required=True)
-    description = forms.CharField(widget=forms.Textarea, max_length=256, required=False)
 
-class DeleteWallForm(BootstrapForm):
-    class Meta:
-        layout = (
-            Fieldset("Please Confirm Delete", "confirmation", ),
-        )
-    confirmation = forms.BooleanField(initial=False, required=True)
-"""
 
 class EditWallForm(BootstrapForm):
     class Meta:
@@ -55,7 +47,7 @@ class EditWallForm(BootstrapForm):
             Fieldset("Please update details", "name", "description", ),
         )
     name = forms.CharField(max_length=30, required=True)
-    description = forms.CharField(widget=forms.Textarea, max_length=256, required=False)
+
 class ShareWallForm(BootstrapForm):
     class Meta:
         layout = (
