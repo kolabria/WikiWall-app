@@ -22,11 +22,6 @@
             <h3>Invite users by email to share the whiteboard: {{ wall.name }}<h3>
           <hr/> 
           <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
-            <fieldset class="control-group error">
-            </fieldset>
-            {% if errorlist %}
-            <p class="error">{{ error }}</p>
-            {% endif %}
             {{ form.as_p }}
               <input type="submit" value="Share Whiteboard" class="btn btn-primary pull-right">
           </form>
@@ -46,7 +41,14 @@
                 <td>{{ shared }}</td>
                 <td>Writing</td>
                 <td>
-                  <a class="btn" href="/walls/share/{{ wall.id }}">unshare</a>
+                  {% comment %}<a class="btn" href="/walls/share/{{ wall.id }}">unshare</a>{% endcomment %}
+                <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
+                  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+                  <div class="btn-group" data-toggle="buttons-radio">
+                    <button class="btn">Unshare</button>
+                    <button class="btn btn-primary">Share</button>
+                  </div>
+                </form>
                 </td>
               </tr>
               {% endfor %}
@@ -55,5 +57,11 @@
         {% endif %}
           </div><!--/span-->
     </div><!--row -->
+
+    {% block morejs %}
+    <script type="text/javascript">
+      $('.tabs').button()
+    </script>
+    {% endblock %}
 
 {% endblock %}
