@@ -13,7 +13,8 @@
             <h3>Welcome! This is your New Appliance.</h3>
             <p>Appliance id: <a href="/box/{{ box_id }}">{{ box_id }}</a></p>
             <p>Appliance name: {{ box_name }}</p>
-            <p>Appliance owner: {{ box.owner.email }}</p>
+            <p>Location: {{ box.location }}</p>
+            <p>Owner Email: {{ box.owner.email }}</p>
             <br/>
             <h3>Available Walls | Wall Owner Email | Wall.id | Wall.published</h3> 
             {% for wall in walls %}
@@ -46,9 +47,3 @@
         </fieldset>
       </form>
 {% endblock %}
-
-      {% comment %}
-            <p>Appliance location: <a href="/appliance/{{ appliance.location }}">{{ appliance.location }}</a></p>
-            <p>Appliance Owner email: {{ appliance.owner.email }}</p>
-            <p>Appliance id: {{ appliance.id }}</p>
-      {% endcomment %} 

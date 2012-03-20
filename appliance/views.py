@@ -41,7 +41,7 @@ def the_box(request, box_id):
             'box_id': box_id,
             'box_name': box_name, 
             'walls': walls, }
-    return render_to_response('appliance/the_box.html', data,
+    return render_to_response('appliance/detail.html', data,
                        context_instance=RequestContext(request))
 
 

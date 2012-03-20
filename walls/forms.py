@@ -35,4 +35,6 @@ class ShareWallForm(BootstrapForm):
     shared = forms.EmailField(max_length=60, required=True)
 
 
-
+class UpdateWallForm(forms.Form):
+    name = forms.CharField(max_length=30, required=True)
+    invited = forms.EmailField(max_length=60, required=False)
