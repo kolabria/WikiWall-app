@@ -9,8 +9,6 @@ DIRNAME = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.realpath(DIRNAME)
 
-
-
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 MANAGERS = ADMINS
