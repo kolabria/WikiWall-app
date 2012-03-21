@@ -1,51 +1,38 @@
-# Django settings for kolabria - sqlproject.
-from mongoengine import connect
+# Django settings for crop project.
 import os
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+import django
+import logging
+from mongoengine import connect
 
 DIRNAME = os.path.dirname(__file__)
-
 PROJECT_PATH = os.path.realpath(DIRNAME)
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+DEBUG = getattr(settings_local, 'DEBUG', True)
+TEMPLATE_DEBUG = DEBUG
+
+CONTACT_DEBUG = False
+DJANGO_SERVER = getattr(settings_local, 'DJANGO_SERVER', False)
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = 'kolabria.test@gmail.com'
+EMAIL_HOST_PASSWORD = 'kolabria1234test'
+DEFAULT_FROM_EMAIL = 'noreply@kolabria.com'
+EMAIL_USE_TLS = True
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+     ('ted', 'ted@kolabria.com'),
+     ('alok', 'alok.mohindra@gmail.com'),
+  # ('Your Name', 'your_email@domain.com'),
 )
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-
 MANAGERS = ADMINS
 
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
-
-# Database settings
-connect('kolabria-new')
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
-
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar_mongo.panel.MongoDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-#    'debug_toolbar.panels.logger.LoggingPanel',
-)
-
-# Email Configuration for password recovery, etc.
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = "587"
-EMAIL_HOST_USER = 'kolabria.test@gmail.com'
-EMAIL_HOST_PASSWORD = 'kolabria1234test'
-EMAIL_USE_TLS = True
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -64,6 +51,7 @@ INSTALLED_APPS = (
 
 INTERNAL_IPS = ('127.0.0.1',)
 LANGUAGE_CODE = 'en-us'
+USE_I18N = False
 LOGIN_REDIRECT_URL = '/walls'
 LOGIN_URL = '/login'
 
@@ -105,4 +93,10 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 TIME_ZONE = 'America/Montreal'
-USE_I18N = False
+
+# import settings_local if it exists to override specific settings otherwise
+# user settings_local_default
+try:
+    import settings_local
+except:
+    import settings_dev as settings_local
