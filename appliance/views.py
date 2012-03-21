@@ -12,11 +12,12 @@ from datetime import datetime
 
 @login_required
 def appliances(request):
-    boxes = Box.objects.filter(owner=request.user)
+    boxes = Box.objects.all()
     data = {'title': 'Kolabria - My Appliances',
             'boxes': boxes, }
-    render_to_response('appliance/myappliance.html', data,
+    return render_to_response('appliance/myappliances.html', data,
                        context_instance=RequestContext(request))
+
 
 
 def route_box(request):

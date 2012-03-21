@@ -9,11 +9,9 @@ DIRNAME = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.realpath(DIRNAME)
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
-
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+ADMINS = ()
 
 MANAGERS = ADMINS
 
@@ -55,10 +53,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
 #    'django.contrib.sites',
     'django.contrib.staticfiles',
-    'bootstrap',
+#    'bootstrap',
+    'crispy_forms',
+    'mongoforms',
     'debug_toolbar',
     'debug_toolbar_mongo',
-    'crispy_forms',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)

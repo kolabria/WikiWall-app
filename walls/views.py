@@ -27,20 +27,18 @@ def walls(request):
 @login_required
 def create_wall(request):
     walls = Wall.objects.filter(owner=request.user)
-    if request.method == 'GET':
-        form = NewWallForm()
-    else:
-        form = NewWallForm(request.POST)
-        if form.is_valid():
-            new_wall = Wall.objects.create(owner=request.user,
-                                           name=request.POST['name'],
-                                           description=request.POST['description'])
-            new_wall.save()
-            data = {'title': 'Kolabria', 
-                    'walls': walls, 
-                    'new_wall': new_wall,}
-            return render_to_response('walls/mywalls.html', data,
-                              context_instance=RequestContext(request))
+    form = NewWallForm(request.POST or None)
+
+    if form.is_valid():
+        new_wall = Wall.objects.create(owner=request.user,
+                                       name=request.POST['name'])
+        new_wall.save()
+        data = {'title': 'Kolabria', 
+                'walls': walls, 
+                'new_wall': new_wall,
+                'form': form, }
+        return render_to_response('walls/mywalls.html', data,
+                          context_instance=RequestContext(request))
 
     data = {'title': 'Kolabria', 'form': form }
     return render_to_response('walls/create.html', data,
@@ -72,8 +70,8 @@ def share_wall(request, wid):
 
     if form.is_valid():
         wall.sharing.append(request.POST['shared'])
-        if request.POST['unshare']:
-            wall.sharing.remove(request.POST['unshare'])
+#        if request.POST['unshare']:
+#            wall.sharing.remove(request.POST['unshare'])
         wall.save()
         return render_to_response('walls/share.html', data,
                                   context_instance=RequestContext(request))
@@ -126,25 +124,13 @@ def update_wall(request, wid):
 @login_required
 def delete_wall(request, wid):
     del_wall = Wall.objects.get(id=wid)
+    del_form = DeleteWallForm(request.POST or None)
     data = {'title': 'Kolabria - Delete Board Confirmation',
-            'del_wall': del_wall,}
-    if request.method == 'GET':
-        del_form = DeleteWallForm()
-        data['del_form'] = del_form
-    else:  # handle 'POST' in request
-        checkbox = request.POST['confirmation']
-        if checkbox:
-            walls = Wall.objects.filter(owner=request.user)
-            deleted_wall = del_wall
-            del_wall.delete()
-            request.session['deleted_wall'] = deleted_wall
-            data = {'deleted_wall': deleted_wall,
-                    'walls': walls,}
-            return HttpResponseRedirect('/walls/')
-
-        else:
-            pass
-            #TODO add else logic to handle no confirmation selected
+            'del_wall': del_wall,
+            'del_form': del_form,}
+    if del_form.is_valid():
+        del_wall.delete()
+        return HttpResponseRedirect('/walls/')
     return render_to_response('walls/delete.html', data,
                               context_instance=RequestContext(request))
 

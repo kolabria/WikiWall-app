@@ -22,9 +22,14 @@
 
         <div class="span8 ">
           <div class="hero-unit well">
-            <h3>Enter Whiteboard Details:</h3>
+              <h3>Enter Whiteboard Details:</h3>
+              <form action="." method="post" class="form-horizontal">
+                {{ form.as_p }} 
+                <a href="/walls/" class="btn btn-large">Cancel</a>
+                <input type="submit" value="create" class="btn btn-primary btn-large">
+              </form>
             <hr/> 
-           #TODO FORM GOES HERE 
+          
           </div>
         </div><!--span -->
       </div><!--row -->
