@@ -11,6 +11,8 @@ PROJECT_PATH = os.path.realpath(DIRNAME)
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
+ADMINS = ()
+
 MANAGERS = ADMINS
 
 AUTHENTICATION_BACKENDS = (
