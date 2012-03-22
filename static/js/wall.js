@@ -176,12 +176,4 @@ now.ready(function(){
   jQuery('.tool[value=Pen]').click();
 });
 
-header{
-  position: absolute;
-  width:100%;
-  left:0;
-  bottom:0;
-  background:black;
-  z-index:1;
-}
- 
+
