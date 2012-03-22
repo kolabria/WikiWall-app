@@ -11,15 +11,20 @@
       {% include "includes/sidebar.html" %}
 
       <div class="span6 offset3">
-        <div class="alert alert-block">
-          <a class="close" data-dismiss="alert">×</a>
-          <p>This is your Account Page. You can manage your whiteboards here.</p>
+      {% if messages %}
+        <div class="messages alert alert-block alert-info">
+        <a class="close" data-dismiss="alert">×</a>
+        {% for message in messages %}
+          <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+        </ul>
+      {% endif %}  
         </div><!-- alert-block -->
       </div><!--/span6 -->
 
       <div class="span6 offset3">
         <div class="hero-unit well">
-            <h3>Invite users by email to share the whiteboard: {{ wall.name }}<h3>
+            <h3>Invite users to share this WikiWall: {{ wall.name }} </h3>
           <hr/> 
           <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
             {{ form.as_p }}
@@ -41,14 +46,18 @@
                 <td>{{ shared }}</td>
                 <td>Writing</td>
                 <td>
-                  {% comment %}<a class="btn" href="/walls/share/{{ wall.id }}">unshare</a>{% endcomment %}
-                <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
+
+{% comment %}
+                  <form action="/walls/share/{{ wall.id }}/{{ shared }}" method="post" class="form-vertical">
+                  </form>
+  
+                  <form action="/walls/unshare/{{ wall.id }}/" method="post" class="form-vertical"></form>
                   <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
                   <div class="btn-group" data-toggle="buttons-radio">
                     <button class="btn">Unshare</button>
                     <button class="btn btn-primary">Share</button>
                   </div>
-                </form>
+{% endcomment %}
                 </td>
               </tr>
               {% endfor %}

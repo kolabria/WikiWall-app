@@ -8,6 +8,7 @@ from mongoengine import EmailField
 #from mongoforms import MongoForm
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
+from django.forms.formsets import formset_factory
 from django import forms
 
 
@@ -33,13 +34,18 @@ class EditWallForm(BootstrapForm):
         )
     name = forms.CharField(max_length=30, required=True)
 
-class ShareWallForm(BootstrapForm):
-    class Meta:
-        layout = (
-            Fieldset("Invite users by email", "name", ),
-        )
-    shared = forms.EmailField(max_length=60, required=True)
+class ShareWallForm(forms.Form):
+    shared = forms.EmailField(widget=forms.TextInput(
+                              attrs={'placeholder': 'email@address.com'}), 
+                              max_length=60, required=True)
 
+
+
+class ShareUnshareForm(forms.Form):
+    CHOICES = (('U', 'Unshare'), ('S', 'Share'))
+    shared = forms.ChoiceField(widget=forms.RadioSelect(), 
+                                choices=CHOICES,
+                               )
 
 class UpdateWallForm(forms.Form):
     OPTIONS = ()

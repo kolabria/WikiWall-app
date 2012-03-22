@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 from kolabria.walls.forms import NewWallForm, UpdateWallForm, DeleteWallForm
-from kolabria.walls.forms import ShareWallForm
+from kolabria.walls.forms import ShareWallForm, ShareUnshareForm
 from mongoengine import StringField
 from datetime import datetime
 
@@ -58,25 +58,54 @@ def view_wall(request, wid):
 
 
 @login_required
-def share_wall(request, wid):
-    form = ShareWallForm(request.POST or None)
+def update_sharing(request, wid):
+    sharing_form = ShareUnshareForm(request.POST or None)
     wall = Wall.objects.get(id=wid)
     sharing = wall.sharing
-#    viewing = wall.viewing
-    data = {'title': 'Kolabria',
-            'wall': wall,
-            'form': form,
+    if sharing_form.is_valid():
+        messages.info(request, 'wall: %s | %s' % wall.name, wall.id)
+        messages.info(request, 'wall.shared: %s ' % ' '.join(sharing))
+
+    data = {'wall': wall,
+            'sharing_form': sharing_form,
             'sharing': sharing,
-          #  'viewing': viewing,
            }
 
-    if form.is_valid():
-        wall.sharing.append(request.POST['shared'])
+    return render_to_response('walls/share.html', data,
+                              context_instance=RequestContext(request))
+
+@login_required
+def share_wall(request, wid):
+    invite_form = ShareWallForm(request.POST or None)
+    wall = Wall.objects.get(id=wid)
+    sharing = wall.sharing
+    
+    if invite_form.is_valid():
+        messages.info(request, 'wall: %s | %s' % (wall.name, wall.id))
+        messages.info(request, 'invited: %s ' % request.POST['shared'])
+
+        # get latest email and add to walls.sharing if valid
+        invited = request.POST['shared'] 
+        real = User.objects.filter(email=invited)
+        if real and invited not in wall.sharing:
+            wall.sharing.append(invited)
+            wall.save()
+            messages.success(request, '%s appended to wall.sharing for wallid %s' % (wall.name, wall.id))
+            messages.success(request, 'POST wall.sharing: %s' % ', '.join(wall.sharing))
+        else:
+            messages.warning(request, '%s is not a valid user or has already been added' % invited)
+
+        return HttpResponseRedirect('/walls/share/%s' % wid)
 #        if request.POST['unshare']:
 #            wall.sharing.remove(request.POST['unshare'])
-        wall.save()
-        return render_to_response('walls/share.html', data,
-                                  context_instance=RequestContext(request))
+
+    messages.success(request, 'GET wall.name: %s, wall.id: %s' % (wall.name, wall.id))
+    messages.success(request, 'GET wall.sharing: %s' % ' '.join(wall.sharing))
+   
+    data = {'wall': wall,
+            'form': invite_form,
+            'sharing': sharing, }
+
     return render_to_response('walls/share.html', data, 
                               context_instance=RequestContext(request))
 
