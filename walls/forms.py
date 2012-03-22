@@ -8,9 +8,11 @@ from mongoengine import EmailField
 #from mongoforms import MongoForm
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
-from django.forms.formsets import formset_factory
-from django import forms
 
+
+from django.forms.formsets import formset_factory
+from django.utils.safestring import mark_safe 
+from django import forms
 
 class NewWallForm(BootstrapForm):
     class Meta:
@@ -40,12 +42,17 @@ class ShareWallForm(forms.Form):
                               max_length=60, required=True)
 
 
+class HorizontalRadioRenderer(forms.RadioSelect.renderer):
+  def render(self):
+    return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
 
 class ShareUnshareForm(forms.Form):
-    CHOICES = (('U', 'Unshare'), ('S', 'Share'))
-    shared = forms.ChoiceField(widget=forms.RadioSelect(), 
-                                choices=CHOICES,
-                               )
+    CHOICES = (('0', 'Unshare'), ('1', 'Share'))
+    shared = forms.ChoiceField(choices=CHOICES,
+                               widget=forms.RadioSelect(
+                                   renderer=HorizontalRadioRenderer)
+                              )
+#attrs={'placeholder': '1', 'class': 'button-group btn', 'data-toggle':'buttons-radio'}
 
 class UpdateWallForm(forms.Form):
     OPTIONS = ()

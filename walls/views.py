@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.forms.formsets import formset_factory
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
@@ -90,21 +91,28 @@ def share_wall(request, wid):
         if real and invited not in wall.sharing:
             wall.sharing.append(invited)
             wall.save()
-            messages.success(request, '%s appended to wall.sharing for wallid %s' % (wall.name, wall.id))
+            messages.success(request, '%s appended to wall.sharing for wallid %s' % (invited, wall.id))
             messages.success(request, 'POST wall.sharing: %s' % ', '.join(wall.sharing))
         else:
             messages.warning(request, '%s is not a valid user or has already been added' % invited)
 
         return HttpResponseRedirect('/walls/share/%s' % wid)
-#        if request.POST['unshare']:
-#            wall.sharing.remove(request.POST['unshare'])
-
     messages.success(request, 'GET wall.name: %s, wall.id: %s' % (wall.name, wall.id))
     messages.success(request, 'GET wall.sharing: %s' % ' '.join(wall.sharing))
-   
-    data = {'wall': wall,
-            'form': invite_form,
-            'sharing': sharing, }
+
+    num_users = len(sharing)
+    ShareUnshareFormset = formset_factory(ShareUnshareForm, extra=num_users)
+    formset = ShareUnshareFormset()
+
+    share_forms = {}
+    count = 0 
+
+    for email in sharing:
+        share_forms[formset.forms[count]] 
+        count += 1
+
+    data = {'wall': wall, 'form': invite_form, 
+            'sharing': sharing, 'share_forms': share_forms,}
 
     return render_to_response('walls/share.html', data, 
                               context_instance=RequestContext(request))

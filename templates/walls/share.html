@@ -38,14 +38,42 @@
               <tr>
                 <th>email</th>
                 <th>Access Level</th>
+                <th>Update Permissions</th>
               </tr>
             </thead>
             <tbody>
-                {% for shared in sharing %}
+            {% for shared in sharing %}
               <tr>
                 <td>{{ shared }}</td>
                 <td>Writing</td>
                 <td>
+                    
+                    {% for field in form %}
+<fieldset class="control-group">
+    <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+    <div class="controls">
+        {{ field }}
+        <p class="help-text">{{ field.help_text }} </p>
+    </div>
+</fieldset>
+{% endfor %} 
+  
+                    {{ forms.as_p }}
+                </td>
+              </tr>
+              {% endfor %}
+             </tbody>
+           </table
+        {% endif %}
+          </div><!--/span-->
+    </div><!--row -->
+{% endblock %}
+    {% block morejs %}
+    <script type="text/javascript">
+      $('.tabs').button()
+    </script>
+    {% endblock %}
+
 
 {% comment %}
                   <form action="/walls/share/{{ wall.id }}/{{ shared }}" method="post" class="form-vertical">
@@ -58,19 +86,3 @@
                     <button class="btn btn-primary">Share</button>
                   </div>
 {% endcomment %}
-                </td>
-              </tr>
-              {% endfor %}
-             </tbody>
-           </table
-        {% endif %}
-          </div><!--/span-->
-    </div><!--row -->
-
-    {% block morejs %}
-    <script type="text/javascript">
-      $('.tabs').button()
-    </script>
-    {% endblock %}
-
-{% endblock %}
