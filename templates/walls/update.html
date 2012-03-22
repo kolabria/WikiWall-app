@@ -7,25 +7,22 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
 {% block content %}
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Account</li>
-                <li><a href="/walls/"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="/walls/"><i class="icon-th" ></i> Whiteboards</a></li>
-                <li><a href="/appliances/"><i class="icon-cog"></i> Appliances</a></li>
-                <li><a href="/profile/"><i class="icon-user"></i> Profile</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-
+        {% include "includes/sidebar.html" %} 
         <div class="span8 ">
-          <div class="hero-unit well">
+            <div class="hero-unit well">
+            {% if messages %}
+             <ul class="messages alert alert-block alert-info">
+             <a class="close" data-dismiss="alert">×</a>
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}  
               <h3>Update Whiteboard Details:</h3>
               <hr/> 
                 <form action="." method="post" class="form-horizontal">
                     {{ update_form.as_p}}
-                    <a href="/walls/" class="btn ">Cancel</a>
+                    <button a href="/walls/" class="btn ">Cancel</button>
                     <input type="submit" value="Update Whiteboard" class="btn btn-primary">
                 </form>
                 <br/>

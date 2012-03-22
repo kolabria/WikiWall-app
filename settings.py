@@ -49,7 +49,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
-#    'django.contrib.messages',
+    'django.contrib.messages',
     'django.contrib.sessions',
 #    'django.contrib.sites',
     'django.contrib.staticfiles',
@@ -91,7 +91,7 @@ STATICFILES_DIRS = (
 
 TEMPLAGE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
-#    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'context_processors.auth',
     'context_processors.site_info',
 )

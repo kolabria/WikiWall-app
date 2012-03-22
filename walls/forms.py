@@ -5,33 +5,11 @@ from bootstrap.forms import BootstrapForm, Fieldset
 from mongoengine.django.auth import User
 from mongoengine import EmailField
 
-from mongoforms import MongoForm
+#from mongoforms import MongoForm
 from kolabria.walls.models import Wall
+from kolabria.appliance.models import Box
 from django import forms
 
-"""
-class NewWallForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        self.helper = FormHelper()
-        self.helper.add_input = 'Enter a Name'
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'create_wall'
-        self.helper.form_class = 'form-horizontal'
-    name = forms.CharField()
-
-class NewWallForm(MongoForm):
-    class Meta:
-        document = Wall
-        field = ('name',)
-    name =  forms.CharField(widget=forms.Textarea)
-
-"""
-class DeleteWallForm(BootstrapForm):
-    class Meta:
-        layout = (
-            Fieldset("Please Confirm Delete", "confirmation", ),
-        )
-    confirmed = forms.BooleanField(initial=False, required=True)
 
 class NewWallForm(BootstrapForm):
     class Meta:
@@ -40,6 +18,13 @@ class NewWallForm(BootstrapForm):
         )
     name = forms.CharField(max_length=30, required=True)
 
+
+class DeleteWallForm(BootstrapForm):
+    class Meta:
+        layout = (
+            Fieldset("Please Confirm Delete", "confirmation", ),
+        )
+    confirmed = forms.BooleanField(initial=False, required=True)
 
 class EditWallForm(BootstrapForm):
     class Meta:
@@ -57,5 +42,13 @@ class ShareWallForm(BootstrapForm):
 
 
 class UpdateWallForm(forms.Form):
-    name = forms.CharField(max_length=30, required=True)
-    invited = forms.EmailField(max_length=60, required=False)
+    OPTIONS = ()
+    boxes_available = Box.objects.all()
+    for box in boxes_available:
+        OPTIONS += ( box.id, box.name),
+    name = forms.CharField(widget=forms.TextInput(),max_length=30, required=True)
+    invited = forms.EmailField(widget=forms.TextInput(
+                               attrs={'placeholder':'email@address.com'}),
+                               required=False)
+    published = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={}), 
+                                          choices=OPTIONS, required=False)

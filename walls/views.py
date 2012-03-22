@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
@@ -5,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from kolabria.walls.models import Wall
+from kolabria.appliance.models import Box
 from kolabria.walls.forms import NewWallForm, UpdateWallForm, DeleteWallForm
 from kolabria.walls.forms import ShareWallForm
 from mongoengine import StringField
@@ -99,7 +101,7 @@ def update_wall(request, wid):
     wall = Wall.objects.get(id=wid)
     update_form = UpdateWallForm(request.POST or None)
     update_form.initial['name'] = wall.name
-    update_form.initial['email'] = ''
+    update_form.fields['published'].label = 'Select one or more appliances to publish your WikiWall'
     data = {'title': 'Kolabria - Edit Board Details', 
             'wall': wall,
             'update_form': update_form,
@@ -109,11 +111,32 @@ def update_wall(request, wid):
 
     if update_form.is_valid():
         wall.name = request.POST['name']  # update wall name
-        invited = request.POST['invited'] # get invited email and check vs User
+
+        # get latest email and add to walls.sharing if valid
+        invited = request.POST['invited'] 
         real = User.objects.filter(email=invited)
         if real and invited not in wall.sharing:
             wall.sharing.append(invited)
         wall.save()
+
+        # then update records and publish to selected appliances
+        if request.POST['published']:
+            published = request.POST['published']
+
+            # update wall.published with appliance ids
+            messages.info(request, 'invited: %s | %s | %s ' % (invited, 
+                                                               type(invited), 
+                                                               len(invited)))
+            messages.info(request, 'published: %s | %s | %s ' % (published,
+                                                                 type(published), 
+                                                                 len(published)))
+            messages.info(request, published)
+            wall.published.append(published)
+            messages.info(request, '%s added to published list on %s (%s)' % (published, wall.name, wall.id))
+            box = Box.objects.get(id=published)
+            box.walls.append(published)
+            box.save()
+            wall.save()
         return render_to_response('walls/update.html', data,
                               context_instance=RequestContext(request))
     return render_to_response('walls/update.html', data,
