@@ -255,7 +255,7 @@ def update_wall(request, wid):
         messages.info(request, 'invited: %s | %s | %s ' % (invited, 
                                                            type(invited), 
                                                            len(invited)))
-        return HttpResponseRedirect('/walls/')
+        return HttpResponseRedirect('/walls/update/%s' % wid)
 
     update_form.initial['name'] = wall.name
     update_form.fields['name'].label = 'WikiWall Name'
