@@ -7,21 +7,10 @@
 {% block content %}
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Account</li>
-                <li><a href="#"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
-                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="#"><i class="icon-cog"></i> Appliances</a></li>
-                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-            </ul>
-          </div><!--/.well sidebar-nav -->
-          <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
-        </div><!--/span2 -->
 
-        <div class="span6 offset3">
+      {% include "includes/modal-sidebar.html" %}
+
+      <div class="span6 offset3">
           <div class="alert alert-block alert">
             <a class="close" data-dismiss="alert">×</a>
             <p>This is your Account Page. You can manage your whiteboards here.</p>
@@ -49,7 +38,6 @@
                   <div class="btn-group">
                     <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">share</a></li>
                       <li><a href="/edit-wall/{{ wall.id }}">edit</a></li>
                       <li><a href="/delete-wall/{{ wall.id }}">delete</a></li>
                     </ul>

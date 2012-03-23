@@ -19,6 +19,16 @@ def walls(request):
     return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
 
+
+@login_required
+def modal(request):
+    walls = Wall.objects.filter(owner=request.user)
+    data = {'title': 'Kolabria', 
+            'walls': walls, }
+    return render_to_response('walls/modal.html', data,
+                              context_instance=RequestContext(request))
+
+
 @login_required
 def create_wall(request):
     walls = Wall.objects.filter(owner=request.user)

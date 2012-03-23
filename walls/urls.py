@@ -6,6 +6,7 @@ import views
 urlpatterns = patterns('',
     url(r'^walls/$', views.walls),
     url(r'^walls/create/$', views.create_wall),
+    url(r'^walls/modal/$', views.modal),
     url(r'^walls/share/(?P<wid>\w+)/$', views.share_wall),
     url(r'^walls/edit/(?P<wid>\w+)/$', views.edit_wall),
     url(r'^walls/delete/(?P<wid>\w+)/$', views.delete_wall),
