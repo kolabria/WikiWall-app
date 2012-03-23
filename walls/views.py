@@ -80,6 +80,25 @@ def view_wall(request, wid):
     return render_to_response('walls/newwall.html', data, 
                               context_instance=RequestContext(request))
 
+@login_required
+def delete_wall(request, wid):
+    del_wall = Wall.objects.get(id=wid)
+    del_form = DeleteWallForm(request.POST or None)
+    del_form.fields['confirmed'].label = 'Confirm WikiWall Deletion'
+    data = {'title': 'Kolabria - Delete Board Confirmation',
+            'del_wall': del_wall,
+            'del_form': del_form,}
+    if del_form.is_valid():
+        confirmed = request.POST.get('confirmed')
+        del_wall_name = del_wall.name
+        #del_wall.delete()
+        messages.info(request, 'Confirmed %s delete request for %s' % (confirmed, del_wall_name))
+        messages.success(request, 'Successfully deleted WikiWall - %s' % del_wall_name)
+        return HttpResponseRedirect('/walls/')
+    
+    return render_to_response('walls/delete.html', data,
+                              context_instance=RequestContext(request))
+
 
 @login_required
 def update_sharing(request, wid):
@@ -261,19 +280,6 @@ def update_wall(request, wid):
                               context_instance=RequestContext(request))
 
 
-
-@login_required
-def delete_wall(request, wid):
-    del_wall = Wall.objects.get(id=wid)
-    del_form = DeleteWallForm(request.POST or None)
-    data = {'title': 'Kolabria - Delete Board Confirmation',
-            'del_wall': del_wall,
-            'del_form': del_form,}
-    if del_form.is_valid():
-        del_wall.delete()
-        return HttpResponseRedirect('/walls/')
-    return render_to_response('walls/delete.html', data,
-                              context_instance=RequestContext(request))
 
 # Remaining Views are for internal dev and debug use only 
 

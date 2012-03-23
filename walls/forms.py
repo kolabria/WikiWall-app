@@ -27,12 +27,7 @@ class NewWallForm(forms.Form):
                                required=False)
 
 
-
-class DeleteWallForm(BootstrapForm):
-    class Meta:
-        layout = (
-            Fieldset("Please Confirm Delete", "confirmation", ),
-        )
+class DeleteWallForm(forms.Form):
     confirmed = forms.BooleanField(initial=False, required=True)
 
 class EditWallForm(BootstrapForm):

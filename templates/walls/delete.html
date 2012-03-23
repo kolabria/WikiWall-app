@@ -7,32 +7,17 @@
 
 {% block content %}
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Account</li>
-                <li><a href="/walls/"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="/walls/"><i class="icon-th" ></i> Whiteboards</a></li>
-                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="/appliance/"><i class="icon-cog"></i> Appliances</a></li>
-                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-
-        <div class="span8 ">
-          <div class="hero-unit well">
-              <h3>Confirm Deletion of: {{ del_wall.name }}:</h3>
-              <hr/> 
+        <div class="row-fluid">
+        {% include "includes/focus-sidebar.html" %}
+        <div class="span6 ">
             <form class="well">  
-              <label class='alert alert-info'>Type DELETE to confirm that you wish to delete the board {{ del_wall.name }}</label>  
-              <input type="text" class="span3" placeholder="Type D E L E T E here …">  
-              <span class="help-inline"><strong>Warning:</strong> Once deleted a WikiWall cannot be recovered!</span>  
-              <label class="checkbox">  
-                <input type="checkbox"> I really want to delete this whiteboard
+              <h3>Please confirm you wish to delete the WikiWall named: {{ del_wall.name }}</h3>
+              <hr/> 
+              <label class='alert alert-warning'>Warning: This action cannot be reversed.
+                <a class="close" data-dismiss="alert">×</a>
               </label>  
-              <button type="submit" method="post" action="/walls/delete/{{ del_wall.id }}/" class="btn btn-primary">Submit</button>  
+              {{ del_form.as_p }} 
+              <button type="submit" method="post" action="/walls/delete/{{ del_wall.id }}/" class="btn btn-primary ">Submit</button>  
             </form>  
       </div>
         </div><!--span -->
