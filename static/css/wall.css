@@ -40,7 +40,7 @@ a {
 
 canvas{
   position:relative;
-  background-image: url(../images/grid_noise.png);
+  background-image: url(../img/grid_noise.png);
 }
 
 .move{
