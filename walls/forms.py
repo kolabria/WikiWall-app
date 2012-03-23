@@ -14,6 +14,7 @@ from django.forms.formsets import formset_factory
 from django.utils.safestring import mark_safe 
 from django import forms
 
+
 class NewWallForm(BootstrapForm):
     class Meta:
         layout = (
@@ -61,14 +62,38 @@ class UnshareForm(forms.Form):
     email = forms.EmailField(widget=forms.HiddenInput)
 
 
+class UnpublishWallForm(forms.Form):
+    unpublished = forms.BooleanField(widget=forms.CheckboxInput,
+                                  label='Unshare')
+    box = forms.CharField(widget=forms.HiddenInput,
+                          max_length=128)
+
 class UpdateWallForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(
+                           attrs={'class': 'span8'}), 
+                           max_length=30, required=True)
+    invited = forms.EmailField(widget=forms.TextInput(
+                               attrs={'placeholder':'email@address.com',
+                                      'class': 'span8'}),
+                               required=False)
+
+#    def clean_invited(self):
+#        invited = self.cleaned_data['invited']
+#        try:
+#            real = User.objects.filter(email=invited)
+#        except real.DoesNotExist:
+#            return self.cleaned_data['invited'] 
+#        raise forms.ValidationError(invited)
+#        raise forms.ValidationError("Sorry, %s is not a valid user. Please try again" % invited)
+
+
+
+class PubishWallForm(forms.Form):
     OPTIONS = ()
     boxes_available = Box.objects.all()
     for box in boxes_available:
-        OPTIONS += ( box.id, box.name),
-    name = forms.CharField(widget=forms.TextInput(),max_length=30, required=True)
-    invited = forms.EmailField(widget=forms.TextInput(
-                               attrs={'placeholder':'email@address.com'}),
-                               required=False)
-    published = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={}), 
-                                          choices=OPTIONS, required=False)
+        OPTIONS += ( box.id, box.name ),
+    published = forms.MultipleChoiceField(widget=forms.SelectMultiple(
+                                          attrs={'class': 'span4'}),
+                                          choices=OPTIONS,
+                                          required=False)

@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.forms.formsets import formset_factory
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login
@@ -10,10 +10,25 @@ from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 from kolabria.walls.forms import NewWallForm, UpdateWallForm, DeleteWallForm
 from kolabria.walls.forms import ShareWallForm, ShareUnshareForm, UnshareForm
+from kolabria.walls.forms import UnpublishWallForm
+#from kolabria.walls.forms import PublishWallForm
+
 from mongoengine import StringField
 from datetime import datetime
 
 from mongoengine.django.auth import User
+
+# Legend of urls and views
+#walls             url(r'^walls/$', views.walls), 
+#create_wall       url(r'^walls/create/$', views.create_wall),
+#view_wall         url(r'^walls/share/(?P<wid>\w+)/$', views.share_wall),
+#update_sharing    #
+#share_wall        url(r'^walls/unpublish/(?P<wid>\w+)/$', views.unshare_wall),
+#unshare_wall      url(r'^walls/unshare/(?P<wid>\w+)/$', views.unshare_wall),
+#update_wall       url(r'^walls/update/(?P<wid>\w+)/$', views.update_wall),
+#delete_wall       url(r'^walls/delete/(?P<wid>\w+)/$', views.delete_wall),
+#idwall            url(r'^idwall/$', views.idwall),
+#thewall           url(r'^thewall/$', views.thewall),
 
 @login_required
 def walls(request):
@@ -119,6 +134,29 @@ def share_wall(request, wid):
 
 
 @login_required
+def unpublish_wall(request, wid):
+    wall = Wall.objects.get(id=wid)
+    unpublish_form = UnpublishWallForm(request.POST or None)
+   
+    if unpublish_form.is_valid():
+        email = request.POST['email']
+        if email in wall.sharing:
+           wall.sharing.remove(email)
+           wall.save()
+           messages.success(request, 'Success! %s is no longer sharing %s' % (email, wall.name))
+        messages.warning(request, 'Error: %s does not have access to wall: %s.' % (email, wall.name))
+    return HttpResponseRedirect('/walls/update/%s' % wid)
+
+    data = {'title': 'Kolabria - Unshare Wall with user',
+            'wid': wid,
+            'unshare_form': unshare_form, 
+            'email': email, }
+    return render_to_response('walls/update.html', data,
+                              context_instance=RequestContext(request))
+
+
+
+@login_required
 def unshare_wall(request, wid):
     wall = Wall.objects.get(id=wid)
     unshare_form = UnshareForm(request.POST or None)
@@ -144,62 +182,71 @@ def unshare_wall(request, wid):
 
 @login_required
 def update_wall(request, wid):
-    # Generate New Wall Form logic but hide form behind modal
     wall = Wall.objects.get(id=wid)
-    update_form = UpdateWallForm(request.POST or None)
-    update_form.initial['name'] = wall.name
-    update_form.fields['published'].label = 'Select one or more appliances to publish your WikiWall'
+
+    unpublish_form = UnpublishWallForm(request.POST or None)
+    if unpublish_form.is_valid():
+        unpublish = request.POST['published']
+        messages.debug(request, 'unpublish request for %s' % unpublish)
+        return HttpResponseRedirect('/walls/unpublish/%s' % wid)
+    unpublish_form.initial['published'] = wall.published
 
     unshare_form = UnshareForm(request.POST or None)
-    unshare_form.initial['unshared'] = True
-
     if unshare_form.is_valid():
         email = request.POST['email']
-        return HttpResponseRedirect('/walls/update/%s?email=%s' % (wid, email))
+        return HttpResponseRedirect('/walls/unshare/%s' % (wid, email))
+    unshare_form.initial['unshared'] = True
 
+#    publish_form = PublishWallForm(request.POST or None)
+#    if publish_form.is_valid() and request.POST['published']:
+#        published = request.POST['published']
+#        messages.info(request, 'published: %s | %s | %s ' % (published,
+#                                                             type(published), 
+#                                                             len(published)))
+#        messages.info(request, published)
+#        wall.published.append(published)
+#        messages.info(request, '%s added to published list on %s (%s)' % (published, wall.name, wall.id))
+#        box = Box.objects.get(id=published)
+#        box.walls.append(published)
+#        box.save()
+#        return HttpResponseRedirect('/walls/update/%s' % wid)
 
+    update_form = UpdateWallForm(request.POST or None)
     if update_form.is_valid():
         wall.name = request.POST['name']  # update wall name
-
         # get latest email and add to walls.sharing if valid
         invited = request.POST['invited'] 
         real = User.objects.filter(email=invited)
+        
         if real and invited not in wall.sharing:
             wall.sharing.append(invited)
         wall.save()
 
         # then update records and publish to selected appliances
-        if request.POST['published']:
-            published = request.POST['published']
 
-            # update wall.published with appliance ids
-            messages.info(request, 'invited: %s | %s | %s ' % (invited, 
-                                                               type(invited), 
-                                                               len(invited)))
-            messages.info(request, 'published: %s | %s | %s ' % (published,
-                                                                 type(published), 
-                                                                 len(published)))
-            messages.info(request, published)
-            wall.published.append(published)
-            messages.info(request, '%s added to published list on %s (%s)' % (published, wall.name, wall.id))
-            box = Box.objects.get(id=published)
-            box.walls.append(published)
-            box.save()
-            wall.save()
-            return HttpResponseRedirect('/walls/update/%s' % wid)
-#            return render_to_response('walls/update.html', data,
-#                              context_instance=RequestContext(request))
-        else:
-            messages.info(request, 'Updated info for %s' % wall.name)
-            return HttpResponseRedirect('/walls/update/%s/' % wid)
+        # update wall.published with appliance ids
+        messages.info(request, 'invited: %s | %s | %s ' % (invited, 
+                                                           type(invited), 
+                                                           len(invited)))
+        return HttpResponseRedirect('/walls/update/%s' % wid)
+
+    update_form.initial['name'] = wall.name
+    update_form.fields['name'].label = 'WikiWall Name'
+    update_form.fields['invited'].label = 'Invite new users'
+#    update_form.fields['published'].label = 'Publish your WikiWall to an appliance'
 
 
+    # for box in wall.published:
+
+    #boxes = [ Box.objects.get(box) for box in wall.published ]
     data = {'title': 'Kolabria - Edit Board Details', 
             'wall': wall,
-            'update_form': update_form,
             'owner': wall.owner.email,
             'sharing': wall.sharing,
+#            'boxes' : boxes,
+            'update_form': update_form,
             'unshare_form': unshare_form,
+            'unpublish_form': unpublish_form,
             }
 
     return render_to_response('walls/update.html', data,
