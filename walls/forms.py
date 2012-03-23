@@ -15,12 +15,17 @@ from django.utils.safestring import mark_safe
 from django import forms
 
 
-class NewWallForm(BootstrapForm):
-    class Meta:
-        layout = (
-            Fieldset("Please enter details", "name", "description", ),
-        )
-    name = forms.CharField(max_length=30, required=True)
+class NewWallForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(
+                           attrs={'placeholder': 'Name this Wikiwall',
+                                  'class': 'span4'}),
+                           max_length=30, 
+                           required=True)
+    invited = forms.EmailField(widget=forms.TextInput(
+                               attrs={'placeholder':'email@address.com',
+                                      'class': 'span8'}),
+                               required=False)
+
 
 
 class DeleteWallForm(BootstrapForm):

@@ -44,21 +44,29 @@ def walls(request):
 
 @login_required
 def create_wall(request):
-    walls = Wall.objects.filter(owner=request.user)
     form = NewWallForm(request.POST or None)
+    form.fields['name'].label = 'Enter WikiWall Name'
+    form.fields['invited'].label = 'Invite users by email'
 
     if form.is_valid():
-        new_wall = Wall.objects.create(owner=request.user,
-                                       name=request.POST['name'])
-        new_wall.save()
-        data = {'title': 'Kolabria', 
-                'walls': walls, 
-                'new_wall': new_wall,
-                'form': form, }
-        return render_to_response('walls/mywalls.html', data,
-                          context_instance=RequestContext(request))
+        wall = Wall.objects.create(owner=request.user,
+                                   name=request.POST['name'])
+        if request.POST.get('invited', ''):
+            invited = request.POST['invited'] 
+            real = User.objects.filter(email=invited)
+            if real and invited not in wall.sharing:
+                wall.sharing.append(invited)
+            messages.info(request, 'invited: %s' % invited)
+        wall.save()
+        wid = wall.id
+        messages.success(request, 'Successfully created Wall: %s - %s' % \
+                                                              (wid, wall.name))
+        return HttpResponseRedirect('/walls/')
 
-    data = {'title': 'Kolabria', 'form': form }
+
+
+    data = {'title': 'Kolabria - Create a new WikiWall',
+            'form': form }
     return render_to_response('walls/create.html', data,
                               context_instance=RequestContext(request))
 

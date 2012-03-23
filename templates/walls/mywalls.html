@@ -10,17 +10,6 @@
 
       {% include "includes/sidebar.html" %}
 
-        {% if new_wall %}
-        <div class="span6 offset3">
-          <div class="alert alert-success alert-block">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>Created New Board: {{ new_wall.name }}</p>
-            <p>Owner Email: {{ new_wall.owner.email}}</p>
-            <p>Date Created: {{ new_wall.created }}</p>
-          </div><!-- alert-block -->
-        </div><!--/span6 -->
-        {% endif %}
-
         {% if edit_wall %}
         <div class="span6 offset3">
           <div class="alert alert-success alert-block">
@@ -43,17 +32,19 @@
           </div><!-- alert-block -->
         </div><!--/span6 -->
         {% endif %}
-
-
-
+        
+        {% if messages %}
+          {% for message in messages %}
         <div class="span6 offset3">
           <div class="alert alert-block">
             <a class="close" data-dismiss="alert">×</a>
-            <p>This is your Account Page. You can manage your whiteboards here.</p>
+            <p>{{ message }}</p>
           </div><!-- alert-block -->
         </div><!--/span6 -->
+          {% endfor %}
+        {% endif %}
 
-      {% if walls %}
+        {% if walls %}
         <div class="span6 ">
           <h3>Recent Whiteboards:</h3>
           <table class="table">
