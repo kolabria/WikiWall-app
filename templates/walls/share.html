@@ -11,22 +11,24 @@
       {% include "includes/sidebar.html" %}
 
       <div class="span6 offset3">
-        <div class="alert alert-block">
-          <a class="close" data-dismiss="alert">×</a>
-          <p>This is your Account Page. You can manage your whiteboards here.</p>
+      {% if messages %}
+        <div class="messages alert alert-block alert-info">
+        <a class="close" data-dismiss="alert">×</a>
+        {% for message in messages %}
+          <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+        </ul>
+      {% endif %}  
         </div><!-- alert-block -->
       </div><!--/span6 -->
 
       <div class="span6 offset3">
         <div class="hero-unit well">
-            <h3>Share the Whiteboard: {{ wall.name }}<h3>
+            <h3>Invite users to share this WikiWall: {{ wall.name }} </h3>
           <hr/> 
           <form action="/walls/share/{{ wall.id }}/" method="post" class="form-vertical">
-            {% if errorlist %}
-            <ul class="errorlist"><li>{{ error }}</li></ul>
-            {% endif %}
             {{ form.as_p }}
-          <input type="submit" value="Share Whiteboard" class="btn btn-primary pull-right">
+              <input type="submit" value="Share Whiteboard" class="btn btn-primary pull-right">
           </form>
           <br />
         {% if sharing %}
@@ -36,21 +38,27 @@
               <tr>
                 <th>email</th>
                 <th>Access Level</th>
+                <th>Update Permissions</th>
               </tr>
             </thead>
             <tbody>
-                {% for shared in sharing %}
+            {% for shared in sharing %}
               <tr>
                 <td>{{ shared }}</td>
                 <td>Writing</td>
                 <td>
-                  <div class="btn-group">
-                    <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="/walls/share/{{ wall.id }}">share</a></li>
-                      <li><a href="/walls/unshare/{{ wall.id }}">unshare</a></li>
-                    </ul>
-                  </div>
+                    
+                    {% for field in form %}
+<fieldset class="control-group">
+    <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+    <div class="controls">
+        {{ field }}
+        <p class="help-text">{{ field.help_text }} </p>
+    </div>
+</fieldset>
+{% endfor %} 
+  
+                    {{ forms.as_p }}
                 </td>
               </tr>
               {% endfor %}
@@ -59,5 +67,22 @@
         {% endif %}
           </div><!--/span-->
     </div><!--row -->
-
 {% endblock %}
+    {% block morejs %}
+    <script type="text/javascript">
+      $('.tabs').button()
+    </script>
+    {% endblock %}
+
+
+{% comment %}
+                  <form action="/walls/share/{{ wall.id }}/{{ shared }}" method="post" class="form-vertical">
+                  </form>
+  
+                  <form action="/walls/unshare/{{ wall.id }}/" method="post" class="form-vertical"></form>
+                  <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+                  <div class="btn-group" data-toggle="buttons-radio">
+                    <button class="btn">Unshare</button>
+                    <button class="btn btn-primary">Share</button>
+                  </div>
+{% endcomment %}

@@ -24,14 +24,13 @@
               <tr>
                 <th>Appliance Name</th>
                 <th>Location</th>
-                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {% for box in boxes %}
               <tr>
-                <td><a href="/appliance/{{ box.id }}">{{ box.name }}</a></td>
+                <td><a href="/box/{{ box.id }}">{{ box.name }}</a></td>
                 <td>{{ box.location }}</td>
                 <td>{{ box.status }}</td>
                 <td>{{ wall.modified }}</td>

@@ -40,7 +40,7 @@ a {
 
 canvas{
   position:relative;
-  background-image: url(../images/grid_noise.png);
+  background-image: url(../img/grid_noise.png);
 }
 
 .move{
@@ -52,3 +52,13 @@ canvas{
 .crosshair{
   cursor:pointer;
 }
+
+header{
+  position: absolute;
+  width:100%;
+  left:0;
+  bottom:0;
+  background:black;
+  z-index:1;
+}
+ 

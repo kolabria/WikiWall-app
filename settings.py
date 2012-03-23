@@ -9,11 +9,9 @@ DIRNAME = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.realpath(DIRNAME)
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
-
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+ADMINS = ()
 
 MANAGERS = ADMINS
 
@@ -51,11 +49,13 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
-#    'django.contrib.messages',
+    'django.contrib.messages',
     'django.contrib.sessions',
 #    'django.contrib.sites',
     'django.contrib.staticfiles',
-    'bootstrap',
+#    'bootstrap',
+    'crispy_forms',
+    'mongoforms',
     'debug_toolbar',
     'debug_toolbar_mongo',
 )
@@ -91,7 +91,7 @@ STATICFILES_DIRS = (
 
 TEMPLAGE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
-#    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'context_processors.auth',
     'context_processors.site_info',
 )

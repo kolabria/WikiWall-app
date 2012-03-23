@@ -1,35 +1,25 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
+{% crispy del_form del_form.helper %}
 {% block title %}
-    <title>Kolabria WikiWall - Real-time Collaborative Whiteboard</title>
+    Kolabria WikiWall - Real-time Collaborative Whiteboard
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Account</li>
-                <li><a href="#"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
-                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-
-        <div class="span8 ">
-          <div class="hero-unit well">
-              <h3>Confirm Deletion:</h3>
+        <div class="row-fluid">
+        {% include "includes/focus-sidebar.html" %}
+        <div class="span6 ">
+            <form class="well">  
+              <h3>Please confirm you wish to delete the WikiWall named: {{ del_wall.name }}</h3>
               <hr/> 
-              <form action="." method="post" class="form-horizontal">
-                  <p>Please select this checkbox to confirm deletion</p>
-                    {{ del_form }}
-                    <input type="submit" value="Delete Whiteboard" class="btn btn-primary">
-              </form>
-          </div>
+              <label class='alert alert-warning'>Warning: This action cannot be reversed.
+                <a class="close" data-dismiss="alert">×</a>
+              </label>  
+              {{ del_form.as_p }} 
+              <button type="submit" method="post" action="/walls/delete/{{ del_wall.id }}/" class="btn btn-primary ">Submit</button>  
+            </form>  
+      </div>
         </div><!--span -->
       </div><!--row -->
 

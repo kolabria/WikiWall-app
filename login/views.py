@@ -29,7 +29,7 @@ def register(request):
         new_user = User.create_user(username=username, email=email,
                                     password=password)
         new_user.save()
-        auth_user = authenticate(username=user_name, password=pass_word)
+        auth_user = authenticate(username=username, password=password)
         login(request=request, user=auth_user)
         return render_to_response('login/register-success.html',
                           context_instance=RequestContext(request))

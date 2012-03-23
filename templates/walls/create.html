@@ -5,34 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Account</li>
-                <li><a href="#"><i class="icon-home"></i> Home</a></li>
-                <li class="active"><a href="#"><i class="icon-th" ></i> Whiteboards</a></li>
-                <!-- <li><a href="#"><i class="icon-inbox"></i> Messages</a></li> -->
-                <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-                <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-
-        <div class="span8 ">
-          <div class="hero-unit well">
-              <h3>Enter Whiteboard Details:</h3>
-              <hr/> 
-                <form action="." method="post" class="form-horizontal">
-                    {% if errorlist %}
-                    <ul class="errorlist"><li>{{ error }}</li></ul>
-                    {% endif %}
-                    {{ form.as_p }}
-                    <input type="submit" value="Create Whiteboard" class="btn btn-primary">
-                </form>
-          </div>
-        </div><!--span -->
-      </div><!--row -->
+ 
+  <div class="container-fluid">
+    <div class="row-fluid">
+      {% include "includes/focus-sidebar.html" %}
+      <div class="span8 ">
+        <div class="hero-unit well">
+          <h3>Enter Whiteboard Details:</h3>
+          <hr />
+          <form action="." method="post" class="form-horizontal">
+            {{ form.as_p }} 
+            <button a href="/walls/" class="btn btn-large">Cancel</button>
+            <input type="submit" value="create" class="btn btn-primary btn-large">
+          </form>
+          <hr/> 
+        </div>
+      </div><!--span -->
+    </div><!--row -->
 
 {% endblock %}
