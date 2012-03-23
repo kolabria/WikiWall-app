@@ -54,6 +54,13 @@ class ShareUnshareForm(forms.Form):
                               )
 #attrs={'placeholder': '1', 'class': 'button-group btn', 'data-toggle':'buttons-radio'}
 
+class UnshareForm(forms.Form):
+    unshared = forms.BooleanField(widget=forms.CheckboxInput,
+                                  label='Unshare',
+                                  )
+    email = forms.EmailField(widget=forms.HiddenInput)
+
+
 class UpdateWallForm(forms.Form):
     OPTIONS = ()
     boxes_available = Box.objects.all()

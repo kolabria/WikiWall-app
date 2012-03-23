@@ -41,7 +41,10 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
                 <td>{{ email }}</td>
                 <td>Writing</td>
                 <td>
-                    <a class="btn" href="/walls/unshare?wall={{ wall.id }}&email={{ email }}">unshare</a>
+                    <form action="/walls/unshare/{{ wall.id }}/" method="post" class="form-horizontal">
+                        <input type="hidden" name="email" value="{{ email }}" />
+                        <input type="submit" value="unshare" class="btn ">
+                    </form>
                 </td>
               </tr>
               {% endfor %}

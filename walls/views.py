@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 from kolabria.walls.forms import NewWallForm, UpdateWallForm, DeleteWallForm
-from kolabria.walls.forms import ShareWallForm, ShareUnshareForm
+from kolabria.walls.forms import ShareWallForm, ShareUnshareForm, UnshareForm
 from mongoengine import StringField
 from datetime import datetime
 
@@ -119,15 +119,25 @@ def share_wall(request, wid):
 
 
 @login_required
-def unshare_wall(request, wid, email):
+def unshare_wall(request, wid):
     wall = Wall.objects.get(id=wid)
+    unshare_form = UnshareForm(request.POST or None)
+   
+    if request.POST:
+#    if unshare_form.is_valid():
+        email = request.POST['email']
+
+        if email in wall.sharing:
+            wall.sharing.remove(email)
+            wall.save()
+        
+        messages.success(request, 'Success! %s is no longer sharing %s' % (email, wall.name))
+        return HttpResponseRedirect('/walls/update/%s' % wid)
+
     data = {'title': 'Kolabria - Unshare Wall with user',
             'wid': wid,
-            'email': email,
-           }
-    if email in wall.sharing:
-        wall.sharing.remove(email)
-        wall.save()
+            'unshare_form': unshare_form, 
+            'email': email, }
     return render_to_response('walls/update.html', data,
                               context_instance=RequestContext(request))
 
@@ -139,12 +149,14 @@ def update_wall(request, wid):
     update_form = UpdateWallForm(request.POST or None)
     update_form.initial['name'] = wall.name
     update_form.fields['published'].label = 'Select one or more appliances to publish your WikiWall'
-    data = {'title': 'Kolabria - Edit Board Details', 
-            'wall': wall,
-            'update_form': update_form,
-            'owner': wall.owner.email,
-            'sharing': wall.sharing,
-            }
+
+    unshare_form = UnshareForm(request.POST or None)
+    unshare_form.initial['unshared'] = True
+
+    if unshare_form.is_valid():
+        email = request.POST['email']
+        return HttpResponseRedirect('/walls/update/%s?email=%s' % (wid, email))
+
 
     if update_form.is_valid():
         wall.name = request.POST['name']  # update wall name
@@ -174,8 +186,22 @@ def update_wall(request, wid):
             box.walls.append(published)
             box.save()
             wall.save()
-        return render_to_response('walls/update.html', data,
-                              context_instance=RequestContext(request))
+            return HttpResponseRedirect('/walls/update/%s' % wid)
+#            return render_to_response('walls/update.html', data,
+#                              context_instance=RequestContext(request))
+        else:
+            messages.info(request, 'Updated info for %s' % wall.name)
+            return HttpResponseRedirect('/walls/update/%s/' % wid)
+
+
+    data = {'title': 'Kolabria - Edit Board Details', 
+            'wall': wall,
+            'update_form': update_form,
+            'owner': wall.owner.email,
+            'sharing': wall.sharing,
+            'unshare_form': unshare_form,
+            }
+
     return render_to_response('walls/update.html', data,
                               context_instance=RequestContext(request))
 
