@@ -12,26 +12,25 @@
         </ul>
       </div><!--/.well sidebar-nav -->
 
-      <a class="btn btn-primary btn-large" href="/walls/modal#myModal">Modal Create WikiWall</a>
-      <hr />
-      <a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
+      <a class="btn btn-primary btn-large"  data-toggle="modal" href="#create">Create a new WikiWall</a>
     </div><!--/span2 -->
 
-    <div id="myModal" class="modal hide fade">
+    <div id="create" class="modal hide fade ">
       <div class="modal-header">
         <a class="close" data-dismiss="modal" >&times;</a>
-        <h3>Modal Heading</h3>
+          <h3>Enter WikiWall Details:</h3>
+          <hr />
       </div>
       <div class="modal-body">
-       <h4>Text in a modal</h4>
-       <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem.</p>
-       <h4>Popover in a modal</h4>
-       <p>This <a href="#" class="btn popover-test" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">button</a> should trigger a popover on hover.</p>
-       <h4>Tooltips in a modal</h4>
-       <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> should have tooltips on hover.</p>
-     </div>
-   </div>
- 
+           <form action="." method="post" class="form-horizontal">
+            {{ form.as_p }} 
+           {% comment %}<button a href="/walls/" class="btn btn-large offset2">Cancel</button>{% endcomment %}
+           <input type="submit" value="Create WikiWall" class="btn btn-primary btn-large pull-right" data-content="Click here to create your WikiWall">
+         </form>
+         <br>
+       </div>
+      </div><!--span -->
+
 {% endblock sidebar %}
 
 {% comment %}
