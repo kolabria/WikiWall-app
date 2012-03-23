@@ -19,11 +19,10 @@
       <div class="modal-header">
         <a class="close" data-dismiss="modal" >&times;</a>
           <h3>Enter WikiWall Details:</h3>
-          <hr />
       </div>
       <div class="modal-body">
            <form action="." method="post" class="form-horizontal">
-            {{ form.as_p }} 
+            {{ new_wall_form.as_p }} 
            {% comment %}<button a href="/walls/" class="btn btn-large offset2">Cancel</button>{% endcomment %}
            <input type="submit" value="Create WikiWall" class="btn btn-primary btn-large pull-right" data-content="Click here to create your WikiWall">
          </form>

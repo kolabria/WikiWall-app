@@ -8,32 +8,9 @@
     <div class="container-fluid">
       <div class="row-fluid">
 
-      {% include "includes/sidebar.html" %}
+      {% include "includes/modal-sidebar.html" %}
 
-        {% if edit_wall %}
-        <div class="span6 offset3">
-          <div class="alert alert-success alert-block">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>Updated Board: {{ edit_wall.name }}</p>
-            <p>Owner Email: {{ edit_wall.owner.email}}</p>
-            <p>Last Modified: {{ edit_wall.modified }}</p>
-            <p>Date Created: {{ edit_wall.created }}</p>
-          </div><!-- alert-block -->
-        </div><!--/span6 -->
-        {% endif %}
-
-        {% if session %}
-        <div class="span6 offset3">
-          <div class="alert alert-success alert-block">
-            <a class="close" data-dismiss="alert">×</a>
-            <p>Deleted Board: {{ deleted_wall.name }}</p>
-            <p>Owner Email: {{ deleted_wall.owner.email}}</p>
-            <p>Date Created: {{ deleted_wall.created }}</p>
-          </div><!-- alert-block -->
-        </div><!--/span6 -->
-        {% endif %}
-        
-        {% if messages %}
+       {% if messages %}
           {% for message in messages %}
         <div class="span6 offset3">
           <div class="alert alert-block">
@@ -68,8 +45,7 @@
                   <div class="btn-group">
                     <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="/walls/share/{{ wall.id }}">share</a></li>
-                      <li><a href="/walls/update/{{ wall.id }}">update</a></li>
+                      <li><a href="/walls/update/{{ wall.id }}">edit details</a></li>
                       <li><a href="/walls/delete/{{ wall.id }}">delete</a></li>
                     </ul>
                   </div>

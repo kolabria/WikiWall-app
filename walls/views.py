@@ -33,11 +33,32 @@ from mongoengine.django.auth import User
 @login_required
 def walls(request):
     # Generate New Wall Form logic but hide form behind modal
+    new_wall_form = NewWallForm(request.POST or None)
+    new_wall_form.fields['name'].label = 'Enter WikiWall Name'
+    new_wall_form.fields['invited'].label = 'Invite users by email'
+
+    if new_wall_form.is_valid():
+        wall = Wall.objects.create(owner=request.user,
+                                   name=request.POST['name'])
+        if request.POST.get('invited', ''):
+            invited = request.POST['invited'] 
+            real = User.objects.filter(email=invited)
+            if real and invited not in wall.sharing:
+                wall.sharing.append(invited)
+            messages.info(request, 'invited: %s' % invited)
+        wall.save()
+        wid = wall.id
+        messages.success(request, 'Successfully created Wall: %s - %s' % \
+                                                              (wid, wall.name))
+        return HttpResponseRedirect('/walls/')
+
     walls = Wall.objects.filter(owner=request.user)
     shared_walls = Wall.objects.filter(sharing=request.user.email)
+
     data = {'title': 'Kolabria', 
             'walls': walls, 
             'shared_walls': shared_walls,
+            'new_wall_form': new_wall_form,
             }
     return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
