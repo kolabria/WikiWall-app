@@ -37,6 +37,10 @@ def walls(request):
     new_wall_form.fields['name'].label = 'Enter WikiWall Name'
     new_wall_form.fields['invited'].label = 'Invite users by email'
 
+    del_form = DeleteWallForm(request.POST or None)
+    del_form.fields['confirmed'].label = ''
+    del_form.initial['confirmed'] = True
+
     if new_wall_form.is_valid():
         wall = Wall.objects.create(owner=request.user,
                                    name=request.POST['name'])
@@ -52,13 +56,15 @@ def walls(request):
                                                               (wid, wall.name))
         return HttpResponseRedirect('/walls/')
 
-    walls = Wall.objects.filter(owner=request.user)
-    shared_walls = Wall.objects.filter(sharing=request.user.email)
+    own = Wall.objects.filter(owner=request.user)
+    shared = Wall.objects.filter(sharing=request.user.email)
+    walls = {'own': own, 'shared': shared,}
 
     data = {'title': 'Kolabria', 
             'walls': walls, 
-            'shared_walls': shared_walls,
+#            'shared_walls': shared_walls,
             'new_wall_form': new_wall_form,
+            'del_form': del_form,
             }
     return render_to_response('walls/mywalls.html', data,
                               context_instance=RequestContext(request))
@@ -122,7 +128,7 @@ def delete_wall(request, wid):
     if del_form.is_valid():
         confirmed = request.POST.get('confirmed')
         del_wall_name = del_wall.name
-        #del_wall.delete()
+        del_wall.delete()
         messages.info(request, 'Confirmed %s delete request for %s' % (confirmed, del_wall_name))
         messages.success(request, 'Successfully deleted WikiWall - %s' % del_wall_name)
         return HttpResponseRedirect('/walls/')

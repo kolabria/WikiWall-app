@@ -20,8 +20,9 @@
         </div><!--/span6 -->
           {% endfor %}
         {% endif %}
-
+    
         {% if walls %}
+
         <div class="span6 ">
           <h3>Recent Whiteboards:</h3>
           <table class="table">
@@ -35,7 +36,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for wall in walls %}
+              {% for wall in walls.own %}
               <tr id="{{ wall.id }}">
                 <td><a href="/walls/{{ wall.id }}">{{ wall.name }}</a></td> {% comment %} {% url kolabria.walls.views.view_wall wall.id %} {% endcomment %}
                 <td>{{ wall.status }}</td>
@@ -46,16 +47,36 @@
                     <a class="btn" href="/walls/{{ wall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a href="/walls/update/{{ wall.id }}">edit details</a></li>
-                      <li><a href="/walls/delete/{{ wall.id }}">delete</a></li>
+                      <li><a href="#delete-{{ wall.id }}" data-toggle="modal">delete</a></li>
                     </ul>
                   </div>
                 </td>
               </tr>
               {% endfor %}
 
-              {% for swall in shared_walls %} 
+              {% for wall in walls.own %}
+              <div id="delete-{{ wall.id }}" class="modal hide fade ">
+                <div class="modal-header">
+                  <a class="close" data-dismiss="modal" >&times;</a>
+                  <h3>Delete WikiWall: <strong>{{ wall.name }}</strong></h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/walls/delete/{{ wall.id }}/" method="post" class="form-horizontal">
+                      <h3><strong> Deleting WikiWall ID:</strong> {{ wall.id }}</h3>
+                      <br />
+                      <span class="hide">{{ del_form.as_p }}</span>
+                   {% comment %}<button a href="/walls/" class="btn btn-large offset2">Cancel</button>{% endcomment %}
+                   <button a class="btn btn-large pull-left" data-dismiss="modal">Cancel</button>
+                   <input type="submit" value="Delete WikiWall" class="btn btn-primary btn-large pull-right">
+                 </form>
+                 <br>
+                </div>
+              </div><!--id -->
+              {% endfor %}
+
+            {% for swall in walls.shared %} 
               <tr id="{{ swall.id }}">
-                <td><a href="/walls/{{ swall.id }}">{{ swall.name }}</a></td> {% comment %} {% url kolabria.walls.views.view_wall wall.id %} {% endcomment %}
+                <td><a href="/walls/{{ swall.id }}">{{ swall.name }}</a></td>
                 <td>{{ swall.status }}</td>
                 <td>sharing</td>
                 <td>{{ swall.modified }}</td>
@@ -63,20 +84,18 @@
                   <div class="btn-group">
                     <a class="btn" href="/walls/{{ swall.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="/walls/share/{{ swall.id }}">share</a></li>
-                      <li><a href="/walls/update/{{ swall.id }}">update</a></li>
-                      <li><a href="/walls/delete/{{ swall.id }}">delete</a></li>
+                      <li><a href="/walls/update/{{ swall.id }}">edit details</a></li>
                     </ul>
                   </div>
                 </td>
               </tr>
               {% endfor %}
-
-
              </tbody>
             </table>
           </div><!--/span-->
+
         {% else %}
+
         <div class="span6 ">
           <div class="hero-unit well">
               <h3>No Whiteboards Found:</h3>
