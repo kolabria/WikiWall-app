@@ -129,7 +129,7 @@ def delete_wall(request, wid):
         confirmed = request.POST.get('confirmed')
         del_wall_name = del_wall.name
         del_wall.delete()
-        messages.info(request, 'Confirmed %s delete request for %s' % (confirmed, del_wall_name))
+        messages.info(request, 'Test Confirmed: Confirmed=%s for Wall Name: %s' % (confirmed, del_wall_name))
         messages.success(request, 'Successfully deleted WikiWall - %s' % del_wall_name)
         return HttpResponseRedirect('/walls/')
     
