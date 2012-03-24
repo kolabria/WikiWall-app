@@ -293,14 +293,14 @@ def update_wall(request, wid):
         
         if real and invited not in wall.sharing:
             wall.sharing.append(invited)
+            messages.info(request, 'invited: %s' % invited)
+        else:
+            messages.warning(request, 'Error: %s not valid or already invited.' % invited)
         wall.save()
 
         # then update records and publish to selected appliances
 
         # update wall.published with appliance ids
-        messages.info(request, 'invited: %s | %s | %s ' % (invited, 
-                                                           type(invited), 
-                                                           len(invited)))
         return HttpResponseRedirect('/walls/update/%s' % wid)
 
     update_form.initial['name'] = wall.name
