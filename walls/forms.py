@@ -21,10 +21,14 @@ class NewWallForm(forms.Form):
                                   'class': 'span4'}),
                            max_length=30, 
                            required=True)
-    invited = forms.EmailField(widget=forms.TextInput(
-                               attrs={'placeholder':'email@address.com',
-                                      'class': 'span8'}),
-                               required=False)
+
+    placeholder = 'steve.jobs@apple.com, jimi.hendrix@rocknroll.com, '
+    placeholder += 'santa.clause@northpole.ca, etc ...'
+    invited = forms.CharField(widget=forms.Textarea(
+                                  attrs={'placeholder': placeholder,
+                                         'class': 'span8'}
+                                                   ),
+                              required=False)
 
 
 class DeleteWallForm(forms.Form):

@@ -35,7 +35,8 @@ def walls(request):
     # Generate New Wall Form logic but hide form behind modal
     new_wall_form = NewWallForm(request.POST or None)
     new_wall_form.fields['name'].label = 'Enter WikiWall Name'
-    new_wall_form.fields['invited'].label = 'Invite users by email'
+    invited_label = 'Invite users by email address separate by commas.'
+    new_wall_form.fields['invited'].label = invited_label
 
     del_form = DeleteWallForm(request.POST or None)
     del_form.fields['confirmed'].label = ''
@@ -46,10 +47,18 @@ def walls(request):
                                    name=request.POST['name'])
         if request.POST.get('invited', ''):
             invited = request.POST['invited'] 
-            real = User.objects.filter(email=invited)
-            if real and invited not in wall.sharing:
-                wall.sharing.append(invited)
-            messages.info(request, 'invited: %s' % invited)
+            raw_emails = invited.split(',')
+            clean_emails = [ email.strip() for email in raw_emails ]
+            for email in clean_emails:
+                try:
+                    real = User.objects.get(email=email)
+                    if email not in wall.sharing:
+                        wall.sharing.append(email)
+                    else:
+                        messages.warning(request, '%s is already sharing' % email)
+                except DoesNotExist:
+                    messages.warning(request, 'User with email %s not valid. Try again.')
+                messages.info(request, 'Successfully added: %s' % email)
         wall.save()
         wid = wall.id
         messages.success(request, 'Successfully created Wall: %s - %s' % \

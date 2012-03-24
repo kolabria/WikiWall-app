@@ -10,16 +10,16 @@
 
       {% include "includes/modal-sidebar.html" %}
 
-       {% if messages %}
-          {% for message in messages %}
+      {% if messages %}
         <div class="span6 offset3">
           <div class="alert alert-block">
             <a class="close" data-dismiss="alert">×</a>
-            <p>{{ message }}</p>
+          {% for message in messages %}
+           <p>{{ message }}</p>
+          {% endfor %}
           </div><!-- alert-block -->
         </div><!--/span6 -->
-          {% endfor %}
-        {% endif %}
+      {% endif %}
     
         {% if walls %}
 
