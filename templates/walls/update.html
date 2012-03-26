@@ -11,22 +11,21 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
         <div class="span8 ">
             <div class="hero-unit well">
             {% if messages %}
-             <div class="messages alert alert-block alert-info">
-             <a class="close" data-dismiss="alert">×</a>
-            {% for message in messages %}
-            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-              {% endfor %}
-              </p>
-            </div>
+              <div class="messages alert alert-block alert-info">
+                <a class="close" data-dismiss="alert">×</a>
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+              </div>
             {% endif %}  
-              <h3>Update Whiteboard Details:</h3>
+              <h2>Update Whiteboard Details:</h2>
               <hr/> 
               <form action="/walls/update/{{ wall.id }}/" method="post" class="form-horizontal">
                     {{ update_form.as_p}}
                     <button a href="/walls/" class="btn ">Cancel</button>
                     <input type="submit" value="Update Whiteboard" class="btn btn-primary">
               </form>
-                <br/>
+              <br/>
               {% comment %}
                 <form action="/walls/publish/{{ wall.id }}/" method="post" class="form-horizontal">
                     {{ publish_form.as_p}}
@@ -35,38 +34,63 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
                 </form>
                 <br/>
               {% endcomment %}
-        {% if sharing %}
-          <h3>Sharing with the following users:</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>email</th>
-                <th>Access Level</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{ owner }}</td>
-                <td>Owner</td>
-                <td></td>
-             </tr>
-                {% for email in sharing %}
-              <tr>
-                <td>{{ email }}</td>
-                <td>Writing</td>
-                <td>
-                    <form action="/walls/unshare/{{ wall.id }}/" method="post" class="form-horizontal">
-                        <input type="hidden" name="email" value="{{ email }}" />
-                        <input type="submit" value="unshare" class="btn ">
-                    </form>
-                </td>
-              </tr>
-              {% endfor %}
-             </tbody>
-           </table
-        {% endif %}
-          </div>
+              {% if sharing %}
+              <h3>Sharing with the following users:</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>email</th>
+                    <th>Access Level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ owner }}</td>
+                    <td>Owner</td>
+                    <td></td>
+                  </tr>
+                    {% for email in sharing %}
+                  <tr>
+                    <td>{{ email }}</td>
+                    <td>Writing</td>
+                    <td>
+                        <form action="/walls/unshare/{{ wall.id }}/" method="post" class="form-horizontal">
+                            <input type="hidden" name="email" value="{{ email }}" />
+                            <input type="submit" value="unshare" class="btn ">
+                        </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                 </tbody>
+               </table
+            {% endif %}
+
+            <!-- Fluid grid system -->
+              <h2>Publish/Unpublish</h2>
+              <div class="row">
+                <div class="span12 ">
+                  <p>Publish or Unpublish this wall from selected appliances.</p>
+                  <div class="row-fluid ">
+                    <div class="span4 offset2">
+                        <p>{{ pub_form }}</p>
+                    </div>
+                    <div class="span2 ">
+                      <br />
+                      <button class="btn btn-primary btn-large">></button>
+                      <br />
+                      <br />
+                      <button class="btn btn-large"><</button>
+                    </div>
+ 
+                    <div class="span4 ">
+                      <p>{{ pub_form }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- hero-unit wll -->
         </div><!--span -->
       </div><!--row -->
+
 
 {% endblock %}
