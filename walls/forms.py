@@ -9,7 +9,6 @@ from mongoengine import EmailField
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 
-
 from django.forms.formsets import formset_factory
 from django.utils.safestring import mark_safe 
 from django import forms
@@ -33,13 +32,6 @@ class NewWallForm(forms.Form):
 
 class DeleteWallForm(forms.Form):
     confirmed = forms.BooleanField(initial=False, required=True)
-
-class EditWallForm(BootstrapForm):
-    class Meta:
-        layout = (
-            Fieldset("Please update details", "name", "description", ),
-        )
-    name = forms.CharField(max_length=30, required=True)
 
 class ShareWallForm(forms.Form):
     shared = forms.EmailField(widget=forms.TextInput(
@@ -73,6 +65,7 @@ class UnpublishWallForm(forms.Form):
                           max_length=128)
 
 class UpdateWallForm(forms.Form):
+    OPTIONS = () # Publish to Appliances
     name = forms.CharField(widget=forms.TextInput(
                            attrs={'class': 'span8'}), 
                            max_length=30, required=True)
@@ -80,7 +73,6 @@ class UpdateWallForm(forms.Form):
                                attrs={'placeholder':'email@address.com',
                                       'class': 'span8'}),
                                required=False)
-
 #    def clean_invited(self):
 #        invited = self.cleaned_data['invited']
 #        try:
@@ -90,14 +82,13 @@ class UpdateWallForm(forms.Form):
 #        raise forms.ValidationError(invited)
 #        raise forms.ValidationError("Sorry, %s is not a valid user. Please try again" % invited)
 
-
-
-class PubishWallForm(forms.Form):
-    OPTIONS = ()
-    boxes_available = Box.objects.all()
-    for box in boxes_available:
+class PubWallForm(forms.Form):
+    OPTIONS = ( )
+    all_boxes = Box.objects.all()
+    for box in all_boxes:
         OPTIONS += ( box.id, box.name ),
-    published = forms.MultipleChoiceField(widget=forms.SelectMultiple(
-                                          attrs={'class': 'span4'}),
-                                          choices=OPTIONS,
-                                          required=False)
+    published = forms.MultipleChoiceField(
+                       widget=forms.SelectMultiple(
+                           attrs={'class': 'controls span8'}),
+                       choices=OPTIONS,
+                       required=False)
