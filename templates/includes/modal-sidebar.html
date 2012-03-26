@@ -21,7 +21,7 @@
       </div>
       <div class="modal-body">
            <form action="." method="post" class="form-horizontal">
-            {{ new_wall_form.as_p }} 
+            {{ new_form.as_p }} 
            {% comment %}<button a href="/walls/" class="btn btn-large offset2">Cancel</button>{% endcomment %}
            <input type="submit" value="Create WikiWall" class="btn btn-primary btn-large pull-right" data-content="Click here to create your WikiWall">
          </form>
@@ -30,7 +30,3 @@
      </div><!--span -->
 
     {% endblock sidebar %}
-
-{% comment %}
-<a class="btn btn-primary btn-large" href="{% url walls.views.create_wall %}">Create a New Whiteboard</a>
-{% endcomment %}

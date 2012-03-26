@@ -1,11 +1,5 @@
-from crispy_forms.helpers import FormHelper
-from crispy_forms.layout import Submit
-
-from bootstrap.forms import BootstrapForm, Fieldset
 from mongoengine.django.auth import User
-from mongoengine import EmailField
 
-#from mongoforms import MongoForm
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 
@@ -25,13 +19,31 @@ class NewWallForm(forms.Form):
     placeholder += 'santa.clause@northpole.ca, etc ...'
     invited = forms.CharField(widget=forms.Textarea(
                                   attrs={'placeholder': placeholder,
-                                         'class': 'span8'}
-                                                   ),
+                                         'class': 'span8'}),
                               required=False)
 
 
 class DeleteWallForm(forms.Form):
     confirmed = forms.BooleanField(initial=False, required=True)
+
+
+class PubWallForm(forms.Form):
+    OPTIONS = ()
+    all_boxes = Box.objects.all()
+    for box in all_boxes:
+        OPTIONS += ( box.id, box.name ),
+    publish = forms.MultipleChoiceField(
+                       widget=forms.SelectMultiple(
+                                      attrs={'class': 'controls span8'}),
+                       choices=OPTIONS,
+                       required=False)
+
+
+class UnpubWallForm(forms.Form):
+    unpublish = forms.BooleanField(widget=forms.CheckboxInput,
+                                  label='Unpublish')
+    box_id = forms.CharField(widget=forms.HiddenInput)
+
 
 class ShareWallForm(forms.Form):
     shared = forms.EmailField(widget=forms.TextInput(
@@ -39,22 +51,10 @@ class ShareWallForm(forms.Form):
                               max_length=60, required=True)
 
 
-class HorizontalRadioRenderer(forms.RadioSelect.renderer):
-  def render(self):
-    return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
-
-class ShareUnshareForm(forms.Form):
-    CHOICES = (('0', 'Unshare'), ('1', 'Share'))
-    shared = forms.ChoiceField(choices=CHOICES,
-                               widget=forms.RadioSelect(
-                                   renderer=HorizontalRadioRenderer)
-                              )
-#attrs={'placeholder': '1', 'class': 'button-group btn', 'data-toggle':'buttons-radio'}
-
-class UnshareForm(forms.Form):
+class UnshareWallForm(forms.Form):
     unshared = forms.BooleanField(widget=forms.CheckboxInput,
-                                  label='Unshare',
-                                  )
+                                  label='Unshare')
+                                  
     email = forms.EmailField(widget=forms.HiddenInput)
 
 
@@ -73,6 +73,7 @@ class UpdateWallForm(forms.Form):
                                attrs={'placeholder':'email@address.com',
                                       'class': 'span8'}),
                                required=False)
+
 #    def clean_invited(self):
 #        invited = self.cleaned_data['invited']
 #        try:
@@ -81,14 +82,3 @@ class UpdateWallForm(forms.Form):
 #            return self.cleaned_data['invited'] 
 #        raise forms.ValidationError(invited)
 #        raise forms.ValidationError("Sorry, %s is not a valid user. Please try again" % invited)
-
-class PubWallForm(forms.Form):
-    OPTIONS = ( )
-    all_boxes = Box.objects.all()
-    for box in all_boxes:
-        OPTIONS += ( box.id, box.name ),
-    published = forms.MultipleChoiceField(
-                       widget=forms.SelectMultiple(
-                           attrs={'class': 'controls span8'}),
-                       choices=OPTIONS,
-                       required=False)
