@@ -25,12 +25,8 @@ def route_box(request):
     data = {'title': 'Kolabria - Appliance Dashboard',}
     if user_agent[:4] == 'WWA-':
         box_id = user_agent[4:]
-        data['box_id'] = box_id
-        return render_to_response('appliance/dashboard.html', data,
-                           context_instance=RequestContext(request))
+        return HttpResponseRedirect('/box/%s' % box_id)
     return HttpResponseRedirect('/')
-
-    # Views below this comment are for internal dev and debug purposes only
 
 def the_box(request, box_id):
     box = Box.objects.get(id=box_id)
