@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.contrib import messages
 from django.forms.formsets import formset_factory
 from django.shortcuts import render_to_response, get_object_or_404
@@ -34,6 +35,10 @@ def create(request):
     if form.is_valid():
         wall = Wall.objects.create(owner=request.user,
                                    name=request.POST['name'])
+        wall.save()
+        wid = wall.id
+        name = wall.name
+
         if request.POST.get('invited', ''):
             invited = request.POST['invited'] 
             raw_emails = invited.split(',')
@@ -45,14 +50,32 @@ def create(request):
                         wall.sharing.append(email)
                     else:
                         messages.warning(request, '%s is already sharing' % email)
-                except DoesNotExist:
-                    messages.warning(request, 'User with email %s not valid. Try again.')
+                except ObjectDoesNotExist:
+                    messages.warning(request, 'Error: no account found for %s. Not invited')
                 messages.info(request, 'Successfully added: %s' % email)
-        wall.save()
-        wid = wall.id
+
+
+        if request.POST.getlist('publish'):
+            # update wall.published model
+            wall.published = request.POST.getlist('publish')
+            wall.save()
+            pub_msg = 'wall.published: %s' % wall.published
+            messages.success(request, pub_msg)
+            boxes = [ Box.objects.get(id=box) for box in wall.published ]
+            messages.info(request, 'Boxes: %s' % boxes)
+            for box in boxes:
+                box_msg = 'box.name: %s | box.walls: %s | ' % (box.name, box.walls)
+                box_msg += 'wall.name: %s | wall.id: %s' %  (wall.name,
+                        wall.id)
+                messages.info(request, box_msg)
+                box.walls.append(str(wall.id))
+                box.save()
+                box_pub_msg = 'updated box.published to: %s for box.name: %s' % \
+                                                            (box.walls, box.name)
+
         messages.success(request, 'Successfully created Wall: %s - %s' % \
-                                                              (wid, wall.name))
-        return HttpResponseRedirect('/walls/')
+                                                              (wid, name))
+        return HttpResponseRedirect('/walls/create/')
 
     data = {'title': 'Kolabria - Create a new WikiWall',
             'form': form }

@@ -9,6 +9,7 @@ from django import forms
 
 
 class NewWallForm(forms.Form):
+    OPTIONS = ()
     name = forms.CharField(widget=forms.TextInput(
                            attrs={'placeholder': 'Name this Wikiwall',
                                   'class': 'span4'}),
@@ -21,7 +22,22 @@ class NewWallForm(forms.Form):
                                   attrs={'placeholder': placeholder,
                                          'class': 'span8'}),
                               required=False)
+    all_boxes = Box.objects.all()
+    for box in all_boxes:
+        OPTIONS += ( box.id, box.name ),
+    publish = forms.MultipleChoiceField(
+                       widget=forms.SelectMultiple(
+                                      attrs={'class': 'span4'}),
+                       choices=OPTIONS,
+                       required=False)
 
+#    def clean_name(self):
+#        try:
+#            exists = Wall.objects.filter(name=name))
+#        except real.DoesNotExist:
+#            return self.cleaned_data['invited'] 
+#        raise forms.ValidationError(invited)
+#        raise forms.ValidationError("Sorry, %s is not a valid user. Please try again" % invited)
 
 class DeleteWallForm(forms.Form):
     confirmed = forms.BooleanField(initial=False, required=True)

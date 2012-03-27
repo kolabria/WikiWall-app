@@ -23,7 +23,7 @@
     
         {% if walls %}
 
-        <div class="span6 ">
+        <div class="span9 ">
           <h3>Recent Whiteboards:</h3>
           <table class="table">
             <thead>
@@ -33,6 +33,7 @@
                 <th>Permissions</th>
                 <th>Last Modified</th>
                 <th>Action</th>
+                <th>Published to:</th>
               </tr>
             </thead>
             <tbody>
@@ -51,7 +52,8 @@
                     </ul>
                   </div>
                 </td>
-              </tr>
+                <td>{{ wall.published }}</td>
+            </tr>
               {% endfor %}
 
               {% for wall in walls.own %}
@@ -87,6 +89,7 @@
                       <li><a href="/walls/update/{{ swall.id }}">edit details</a></li>
                     </ul>
                   </div>
+                <td>{{ swall.published }}</td>
                 </td>
               </tr>
               {% endfor %}

@@ -4,7 +4,6 @@ from mongoengine import ObjectIdField
 from mongoengine.django.auth import User
 from datetime import datetime
 from kolabria.account.models import Account
-from kolabria.walls.models import Wall
 
 class Box(Document):
     """
