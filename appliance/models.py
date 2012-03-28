@@ -25,6 +25,7 @@ class Box(Document):
                          choices=STATUS_CHOICES,
                          required=True)
     walls = ListField(StringField())
+    active_wall = StringField(required=False)
     activated = DateTimeField(default=datetime.now(), required=True)
     modified = DateTimeField(default=datetime.now(), required=True)
 
