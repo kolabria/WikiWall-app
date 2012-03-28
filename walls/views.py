@@ -265,7 +265,7 @@ def unpublish(request, wid):
 @login_required
 def unshare(request, wid):
     wall = Wall.objects.get(id=wid)
-    unshare_form = UnshareForm(request.POST or None)
+    unshare_form = UnshareWallForm(request.POST or None)
  
     if request.POST:
 #    if unshare_form.is_valid():
@@ -310,16 +310,26 @@ def update(request, wid):
     update_form.fields['invited'].label = 'Invite new users by email address'
 
     if update_form.is_valid():
+        # process invited if detected in POST
+        if request.POST.get('invited'): 
+            invited = request.POST['invited'] 
+            real = User.objects.filter(email=invited)[0]
+            if real and invited not in wall.sharing:
+                wall.sharing.append(invited)
+                messages.info(request, 'invited: %s' % invited)
+            else:
+                error_msg = 'Error: %s not valid or already invited.' % invited
+                messages.warning(request, error_msg)
+
+        # update wall.name if name in POST different from model
+        old_name = wall.name
         wall.name = request.POST['name']  # update wall name
-        invited = request.POST['invited'] 
-        real = User.objects.filter(email=invited)
-        
-        if real and invited not in wall.sharing:
-            wall.sharing.append(invited)
-            messages.info(request, 'invited: %s' % invited)
+        if old_name != wall.name:
+            wall.save()
+            update_msg = 'Updated WikiWall name to: %s. (old name: %s)' % (wall.name, old_name)
+            messages.success(request, update_msg)
         else:
-            messages.warning(request, 'Error: %s not valid or already invited.' % invited)
-        wall.save()
+            update_msg = 'No changes detected. Not Updating %s' % wall.name
 
        # then update records and publish to selected appliances
        # update wall.published with appliance ids
