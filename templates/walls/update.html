@@ -49,7 +49,7 @@ Kolabria | Editing Board Details for: {{ wall.name }}</title>
                     <td>Writing</td>
                     <td>
                         <form action="/walls/unshare/{{ wall.id }}/" method="post" class="form-horizontal">
-                            <input type="hidden" name="email" value="{{ wall.owner.email }}" />
+                            <input type="hidden" name="email" value="{{ email }}" />
                             <input type="submit" value="unshare" class="btn ">
                         </form>
                     </td>
