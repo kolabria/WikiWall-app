@@ -40,11 +40,12 @@ def create(request):
         wall.save()
         wid = wall.id
         name = wall.name
-
-        if request.POST.get('invited', ''):
-            invited = request.POST['invited'] 
-            raw_emails = invited.split(',')
-            clean_emails = [ email.strip() for email in raw_emails ]
+     
+        invited_emails = request.POST.get('invited', '')
+        ipdb.set_trace() 
+        if invited_emails:
+            invited_list = invited_emails.split(',')
+            clean_emails = [ email.strip() for email in invited_list ]
             for email in clean_emails:
                 try:
                     real = User.objects.get(email=email)
@@ -52,7 +53,7 @@ def create(request):
                         wall.sharing.append(email)
                     else:
                         messages.warning(request, '%s is already sharing' % email)
-                except ObjectDoesNotExist:
+                except User.DoesNotExist:
                     messages.warning(request, 'Error: no account found for %s. Not invited')
                 messages.info(request, 'Successfully added: %s' % email)
 
