@@ -3,12 +3,14 @@ from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
-#from kolabria.walls.forms import NewBoxForm, EditBoxForm, RemoveBoxForm
+from kolabria.appliance.forms import PubWallForm, UnsubWallForm
 from datetime import datetime
 
+import ipdb
 
 @login_required
 def appliances(request):
@@ -19,7 +21,6 @@ def appliances(request):
                        context_instance=RequestContext(request))
 
 
-
 def route_box(request):
     user_agent = request.META['HTTP_USER_AGENT']
     data = {'title': 'Kolabria - Appliance Dashboard',}
@@ -28,16 +29,83 @@ def route_box(request):
         return HttpResponseRedirect('/box/%s' % box_id)
     return HttpResponseRedirect('/')
 
-def the_box(request, box_id):
-    box = Box.objects.get(id=box_id)
+
+def the_box(request, bid):
+#    ipdb.set_trace()
+    unsub_form = UnsubWallForm({'unsub': True})
+    
+    pub_form = PubWallForm()
+
+    box = Box.objects.get(id=bid)
     box_name = box.name
     walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
-#    walls = [ Wall.objects(published=wall_id) for wall_id in box.walls ]
+
     data = {'title': 'Kolabria | Manage Appliances | Appliance Detail',
             'box': box,
-            'box_id': box_id,
+            'bid': bid,
             'box_name': box_name, 
-            'walls': walls, }
+            'walls': walls, 
+            'unsub_form': unsub_form }
+
+    return render_to_response('appliance/detail.html', data,
+                       context_instance=RequestContext(request))
+
+
+def pubwall(request, bid):
+#    ipdb.set_trace()
+    box = Box.objects.get(id=bid)
+    box_name = box.name
+    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
+
+    pub_form = PubWallForm(request.POST or None)
+
+    if pub_form.is_valid():
+        wid = request.POST['wid']
+        wall = Wall.objects.get(id=wid)
+        box = Box.objects.get(id=bid)
+        box.active_wall = request.POST['wid']
+        box.save()
+        messages.success(request, 'Wall: %s Activated on appliance: %s' % \
+                                                         (wall.name, box.name))
+        return HttpResponseRedirect('/box/%s' % box.id)
+
+    pub_form.initial['publish'] = True 
+
+    data = {'title': 'Kolabria | Publish WikiWall',
+            'box': box,
+            'bid': bid,
+            'box_name': box_name,
+            'walls': walls,
+            'pub_form': pub_form, }
+
+    return render_to_response('appliance/detail.html', data,
+                       context_instance=RequestContext(request))
+
+
+def unsubwall(request, bid):
+    box = Box.objects.get(id=bid)
+    box_name = box.name
+    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
+
+    unsub_form = UnsubWallForm(request.POST or {'unsub': True })
+    if unsub_form.is_valid():
+        wid = request.POST['wid']
+        wall = Wall.objects.get(id=wid)
+        if wid in wall.published:
+            wall.published.remove(wid)
+            wall.save()
+            messages.success(request, 'Box unpublished from wall %s' % \
+                                                   (box.name, wall.name))
+        box = Box.objects.get(id=bid)
+        if bid in box.walls:
+            box.walls.remove(bid)
+            box.active_wall = ''
+            box.save()
+            messages.success(request, 'Box %s Unsubscribed from wall: %s' % \
+                                                                 (box.name, wid))
+        return HttpResponseRedirect('/box/%s' % box.id)
+
+    data = { 'bid': bid, 'unsub_form': unsub_form, 'walls': walls }
     return render_to_response('appliance/detail.html', data,
                        context_instance=RequestContext(request))
 

@@ -5,7 +5,9 @@ from appliance import views
 
 urlpatterns = patterns('',
     url(r'^box/$', views.route_box),
-    url(r'^box/(?P<box_id>\w+)/$', views.the_box),
+    url(r'^box/(?P<bid>\w+)/$', views.the_box),
+    url(r'^box/unsubwall/(?P<bid>\w+)/$', views.unsubwall),
+    url(r'^box/pubwall/(?P<bid>\w+)/$', views.pubwall),
     url(r'^appliances/$', views.appliances),
 #    (r'^details/(?P<box>\w+)/$', login_required(TemplateView.as_view()),
 #    (r'^appliances/$', login_required(TemplateView.as_view(

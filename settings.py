@@ -54,7 +54,7 @@ INSTALLED_APPS = (
 #    'django.contrib.sites',
     'django.contrib.staticfiles',
 #    'bootstrap',
-    'crispy_forms',
+#    'crispy_forms',
     'mongoforms',
     'debug_toolbar',
     'debug_toolbar_mongo',
