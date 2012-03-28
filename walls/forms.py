@@ -47,18 +47,17 @@ class PubWallForm(forms.Form):
     OPTIONS = ()
     all_boxes = Box.objects.all()
     for box in all_boxes:
-        OPTIONS += ( box.id, box.name ),
+        box_title = '%s - %s' % (box.name, box.location)
+        OPTIONS += ( box.id, box_title ),
     publish = forms.MultipleChoiceField(
                        widget=forms.SelectMultiple(
-                                      attrs={'class': 'controls span8'}),
+                                      attrs={'class': 'controls span4'}),
                        choices=OPTIONS,
                        required=False)
 
 
 class UnpubWallForm(forms.Form):
-    unpublish = forms.BooleanField(widget=forms.CheckboxInput,
-                                  label='Unpublish')
-    box_id = forms.CharField(widget=forms.HiddenInput)
+    box_id = forms.CharField(widget=forms.HiddenInput, required=False)
 
 
 class ShareWallForm(forms.Form):

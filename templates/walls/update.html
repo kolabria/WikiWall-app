@@ -64,11 +64,11 @@
               <h3>Select one or more appliances on which to publish your WikiWall:</h3>
                 <form action="/walls/publish/{{ wall.id }}/" method="post" class="form-horizontal">
                  {{ pub_form.as_p }}
-                  <input type="submit" value="Publish" class="btn btn-primary offset5">
+                  <input type="submit" value="Publish" class="btn btn-primary btn-large offset4">
                 </form>
 
+             <h3>Published to the following WikiWall Appliances:</h3>
              {% for box in boxes %}
-              <h3>Published to the following WikiWall Appliances:</h3>
               <table class="table">
                 <thead>
                   <tr>
@@ -84,6 +84,7 @@
                     <td>Published</td>
                     <td>
                       <form action="/walls/unpublish/{{ wall.id }}/" method="post" class="form-horizontal">
+                          {{ unpub_form.as_p }} 
                         <input type="hidden" name="box_id" value="{{ box.id }}" />
                         <button input type="submit" value="Publish" class="btn "/>unpublish</button>
                       </form>
@@ -91,7 +92,7 @@
                     </tr>
               {% endfor %}
                 </tbody>
-               </table>
+              </table>
            </div><!-- hero-unit wll -->
         </div><!--span -->
       </div><!--row -->

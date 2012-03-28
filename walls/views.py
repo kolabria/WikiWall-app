@@ -15,6 +15,8 @@ from mongoengine.django.auth import User
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 
+import ipdb
+
 # Legend of urls and views
 #walls             url(r'^walls/$', views.walls), 
 #create            url(r'^walls/create/$', views.create_wall),
@@ -103,30 +105,6 @@ def delete(request, wid):
             'del_form': del_form,}
     return render_to_response('walls/delete.html', data,
                               context_instance=RequestContext(request))
-
-
-@login_required
-def publish(request, wid):
-    pub_wall = Wall.objects.get(id=wid)
-    pub_form = PubWallForm(request.POST or None)
-
-    if  pub_form.is_valid():
-        messages.info(request, 'original published: %s' % pub_wall.published )
-#        publish = request.POST['publish']
-#        pub_wall.published = publish
-        messages.info(request, 'updated published: %s'  % publish)
-#        pub_wall.save()
-        return HttpResponseRedirect('/walls/update/%s' % wid)
-
-    messages.error(request, 'error: no valid POST data found')
-    return HttpResponseRedirect('/walls/update/%s' % wid)
-
-#TODO Fix box updating logic, update > link on template to view that will
-#     process POST request
-#        boxes = Box.objects.filter(id=published)
-#        box.walls.append(published)
-#        box.save()
-
 
 
 @login_required
@@ -224,36 +202,68 @@ def share(request, wid):
 
 
 @login_required
+def publish(request, wid):
+    pub_wall = Wall.objects.get(id=wid)
+    pub_form = PubWallForm(request.POST or None)
+
+    if  pub_form.is_valid():
+        messages.info(request, 'original published: %s' % pub_wall.published )
+        publish = request.POST.getlist('publish')
+        pub_wall.published = publish
+        pub_wall.save()
+        messages.info(request, 'updated published: %s'  % publish)
+
+        #TODO Fix box updating logic, update > link on template to view that will
+        #     process POST request
+        #        boxes = Box.objects.filter(id=published)
+        #        box.walls.append(published)
+        #        box.save()
+
+        return HttpResponseRedirect('/walls/update/%s' % wid)
+
+    messages.error(request, 'error: no valid POST data found')
+    return HttpResponseRedirect('/walls/update/%s' % wid)
+
+
+@login_required
 def unpublish(request, wid):
     wall = Wall.objects.get(id=wid)
+ 
+    update_form = UpdateWallForm()
+    update_form.initial['name'] = wall.name
+    update_form.fields['name'].label = 'Update WikiWall Name'
+    update_form.fields['invited'].label = 'Invite new users by email address'
+    
     unpub_form = UnpubWallForm(request.POST or None)
    
     if unpub_form.is_valid():
-        box_id = request.POST['box_id']
+        box_id = request.POST.get('box_id')
         if box_id in wall.published:
            wall.published.remove(box_id)
            wall.save()
-           wall_unpub_msg = 'Wall Updated Successfully - wall.name: %s unpublished from '
-           wall_unpub_msg += 'box.name: %s' % (wall.name, box.name)
+           box = Box.objects.get(id=box_id)
+           wall_unpub_msg = 'Publishing Updated - ' 
+           wall_unpub_msg += 'wall.name: %s unpublished from  ' % wall.name
+           wall_unpub_msg += '|  box.name: %s' % box.name
            messages.success(request, wall_unpub_msg)
-        wall_unpub_error_msg = 'Error wall.name: %s does not have access to box.name: %s.' % (wall.name, box.name)
-        messages.warning(request, wall_unpub_error_msg)
         
         box = Box.objects.get(id=box_id)
         if box_id in box.walls:
             box.walls.remove(box_id)
             box.save()
-
-            box_unpub_msg = 'Box Updated Successfully - wall.name: %s removed '
-            box_unpub_msg += 'from box.published for %s' % (wall.name, box.name)
+            box_unpub_msg = 'Box Updated Successfully - '
+            box_unpub_msg += 'wall.name: %s removed ' % wall.name
+            box_unpub_msg += 'from box.published for %s' % box.name
             box.success(request, box_unpub_msg)
-        box_unpub_error_msg = 'Error box.name: %s does not have access to wall.name: %s.' % (box.name, wall.name)
-        messages.warning(request, box_unpub_error_msg)
 
         return HttpResponseRedirect('/walls/update/%s' % wid)
 
+    pub_form = PubWallForm(initial={'publish': wall.published})
+
     data = {'title': 'Kolabria - Unshare Wall with user',
             'wid': wid,
+            'pub_form': pub_form,
+            'update_form': update_form,
             'unpub_form': unpub_form, 
             'wall': wall,
             }
@@ -302,7 +312,7 @@ def update(request, wid):
     pub_form.fields['publish'].label = 'Available Appliances'
     pub_form.initial['publish'] = wall.published
 
-    unpub_form = UnpubWallForm({'unpublish': True })
+    unpub_form = UnpubWallForm({'unpublished': True })
 
     update_form = UpdateWallForm(request.POST or None)
     update_form.initial['name'] = wall.name
@@ -331,10 +341,10 @@ def update(request, wid):
         else:
             update_msg = 'No changes detected. Not Updating %s' % wall.name
 
-       # then update records and publish to selected appliances
-       # update wall.published with appliance ids
         return HttpResponseRedirect('/walls/update/%s' % wid)
 
+       # then update records and publish to selected box.walls 
+       # update wall.published with boxes (bids)
     data = {'title': 'Kolabria - Edit Board Details', 
             'wall': wall,
             'boxes': boxes,
