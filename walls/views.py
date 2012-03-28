@@ -320,13 +320,15 @@ def update(request, wid):
     update_form.fields['invited'].label = 'Invite new users by email address'
 
     if update_form.is_valid():
+#        ipdb.set_trace()
         # process invited if detected in POST
         if request.POST.get('invited'): 
-            invited = request.POST['invited'] 
-            real = User.objects.filter(email=invited)[0]
+            invited = request.POST.get('invited')
+            real = User.objects.get(email=invited)
             if real and invited not in wall.sharing:
                 wall.sharing.append(invited)
                 messages.info(request, 'invited: %s' % invited)
+                wall.save()
             else:
                 error_msg = 'Error: %s not valid or already invited.' % invited
                 messages.warning(request, error_msg)
