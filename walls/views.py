@@ -75,7 +75,7 @@ def create(request):
 
         messages.success(request, 'Successfully created Wall: %s - %s' % \
                                                               (wid, name))
-        return HttpResponseRedirect('/walls/create/')
+        return HttpResponseRedirect('/walls/')
 
     data = {'title': 'Kolabria - Create a new WikiWall',
             'form': form }
