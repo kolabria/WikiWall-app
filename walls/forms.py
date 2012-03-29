@@ -72,13 +72,6 @@ class UnshareWallForm(forms.Form):
                                   
     email = forms.EmailField(widget=forms.HiddenInput)
 
-
-class UnpublishWallForm(forms.Form):
-    unpublished = forms.BooleanField(widget=forms.CheckboxInput,
-                                  label='Unshare')
-    box = forms.CharField(widget=forms.HiddenInput,
-                          max_length=128)
-
 class UpdateWallForm(forms.Form):
     OPTIONS = () # Publish to Appliances
     name = forms.CharField(widget=forms.TextInput(

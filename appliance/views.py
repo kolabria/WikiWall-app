@@ -39,18 +39,23 @@ def auth_box(request):
 
 
 def the_box(request, bid):
-    ipdb.set_trace()
+#    ipdb.set_trace()
     unsub_form = UnsubWallForm()
     
     pub_form = PubWallForm()
     box = Box.objects.get(id=bid)
     box_name = box.name
-    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
+    walls = Wall.objects.filter(published=str(box.id))
+
+    if box.active_wall:
+        active = Wall.objects.get(id=box.active_wall)
+    else:
+        active = None
 
     data = {'title': 'Kolabria | Manage Appliances | Appliance Detail',
             'box': box,
             'bid': bid,
-            'box_name': box_name, 
+            'active': active,
             'walls': walls, 
             'unsub_form': unsub_form }
 
@@ -90,29 +95,26 @@ def pubwall(request, bid):
 
 
 def unsubwall(request, bid):
-    box = Box.objects.get(id=bid)
-    box_name = box.name
-    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
-
-    unsub_form = UnsubWallForm(request.POST or {'unsub': True })
+    unsub_form = UnsubWallForm(request.POST or None)
     if unsub_form.is_valid():
-        wid = request.POST['wid']
-        wall = Wall.objects.get(id=wid)
-        if wid in wall.published:
-            wall.published.remove(wid)
-            wall.save()
-            messages.success(request, 'Box unpublished from wall %s' % \
-                                                   (box.name, wall.name))
         box = Box.objects.get(id=bid)
-        if bid in box.walls:
-            box.walls.remove(bid)
+        wid = request.POST.get('wid')
+        wall = Wall.objects.get(id=wid)
+        if bid in wall.published:
+            wall.published.remove(bid)
+            wall.save()
+            messages.success(request, 'Box %s removed from wall.published %s' % \
+                                                                  (box.name, wall.name))
+        box = Box.objects.get(id=bid)
+        if wid in box.walls:
+            box.walls.remove(wid)
             box.active_wall = ''
             box.save()
-            messages.success(request, 'Box %s Unsubscribed from wall: %s' % \
+            messages.success(request, 'Box %s Unsubscribed from box.wall: %s' % \
                                                                  (box.name, wid))
-        return HttpResponseRedirect('/box/%s' % box.id)
-
-    data = { 'bid': bid, 'unsub_form': unsub_form, 'walls': walls }
+        return HttpResponseRedirect('/box/')
+    
+    data = { 'bid': bid, 'unsub_form': unsub_form } #, 'walls': walls }
     return render_to_response('appliance/detail.html', data,
                        context_instance=RequestContext(request))
 
@@ -121,6 +123,6 @@ def id_appliance(request, box_id):
     box = Box.objects.get(id=box_id)
     box_name = box.name
     data = {'title': 'Kolabria | Manage Appliances | Appliance Detail',
-            'box': box,}
+            'bux': box,}
     render_to_response('apppliance/id-appliance.html', data,
                        context_instance=RequestContext(request))

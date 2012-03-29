@@ -313,7 +313,7 @@ def update(request, wid):
     pub_form.fields['publish'].label = 'Available Appliances'
     pub_form.initial['publish'] = wall.published
 
-    unpub_form = UnpubWallForm({'unpublished': True })
+    unpub_form = UnpubWallForm()
 
     update_form = UpdateWallForm(request.POST or None)
     update_form.initial['name'] = wall.name
