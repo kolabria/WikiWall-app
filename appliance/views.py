@@ -22,7 +22,7 @@ def appliances(request):
 
 
 def auth_box(request):
-    ipdb.set_trace()
+#    ipdb.set_trace()
     user_agent = request.META['HTTP_USER_AGENT']
     data = {'title': 'Kolabria - Valid Appliance ',}
     if user_agent[:4] == 'WWA-':
