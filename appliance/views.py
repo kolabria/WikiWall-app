@@ -21,21 +21,28 @@ def appliances(request):
                        context_instance=RequestContext(request))
 
 
-def route_box(request):
+def auth_box(request):
+    ipdb.set_trace()
     user_agent = request.META['HTTP_USER_AGENT']
-    data = {'title': 'Kolabria - Appliance Dashboard',}
+    data = {'title': 'Kolabria - Valid Appliance ',}
     if user_agent[:4] == 'WWA-':
         box_id = user_agent[4:]
-        return HttpResponseRedirect('/box/%s' % box_id)
+        try:
+            valid = Box.objects.get(id=box_id)
+           # authenticate box as user 
+            messages.success(request, 'Valid Appliance ID: %s' % box_id)
+            return HttpResponseRedirect('/box/%s/' % box_id)
+        except Box.DoesNotExist:
+            messages.error(request, 'Appliance %s not recognized' % box_id)
+            return HttpResponseRedirect('/')
     return HttpResponseRedirect('/')
 
 
 def the_box(request, bid):
-#    ipdb.set_trace()
-    unsub_form = UnsubWallForm({'unsub': True})
+    ipdb.set_trace()
+    unsub_form = UnsubWallForm()
     
     pub_form = PubWallForm()
-
     box = Box.objects.get(id=bid)
     box_name = box.name
     walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
