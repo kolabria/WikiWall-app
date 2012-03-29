@@ -36,9 +36,15 @@
      <div class="row-fluid ">
        <div class="span6 well">
          <h1 align="center">Details of Active WikiWall</h1>
-         <h1>Active: {{ box.active_wall }}</h1>
-         <h3>Wall owner: {{ owner.email }}</h3>
+         <h1>Active Wall: {{ active.name }}</h1>
+         <h3>Wall owner: {{ active.owner.email }}</h3>
          <h3>Sharing with: {{ active.sharing }}</h3>
+         <h3>Published on: {{ active.published }}</h3>
+         <br />
+         <h1 align="center">Details of Appliance</h1>
+         <h3>Box Name: {{ box.name }}</h3>
+         <h3>Box Location: {{ box.location }}</h3>
+         <h3>Box Published: {{ box.walls }}</h3>
        </div>
      </div> 
      <div class="row-fluid span8">
@@ -50,6 +56,9 @@
                 <th>Board Name</th>
                 <th>Status</th>
                 <th>Permissions</th>
+                <th></th>
+                <th></th>
+                <th>wall.published</th>
               </tr>
             </thead>
             <tbody>
@@ -72,6 +81,7 @@
                       <button input type="submit" value="publish" class="btn btn-primary"/>Publish</button>
                   </form>
                 </td>
+                <td>{{ wall.published }}</td>
              </tr>
               {% endfor %}
             </tbody>

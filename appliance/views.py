@@ -31,19 +31,19 @@ def route_box(request):
 
 
 def the_box(request, bid):
-#    ipdb.set_trace()
     unsub_form = UnsubWallForm({'unsub': True})
     
     pub_form = PubWallForm()
 
     box = Box.objects.get(id=bid)
     box_name = box.name
-    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
+    walls = Wall.objects.filter(published=str(box.id))
+#    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
 
     data = {'title': 'Kolabria | Manage Appliances | Appliance Detail',
             'box': box,
             'bid': bid,
-            'box_name': box_name, 
+            'active': Wall.objects.get(id=box.active_wall),
             'walls': walls, 
             'unsub_form': unsub_form }
 
@@ -83,9 +83,10 @@ def pubwall(request, bid):
 
 
 def unsubwall(request, bid):
+    ipdb.set_trace()
     box = Box.objects.get(id=bid)
     box_name = box.name
-    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
+#    walls = [ Wall.objects.get(id=wid) for wid in box.walls ]
 
     unsub_form = UnsubWallForm(request.POST or {'unsub': True })
     if unsub_form.is_valid():
@@ -103,9 +104,9 @@ def unsubwall(request, bid):
             box.save()
             messages.success(request, 'Box %s Unsubscribed from wall: %s' % \
                                                                  (box.name, wid))
-        return HttpResponseRedirect('/box/%s' % box.id)
+        return HttpResponseRedirect('/box/%s' % bid)
 
-    data = { 'bid': bid, 'unsub_form': unsub_form, 'walls': walls }
+    data = { 'bid': bid, 'unsub_form': unsub_form } #, 'walls': walls }
     return render_to_response('appliance/detail.html', data,
                        context_instance=RequestContext(request))
 
