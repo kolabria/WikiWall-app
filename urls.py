@@ -4,6 +4,7 @@ from django.conf import settings
 urlpatterns = patterns('',
     (r'', include('login.urls')),
     (r'', include('walls.urls')),
+    (r'', include('users.urls')),
     (r'', include('appliance.urls')),
 )
 
