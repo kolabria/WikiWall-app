@@ -4,12 +4,39 @@
 {% block content %}
 <div class="container-fluid">
   <div class="row-fluid offset2">
+      {% if messages %}
+        <div class="span6 offset3">
+          <div class="alert alert-block">
+            <a class="close" data-dismiss="alert">×</a>
+          {% for message in messages %}
+           <p>{{ message }}</p>
+          {% endfor %}
+          </div><!-- alert-block -->
+        </div><!--/span6 -->
+      {% endif %}
+  </div><!--row -->
+
+  <div class="row-fluid offset2">
     <div class="span6">
       <div class="hero-unit well">
-      <h3>Welcome, {{ user.username }}.</h3>
-      <br />
-      <p>This is your profile page. You can manage your personal details here.</p> 
+        <h2>Welcome,
+          {% if user.first_name %}
+            {{ user.first_name }}
+        </h2>
+        <h3>Full Name: {{ user.first_name }} {{ user.last_name }}</h3>
+          {% else %}
+          {% endif %}
+        <h3>email: {{ user.email }}</h3>
+        <br />
+        <p>This is your profile page. You can manage your personal details here.</p> 
+        <br />
+        <h3>Update your profile details</h3>
+        <form action="/profile/" method="post" class="form-horizontal">
+          {{ details_form.as_p }}
+          <input type="submit" value="Update" class="btn btn-primary btn-large offset2">
+        </form>
       </div>
     </div><!--span -->
   </div><!--row -->
+
 {% endblock %}

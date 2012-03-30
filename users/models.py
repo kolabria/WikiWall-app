@@ -21,16 +21,9 @@ class UserProfile(Document):
     )
 
     user = ReferenceField(User)
-    company = ReferenceField(Account, 
-                   default=Account.objects.get(company='Kolabria'))
     description = StringField(max_length=256, required=False)
     status = StringField(default='Active', max_length=8,
                          choices=STATUS_CHOICES, required=True)
-    created = DateTimeField(default=datetime.now(), required=False)
-    owning = ListField(StringField())
-    sharing = ListField(EmailField())
-    viewing = ListField(EmailField())
-
 
     def __unicode__(self):
         """

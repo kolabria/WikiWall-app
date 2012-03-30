@@ -9,12 +9,12 @@ class UserDetailsForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(
                                  attrs={'placeholder': 'First Name',
                                          'class': 'span4'}),
-                                 max_length=30, blank=True)
+                                 max_length=30, required=False)
     last_name = forms.CharField(widget=forms.TextInput(
                                 attrs={'placeholder': 'Last Name',
                                        'class': 'span4'}),
-                                max_length=30, blank=True)
-    email = forms.EmailField(widget=forms.TextInput(
-                             attrs={'placeholder': 'Last Name',
-                                    'class': 'span4'}),
-                             required=True)
+                                max_length=30, required=False)
+#    email = forms.EmailField(widget=forms.TextInput(
+#                             attrs={'placeholder': 'Last Name',
+#                                    'class': 'span4'}),
+#                             required=True)
