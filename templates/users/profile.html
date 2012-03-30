@@ -19,9 +19,9 @@
   <div class="row-fluid offset2">
     <div class="span6">
       <div class="hero-unit well">
-        <h2>Welcome,
+        <h2>Welcome 
           {% if user.first_name %}
-            {{ user.first_name }}
+            {{ user.first_name }},
         </h2>
         <h3>Full Name: {{ user.first_name }} {{ user.last_name }}</h3>
           {% else %}
