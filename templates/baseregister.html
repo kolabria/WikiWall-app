@@ -40,42 +40,27 @@
 
   </head>
 
-  <body class="background">
-     {% block navbar %}
-       {% include "includes/topnav.html" %}
-     {% endblock navbar %}
-
+   <body class="background">
      {% block content %}{% endblock content %}
     
-      {% comment %}
-      <div class="row-fluid">
-      	<div class="span10">
-          <footer>
-        	<p align="center">&copy; 2012 All Rights Reserved. <a href="#">Subject to Terms of Service</a></p>
-          </footer>
-        </div><!--span -->
-      </div><!--row -->
-      {% endcomment %}
-
-    {% block js %} 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ STATIC_URL }}js/jquery.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-transition.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-alert.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-dropdown.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-scrollspy.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-popover.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-button.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-collapse.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-carousel.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
-    {% endblock js %}
-    {% block morejs %}{% endblock morejs %}
-    
+     {% block js %} 
+     <!-- Le javascript
+      ================================================== -->
+     <!-- Placed at the end of the document so the pages load faster -->
+     <script src="{{ STATIC_URL }}js/jquery.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-transition.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-alert.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-dropdown.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-scrollspy.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-popover.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-button.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-collapse.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-carousel.js"></script>
+     <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+     {% endblock js %}
+     {% block morejs %}{% endblock morejs %}
   </body>
 </html>
