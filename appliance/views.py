@@ -75,7 +75,7 @@ def active_wall(request, wid):
     wall = Wall.objects.get(id=wid)
     data = {'title': 'Kolabria WikiWall Appliance | Active Wall: %s' % wall.name,
             'wall': wall, }
-    return render_to_response('walls/newwall.html', data,
+    return render_to_response('appliance/boxwall.html', data,
                               context_instance=RequestContext(request))
 
 def pubwall(request, bid):
