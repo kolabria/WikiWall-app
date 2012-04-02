@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from mongoengine.django.auth import User
 from kolabria.walls.models import Wall
 from kolabria.appliance.models import Box
 from kolabria.appliance.forms import PubWallForm, UnsubWallForm
@@ -28,13 +29,20 @@ def auth_box(request):
     if user_agent[:4] == 'WWA-':
         box_id = user_agent[4:]
         try:
-            valid = Box.objects.get(id=box_id)
-           # authenticate box as user 
-            messages.success(request, 'Valid Appliance ID: %s' % box_id)
+            box = Box.objects.get(id=box_id)
+            # authenticate box as user 
+#            user = User.objects.get(username=box_id)
+#            user.check_password(box_id)
+#            login(request, user)
+#            msg = "Success! Appliance ID (%s) == Valid username (%s)\n" % \
+#                                                     (box_id, user.username)
+            msg = "Recognized Appliance: %s id=%s" % (box.name, box_id)
+            messages.success(request, msg)
             return HttpResponseRedirect('/box/%s/' % box_id)
         except Box.DoesNotExist:
             messages.error(request, 'Appliance %s not recognized' % box_id)
             return HttpResponseRedirect('/')
+    messages.error(request, 'Access to url /box/ Unauthorized')
     return HttpResponseRedirect('/')
 
 
@@ -62,6 +70,13 @@ def the_box(request, bid):
     return render_to_response('appliance/detail.html', data,
                        context_instance=RequestContext(request))
 
+
+def active_wall(request, wid):
+    wall = Wall.objects.get(id=wid)
+    data = {'title': 'Kolabria WikiWall Appliance | Active Wall: %s' % wall.name,
+            'wall': wall, }
+    return render_to_response('walls/newwall.html', data,
+                              context_instance=RequestContext(request))
 
 def pubwall(request, bid):
 #    ipdb.set_trace()

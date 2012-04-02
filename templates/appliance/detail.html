@@ -35,19 +35,11 @@
   
      <div class="row-fluid ">
        <div class="span6 well">
-         <h1 align="center">Details of Active WikiWall</h1>
-         <br />
-         <h1>WikiWall: {{ active.name }}  |  <a href="/walls/{{ active.id }}"> Click to Activate</a></h1>
-         <h3>Wall owner: {{ active.owner.email }}</h3>
-         <h3>Sharing with: {{ active.sharing }}</h3>
-         <h3>Published on: {{ active.published }}</h3>
-         <hr />
-         <br />
+        <br />
          <h1 align="center">Details of Appliance</h1>
          <h3>Box Name: {{ box.name }}</h3>
          <h3>Box ID: {{ box.id }}</h3>
          <h3>Box Location: {{ box.location }}</h3>
-         <h3>Box.walls: {{ box.walls }}</h3>
        </div>
      </div> 
      <div class="row-fluid span8">
@@ -78,13 +70,16 @@
                   </form>
                </td>
                <td>
+                  <a href="/box/active/{{ wall.id }}/" class="btn btn-primary">Open</a>
+               {% comment %}
                   <form action="/box/pubwall/{{ bid }}/" method="post" class="form-horizontal">
                       {{ pub_form.as_p }} 
                       <input type="hidden" name="wid" value="{{ wall.id }}" />
-                      <button input type="submit" value="activate" class="btn btn-primary"/>Activate</button>
+                      <button input type="submit" value="activate" class="btn btn-primary"/>Open</button>
                   </form>
-                </td>
-                <td>{{ wall.published }}</td>
+               {% endcomment %}
+               </td>
+               <td>{{ wall.published }}</td>
              </tr>
               {% endfor %}
             </tbody>
