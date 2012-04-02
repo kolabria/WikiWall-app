@@ -38,8 +38,8 @@
         <a href="cart.html">1 item(s) - $949.00</a>
       </div>          
       <div class="span3 customer_service">
-        <h4>FREE expedited delivery</h4>
-        <h4><small>Toll-Free Support: 800 475 4548</small></h4>
+        <h4>FREE expedited delivery on ALL Orders</h4>
+        <h4><small>Toll-Free Customer Support: 800 475 4548</small></h4>
       </div>
     </div>
   </div>
@@ -62,7 +62,7 @@
     <form action="/create/" method="post" class="form-horizontal">
       <fieldset>
         <div class="span6 no_margin_left">
-          <legend>Account Details</legend>
+          <legend>Account and Invoice User Details </legend>
           <div class="control-group">
             <label class="control-label">Company Name</label>
             <div class="controls docs-input-sizes">
@@ -71,87 +71,87 @@
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label">First Name</label>
+            <label class="control-label">Address 1</label>
             <div class="controls docs-input-sizes">
-              {{ form.first_name.errors }}
-              {{ form.first_name }}
+              {{ form.address1.errors }}
+              {{ form.address1 }}
             </div>
           </div>
-          <div class="control-group">
-            <label class="control-label">Last Name</label>
-            <div class="controls docs-input-sizes">
-              {{ form.last_name.errors }}
-              {{ form.last_name }}
-            </div>
-          </div>            
-          <div class="control-group">
-            <label class="control-label">Email Address</label>
-            <div class="controls docs-input-sizes">
-              {{ form.email.errors }}
-              {{ form.email }}
-            </div>
-          </div>           
-          <div class="control-group">
-            <label class="control-label">Telephone</label>
-            <div class="controls docs-input-sizes">
-              {{ form.phone.errors }}
-              {{ form.phone }}
-            </div>
+
+        <div class="control-group">
+          <label class="control-label">Address 2</label>
+          <div class="controls docs-input-sizes">
+                  {{ form.address2.errors }}
+                  {{ form.address2 }}
           </div>
         </div>
 
-  <div class="span6">
-    <legend>Billing Address </legend>
-    <div class="control-group">
-    <label class="control-label">Address 1</label>
-    <div class="controls docs-input-sizes">
-      {{ form.address1.errors }}
-      {{ form.address1 }}
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label">Address 2</label>
-    <div class="controls docs-input-sizes">
-            {{ form.address2.errors }}
-            {{ form.address2 }}
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label">City</label>
-    <div class="controls docs-input-sizes">
+        <div class="control-group">
+          <label class="control-label">City</label>
+          <div class="controls docs-input-sizes">
             {{ form.city.errors }}
             {{ form.city }}
-    </div>
-  </div>
+        </div>
+      </div>
 
-  <div class="control-group">
-    <label class="control-label">State</label>
-    <div class="controls docs-input-sizes">
-            {{ form.state.errors }}
-            {{ form.state }}
-    </div>
-  </div>
+      <div class="control-group">
+        <label class="control-label">State</label>
+        <div class="controls docs-input-sizes">
+          {{ form.state.errors }}
+          {{ form.state }}
+        </div>
+      </div>
 
+      <div class="control-group">
+        <label class="control-label">ZIP</label>
+        <div class="controls docs-input-sizes">
+          {{ form.postal_zip.errors }}
+          {{ form.postal_zip }}
+        </div>
+      </div>
 
-  <div class="control-group">
-    <label class="control-label">ZIP</label>
-    <div class="controls docs-input-sizes">
-            {{ form.postal_zip.errors }}
-            {{ form.postal_zip }}
-    </div>
-  </div>
-
-  <div class="control-group">
-    <label class="control-label">Country</label>
-    <div class="controls docs-input-sizes">
-            {{ form.country.errors }}
-            {{ form.country }}
-    </div>
-  </div>
+      <div class="control-group">
+        <label class="control-label">Country</label>
+        <div class="controls docs-input-sizes">
+          {{ form.country.errors }}
+          {{ form.country }}
+        </div>
+      </div>
+   </div>
 </div>
-{% comment %}
+
+<div class="span6">
+    <div class="control-group">
+      <label class="control-label">First Name</label>
+      <div class="controls docs-input-sizes">
+        {{ form.invoice_first_name.errors }}
+        {{ form.invoice_first_name }}
+      </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label">Last Name</label>
+    <div class="controls docs-input-sizes">
+      {{ form.invoice_last_name.errors }}
+      {{ form.invoice_last_name }}
+    </div>
+  </div>            
+  <div class="control-group">
+    <label class="control-label">Email Address</label>
+    <div class="controls docs-input-sizes">
+      {{ form.invoice_email.errors }}
+      {{ form.invoice_email }}
+    </div>
+  </div>           
+  <div class="control-group">
+    <label class="control-label">Telephone</label>
+    <div class="controls docs-input-sizes">
+      {{ form.invoice_phone.errors }}
+      {{ form.invoice_phone }}
+    </div>
+  </div>
+  
+    <legend>Billing Address </legend>
+  {% comment %}
 <div class="span12 no_margin_left">
   <legend>Your login </legend>
   <div class="span6 no_margin_left">
