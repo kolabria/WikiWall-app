@@ -33,9 +33,17 @@
         <br />
         <h3>Update your profile details</h3>
         <form action="/profile/" method="post" class="form-horizontal">
-          {{ details_form.as_p }}
-          <input type="submit" value="Update" class="btn btn-primary btn-large offset2">
+          {% for field in details_form %}
+            {{ field.errors }}
+          <p>{{ field.label_tag}} {{ field }}</p>
+          {% endfor %}
+ 
+          <input type="submit" value="Update Profile" class="btn btn-primary btn-large offset4">
         </form>
+        <hr />
+        <br />
+        <form action="/profile/" method="post" class="form-horizontal">
+          {% for field in 
       </div>
     </div><!--span -->
   </div><!--row -->
