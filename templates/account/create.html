@@ -1,7 +1,7 @@
 {% extends "baseregister.html" %}
 
 {% block title %}
-    Kolabria - Register a new Account</title>
+    Kolabria - Create a new Account</title>
 {% endblock %}
 
 {% block content %}
@@ -22,24 +22,25 @@
 
 
   <div class="span4 logo">
-    <a href="index.html"><h1>Bootstrap Cart</h1></a>
+      <a href="index.html"><h1>Kolabria - Create an Account</h1></a>
+      <br/>
   </div>
   <div class="span8">
     <div class="row">
       <div class="span1">&nbsp;</div>
       <div class="span2">
-        <h4>Currency</h4>
-        <a href="#">CAD</a> |
-        <a href="#"><strong>USD</strong></a> |
-        <a href="#">EUR</a>
+        <h4>Currency: <a href="#"><strong>USD</strong></a></h4>
+        
       </div>
       <div class="span2">
-        <a href="cart.html"><h4>Shopping Cart (3)</h4></a>
-        <a href="cart.html">1 item(s) - $949.00</a>
+        <a href="cart.html"><h4>Beta Account with</h4></a>
+        <a href="cart.html">1 WikiWall Appliance</a>
       </div>          
       <div class="span3 customer_service">
-        <h4>FREE expedited delivery on ALL Orders</h4>
-        <h4><small>Toll-Free Customer Support: 800 475 4548</small></h4>
+        <h4>We LOVE feedback!</h4>
+        <h4><a href="#">feedback@kolabria.com</a></h4>
+        <h4><small>Customer Support: 514 272 5886</small></h4>
+        <br/>
       </div>
     </div>
   </div>
@@ -50,7 +51,7 @@
     <ul class="breadcrumb">
       <li><a href="#">Home</a> <span class="divider">/</span></li>
       <li><a href="#">Account</a> <span class="divider">/</span></li>
-      <li class="active"><a href="#">Register</a></li>
+      <li class="active"><a href="#">Create</a></li>
     </ul>
   </div>
 </div><!-- end nav -->
@@ -138,15 +139,11 @@
   <div class="control-group">
     <label class="control-label">Email Address</label>
     <div class="controls docs-input-sizes">
-      {{ form.invoice_email.errors }}
-      {{ form.invoice_email }}
     </div>
   </div>           
   <div class="control-group">
     <label class="control-label">Telephone</label>
     <div class="controls docs-input-sizes">
-      {{ form.invoice_phone.errors }}
-      {{ form.invoice_phone }}
     </div>
   </div>
   

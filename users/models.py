@@ -33,7 +33,3 @@ class UserProfile(Document):
             return '%s %s' % (user.first_name, user.last_name)
         else:
             return user.username
-
- 
-
-

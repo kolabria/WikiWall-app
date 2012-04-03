@@ -41,7 +41,7 @@ class NewAccountForm(forms.Form):
     city = forms.CharField(widget=forms.TextInput(
                            attrs={'placeholder': 'Springfield',
                                   'class': 'span4'}),
-                           max_length=30, 
+                           max_length=64, 
                            required=True)
     state = USStateField(widget=USStateSelect)
     postal_zip = forms.CharField(widget=forms.TextInput(
@@ -50,7 +50,7 @@ class NewAccountForm(forms.Form):
                            max_length=6,
                            required=True)
     country = forms.CharField(widget=forms.TextInput(
-                           attrs={'placeholder': 'Canada',
+                           attrs={'placeholder': 'USA',
                                   'class': 'span4'}),
                            max_length=30,
                            required=True)
