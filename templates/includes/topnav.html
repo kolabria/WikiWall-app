@@ -16,7 +16,7 @@
             </ul>
  
          {% if user.is_authenticated %}
-         <p class="navbar-text pull-right">Logged in as <a href="#">{{ user.username }}</a> | <a href="/logout">Logout</a></p>
+         <p class="navbar-text pull-right">Logged in as <a href="#">{{ user.email}}</a> | <a href="/logout">Logout</a></p>
          {% else %} 
              {% comment %} 
              <form class="form-inline navbar-text pull-right">Login: 
