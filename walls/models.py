@@ -19,8 +19,7 @@ class Wall(Document):
         (u'Private', u'Private'),
         (u'Inactive', u'Inactive'),
     )        
-    company = ReferenceField(Account, 
-                             default=Account.objects.get(company='Kolabria'))
+    company = ReferenceField(Account)
     owner = ReferenceField(User)
     name = StringField(max_length=32, required=True)
     description = StringField(max_length=256, required=False)

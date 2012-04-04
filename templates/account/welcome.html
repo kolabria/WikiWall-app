@@ -51,7 +51,9 @@
               </div>
               <div class="tab-pane fade" id="appliance">
                 <h3>Appliance Menu<h3> 
-                <p><a href="/appliance/add/">Add new Appliance</a><p> 
+                <form action="/welcome/" method="post" class="form-horizontal">
+                  {{ form.as_p }}
+                <input type="submit" value="create" class="btn btn-primary btn-large">
               </div>
               <div class="tab-pane fade" id="users">
                 <h3>User Management<h3> 
