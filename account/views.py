@@ -16,11 +16,9 @@ import ipdb
 def create(request):
     form = NewAccountForm(request.POST or None)
     if form.is_valid():
+        # create the account instance
         new_account = Account()
         new_account.company = request.POST['company_name']
-        new_account.first_name = request.POST['first_name']
-        new_account.last_name = request.POST['last_name']
-        new_account.email = request.POST['email']
         new_account.phone = request.POST['phone']
         new_account.address1 = request.POST['address1']
         new_account.address2 = request.POST['address2']
@@ -29,30 +27,21 @@ def create(request):
         new_account.postal_zip = request.POST['postal_zip']
         new_account.country = request.POST['country']
         new_account.save()
-        messages.success(request, request.POST)
         messages.success(request, new_account)
-        return HttpResponseRedirect('/account/create/')
 
+        # also attach the contact information to the anonymous request.user
+        admin = User.objects.create(username = request.POST['username'],
+                                    email = request.POST['email'],
+                                    first_name = request.POST['first_name'],
+                                    last_name = request.POST['last_name'],
+                                    password = request.POST['password1'])
+        admin.save()
+        authenticate(username=request.POST['username'], 
+                     password=request.POST['password1'])
+        login(request, admin)
+        messages.success(request, admin)
+        return HttpResponseRedirect('/create/')
+    
     data = {'title': 'Kolabria - Create a new Account ', 'form': form, }
     return render_to_response('account/create.html', data,
                               context_instance=RequestContext(request))
-
-"""
-def register(request):
-    form = UserCreationForm(request.POST or None)
-    data = {'title': 'Kolabria - Registration Page',
-            'form': form,}
-    if form.is_valid():
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password2']
-        new_user = User.create_user(username=username, email=email,
-                                    password=password)
-        new_user.save()
-        auth_user = authenticate(username=username, password=password)
-        login(request=request, user=auth_user)
-        return render_to_response('login/register-success.html',
-                          context_instance=RequestContext(request))
-    return render_to_response('login/register.html', data,
-                              context_instance=RequestContext(request))
-"""

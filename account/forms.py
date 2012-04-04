@@ -25,7 +25,7 @@ class NewAccountForm(forms.Form):
                                   'class': 'span4'}),
                            max_length=30,
                            required=True)
-    phone = USPhoneNumberField(widget=forms.TextInput(
+    phone = forms.CharField(widget=forms.TextInput(
                            attrs={'placeholder': '555-875-1000',
                                   'class': 'span4'}))
     address1 = forms.CharField(widget=forms.TextInput(
@@ -54,3 +54,21 @@ class NewAccountForm(forms.Form):
                                   'class': 'span4'}),
                            max_length=30,
                            required=True)
+    username = forms.CharField(widget=forms.TextInput(
+                           attrs={'placeholder': 'username',
+                                  'class': 'span4'}),
+                           max_length=30, 
+                           required=True)
+    password1 = forms.CharField(widget=forms.PasswordInput(
+                           attrs={'placeholder': '**********',
+                                  'class': 'span4'}),
+                           max_length=30, 
+                           required=True)
+    password2 = forms.CharField(widget=forms.PasswordInput(
+                           attrs={'placeholder': '**********',
+                                  'class': 'span4'}),
+                           max_length=30, 
+                           required=True)
+    agree_terms = forms.BooleanField(widget=forms.CheckboxInput)
+    newsletter = forms.BooleanField(widget=forms.CheckboxInput, required=False)
+                           
