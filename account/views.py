@@ -13,6 +13,7 @@ from mongoengine.django.auth import User
 
 import ipdb
 
+@login_required
 def create(request):
     form = NewAccountForm(request.POST or None)
     if form.is_valid():
@@ -29,19 +30,29 @@ def create(request):
         new_account.save()
         messages.success(request, new_account)
 
+        ipdb.set_trace()
         # also attach the contact information to the anonymous request.user
-        admin = User.objects.create(username = request.POST['username'],
-                                    email = request.POST['email'],
-                                    first_name = request.POST['first_name'],
-                                    last_name = request.POST['last_name'],
-                                    password = request.POST['password1'])
-        admin.save()
-        authenticate(username=request.POST['username'], 
-                     password=request.POST['password1'])
-        login(request, admin)
-        messages.success(request, admin)
-        return HttpResponseRedirect('/create/')
-    
-    data = {'title': 'Kolabria - Create a new Account ', 'form': form, }
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password2']
+        new_user = User.create_user(username=username, email=email,
+                                    password=password)
+        new_user.first_name = request.POST['first_name']
+        new_user.last_name = request.POST['last_name']
+        new_user.save()
+        auth_user = authenticate(username=username, password=password)
+        login(request=request, user=auth_user)
+        messages.success(request, 'Successfully logged in as %s' % \
+                                                           auth_user.username)
+        return HttpResponseRedirect('/welcome/')
+
+    data = {'title': 'Kolabria - Create a new Account ', 'form': form,
+            'company': new_account, }
     return render_to_response('account/create.html', data,
+                              context_instance=RequestContext(request))
+
+@login_required
+def welcome(request):
+    data = {'title': 'Kolabria - New Account Confirmation'}
+    return render_to_response('account/welcome.html', data,
                               context_instance=RequestContext(request))
