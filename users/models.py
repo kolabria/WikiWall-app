@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.db.models.signals import post_save
 
 from mongoengine import connect, Document
 from mongoengine import ReferenceField, StringField, DateTimeField
@@ -19,8 +20,9 @@ class UserProfile(Document):
         (u'Inactive', u'Inactive'),
         (u'Deleted', u'Deleted'),
     )
-
-    user = ReferenceField(User)
+    user = models.OneToOneField(User)
+    company = ReferenceField(Account)
+    phone = StringField(max_length=30, required=False)
     description = StringField(max_length=256, required=False)
     status = StringField(default='Active', max_length=8,
                          choices=STATUS_CHOICES, required=True)
@@ -33,3 +35,9 @@ class UserProfile(Document):
             return '%s %s' % (user.first_name, user.last_name)
         else:
             return user.username
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
