@@ -14,13 +14,13 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 ADMINS = ()
 
 MANAGERS = ADMINS
-
+AUTH_PROFILE_MODULE = 'users.UserProfile'
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
 # Database settings
-connect('kolabria-new')
+connect('kolabria-alpha')
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
