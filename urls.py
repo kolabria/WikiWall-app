@@ -2,6 +2,7 @@ from django.conf.urls.defaults import include, patterns, url
 from django.conf import settings
 
 urlpatterns = patterns('',
+    (r'', include('public.urls')),
     (r'', include('account.urls')),
     (r'', include('login.urls')),
     (r'', include('walls.urls')),

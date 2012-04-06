@@ -20,7 +20,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Database settings
-connect('kolabria-alpha')
+connect('kolabria-charlie')
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,

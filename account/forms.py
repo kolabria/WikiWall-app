@@ -73,14 +73,3 @@ class NewAccountForm(forms.Form):
     newsletter = forms.BooleanField(widget=forms.CheckboxInput, required=False)
 
 
-class NewBoxForm(forms.Form):
-    STATUS_CHOICES = (
-        (u'Active', u'Active'),
-        (u'New', u'Not Registered'),
-        (u'Offline', u'Offline'),
-    )
-    name = forms.CharField(widget=forms.TextInput)
-    location = forms.CharField(widget=forms.TextInput)
-    status = forms.ChoiceField(widget=forms.Select,
-                               choices=STATUS_CHOICES,
-                               required=True)
