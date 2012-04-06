@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Kolabria | Editing Appliance Details for: {{ box.name }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+      <div class="row-fluid">
+        {% include "includes/focus-sidebar.html" %} 
+        <div class="span8 ">
+            <div class="hero-unit well">
+            {% if messages %}
+              <div class="messages alert alert-block alert-info">
+                <a class="close" data-dismiss="alert">×</a>
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+          <h2>Update Appliance Details:</h2>
+          <hr/> 
+          <form action="/{{ company }}/admin/appliance/update/{{ box.id }}/" method="post" class="form-horizontal">
+            {{ form.as_p }}
+            <button a href="/{{ company }}/admin/" class="btn ">Cancel</button>
+            <input type="submit" value="Update Details" class="btn btn-primary">
+          </form>
+          <br/>
+          </div><!-- hero-unit wll -->
+        </div><!--span -->
+      </div><!--row -->
+
+{% endblock %}

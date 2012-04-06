@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
-from kolabria.account.forms import NewAccountForm, NewBoxForm
+from kolabria.account.forms import NewAccountForm
 from kolabria.account.models import Account
 from kolabria.appliance.models import Box
 
@@ -54,8 +54,7 @@ def create(request):
         slug = slugify(new_account.name)
         return HttpResponseRedirect('/%s/welcome/' % slug)
 
-    data = {'title': 'Kolabria - Create a new Account ', 'form': form,
-             }
+    data = {'title': 'Kolabria - Create a new Account ', 'form': form, }
     return render_to_response('account/create.html', data,
                               context_instance=RequestContext(request))
 

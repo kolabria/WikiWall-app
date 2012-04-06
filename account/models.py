@@ -15,7 +15,6 @@ class Account(Document):
         (u'Active', u'Active'),
         (u'Inactive', u'Inactive'),
     )
-   
     admin = ReferenceField(User)
     name = StringField(max_length=32)
 #    slug = SlugField(default=slugify(name))
@@ -33,6 +32,7 @@ class Account(Document):
     created = DateTimeField(default=datetime.now())
     modified = DateTimeField(default=datetime.now(), required=True)
 
+    boxes = ListField(StringField())
     users = ListField(EmailField())
 
     def __unicode__(self):

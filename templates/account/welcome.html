@@ -10,9 +10,8 @@
 
       {% include "includes/admin-sidebar.html" %}
 
-
       {% if messages %}
-        <div class="span6 offset3">
+        <div class="span8 offset3">
           <div class="alert alert-block">
             <a class="close" data-dismiss="alert">×</a>
           {% for message in messages %}
@@ -23,24 +22,23 @@
       {% endif %}
 
         <div class="span9 well">
-          <h1>Welcome!</h1>
-          <br>
+          <h1>Welcome {{ user.first_name }}!</h1>
           <h3>Company: {{ company }}</h3>
           <h3>Account Admin: {{ user.username }} 
           <h3>Admin email: {{ user.email }}</h3>
-
           <br /> 
+          
           <ul id="tab" class="nav nav-tabs">
             <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-            <li><a href="#appliance" data-toggle="tab">Appliances</a></li>
+            <li><a href="#appliance" data-toggle="tab">Appliance</a></li>
             <li><a href="#users" data-toggle="tab">Users</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#profile" data-toggle="tab">My Profile</a></li>
-                <li><a href="#dropdown2" data-toggle="tab">Billing History</a></li>
-                <li><a href="#dropdown2" data-toggle="tab">Support & Contact</a></li>
-                <li><a href="#dropdown2" data-toggle="tab">Online Help Docs</a></li>
+                <li><a href="#billing" data-toggle="tab">Billing History</a></li>
+                <li><a href="#support" data-toggle="tab">Support & Contact</a></li>
+                <li><a href="#docs" data-toggle="tab">Online Help Docs</a></li>
               </ul>
             </li>
           </ul>
@@ -50,11 +48,46 @@
                 <p>Welcome to the admin interface for your account. From here you can manage your appliances, WikiWalls, and authorized users. Your billing and payment information can be managed here as well. For more details read the <a href="#">Administrator Manual</a></p>
               </div>
               <div class="tab-pane fade" id="appliance">
-                <h3>Appliance Menu<h3> 
-                <form action="/welcome/" method="post" class="form-horizontal">
-                  {{ form.as_p }}
-                <input type="submit" value="create" class="btn btn-primary btn-large">
-              </div>
+                <h1>Appliance Menu<h1> 
+                    <p><a href="/{{ company }}/admin/appliance/add/">Add a new Appliance</a><p>
+                    {% if boxes %}
+                    <h3>My Appliances</h3>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Location</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for box in boxes %}
+                        <tr id="{{ box.id }}">
+                          <td><a href="/{{ company }}/admin/{{ box.id }}/">{{ box.name }}</a></td>
+                          <td>{{ box.location }}</td>
+                          <td>owner</td>
+                          <td>{{ box.status }}</td>
+                          <td>
+                            <div class="btn-group">
+                              <a class="btn" href="/{{ company }}/{{ box.id }}">open</a><a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="/{{ company }}/admin/appliance/update/{{ box.id }}">update details</a></li>
+                                {% comment %}<li><a href="#delete-{{ company.id }}" data-toggle="modal">delete</a></li>{% endcomment %}
+                              </ul>
+                            </div>
+                          </td>
+                          <td>{{ wall.published }}</td>
+                      </tr>
+                      {% endfor %}
+                    {% else %}
+                    <form action="/{{ company }}/admin/appliance/add/" method="post" class="form-horizontal">
+                      {{ new_box_form.as_p }}
+                      <input type="submit" value="Add Appliance" class="btn btn-primary btn-large">
+                     {% endif %}
+                     </tbody>
+                      </table>
+                  </div><!--/span-->
               <div class="tab-pane fade" id="users">
                 <h3>User Management<h3> 
                 <p><a href="/appliance/add/">Add new users</a><p> 
@@ -63,9 +96,18 @@
                 <h3>Update Profile<h3> 
                     <p><a href="/users/{{ user.email }}/update/">Update Profile</a><p> 
                </div>
-              <div class="tab-pane fade" id="dropdown2">
-                <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+              <div class="tab-pane fade" id="billing">
+                <h1>Billing</h1>
+                <p>Billing text. Billing text. Billing text. Billing text. Billing text. Billing text. Billing text. Billing text. Billing text. Billing text.</p>
               </div>
-            </div>
+              <div class="tab-pane fade" id="support">
+                <h1>Support & Contact</h1>
+                <p>Support details and contact form to open an issue</p>
+              </div>
+              <div class="tab-pane fade" id="docs">
+                <h1>Online Help & Documentation</h1>
+                <p>Admin help docs</p>
+              </div>
+                          </div>
            </div><!-- /row -->
 {% endblock content %}
