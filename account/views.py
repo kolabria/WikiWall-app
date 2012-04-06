@@ -18,7 +18,7 @@ def create(request):
     if form.is_valid():
         # create the account instance
         new_account = Account()
-        new_account.company = request.POST['company_name']
+        new_account.name = request.POST['company_name']
         new_account.phone = request.POST['phone']
         new_account.address1 = request.POST['address1']
         new_account.address2 = request.POST['address2']
@@ -29,8 +29,7 @@ def create(request):
         new_account.save()
         messages.success(request, new_account)
 
-        ipdb.set_trace()
-        # also attach the contact information to the anonymous request.user
+        # create new user and save profile details; save new user
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password2']
@@ -39,6 +38,12 @@ def create(request):
         new_user.first_name = request.POST['first_name']
         new_user.last_name = request.POST['last_name']
         new_user.save()
+
+        # set new user as admin for account instance; save account
+#        new_account.admin = new_user
+#        new_account.save()
+ 
+        # authenticate and log in user
         auth_user = authenticate(username=username, password=password)
         login(request=request, user=auth_user)
         messages.success(request, 'Successfully logged in as %s' % \

@@ -14,7 +14,7 @@ class Account(Document):
     )
 
     admin = ReferenceField(User)
-    company = StringField(max_length=32)
+    name = StringField(max_length=32)
     phone = StringField(max_length=30)
     address1 = StringField(max_length=80)
     address2 = StringField(max_length=80)
@@ -35,4 +35,4 @@ class Account(Document):
         """
         Returns the Wall Name as unicode description for admin and shell
         """
-        return self.company
+        return self.name
