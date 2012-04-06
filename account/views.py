@@ -14,18 +14,28 @@ from mongoengine.django.auth import User
 import ipdb
 
 @login_required
-def welcome(request):
-    form = NewBoxForm(request.POST or None)
-    if form.is_valid():
-        name = request.POST['name']
-        location = request.POST['location']
-        box = Box.objects.create(name=name, location=location)
-        box.save()
-        msg = '%s %s %s' % (box.id, box.name, box.location)
-        messages.info(request, msg)
-        messages.info(request, request.POST)
-        return HttpResponseRedirect('/welcome/')
-
-    data = {'title': 'Kolabria - New Account Confirmation', 'form': form, }
+def welcome(request, company):
+    data = {'title': 'Kolabria - New Account Landing',
+            'company': company, }
     return render_to_response('account/welcome.html', data,
                               context_instance=RequestContext(request))
+
+"""
+    account = Account.objects.filter(name=company)[0]
+    if account and request.user is not account.admin:
+        messages.warning(request, '%s not authorized to administer %s' % \
+                                            (request.user.username, company))
+        return HttpResponseRedirect('/')
+    else:
+        form = NewBoxForm(request.POST or None)
+        if form.is_valid():
+            name = request.POST['name']
+            location = request.POST['location']
+            box = Box.objects.create(name=name, location=location)
+            box.save()
+            msg = '%s %s %s' % (box.id, box.name, box.location)
+            messages.info(request, msg)
+            messages.info(request, request.POST)
+            return HttpResponseRedirect('/%s /welcome/' % company)
+"""
+

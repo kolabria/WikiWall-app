@@ -4,5 +4,5 @@ from django.conf import settings
 import views 
 
 urlpatterns = patterns('',
-    url(r'^welcome/$', views.welcome),
+    url(r'^(?P<company>\w+)/welcome/$', views.welcome),
 )

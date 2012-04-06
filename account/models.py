@@ -2,6 +2,9 @@ from mongoengine import connect, Document
 from mongoengine import ReferenceField, StringField, EmailField
 from mongoengine import DateTimeField, ListField
 from mongoengine.django.auth import User
+
+from mongoengine_extras.fields import SlugField, AutoSlugField
+from mongoengine_extras.utils import slugify
 from datetime import datetime
 
 class Account(Document):
@@ -12,9 +15,10 @@ class Account(Document):
         (u'Active', u'Active'),
         (u'Inactive', u'Inactive'),
     )
-
+   
     admin = ReferenceField(User)
     name = StringField(max_length=32)
+#    slug = SlugField(default=slugify(name))
     phone = StringField(max_length=30)
     address1 = StringField(max_length=80)
     address2 = StringField(max_length=80)

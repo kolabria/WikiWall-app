@@ -5,7 +5,4 @@ ipython
 -e git+https://github.com/hmarr/django-debug-toolbar-mongo.git#egg=django_debug_toolbar_mongo
 -e git+https://github.com/maraujop/django-crispy-forms.git#egg=django_crispy_forms
 -e git+https://github.com/stephrdev/django-mongoforms.git#egg=django_mongoforms
-
-#-e git+https://github.com/earle/django-bootstrap.git#egg=django_bootstrap
-#-e git+https://github.com/jschrewe/django-mongodbforms.git#egg=django_mongodbforms
-
+-e git+https://github.com/bennylope/mongoengine-extras.git#egg=mongoengine_extras

@@ -9,7 +9,9 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from kolabria.account.forms import NewAccountForm, NewBoxForm
 from kolabria.account.models import Account
 from kolabria.appliance.models import Box
+
 from mongoengine.django.auth import User
+from mongoengine_extras.utils import slugify
 
 import ipdb
 
@@ -49,7 +51,8 @@ def create(request):
         login(request=request, user=auth_user)
         messages.success(request, 'Successfully logged in as %s' % \
                                                            auth_user.username)
-        return HttpResponseRedirect('/welcome/')
+        slug = slugify(new_account.name)
+        return HttpResponseRedirect('/%s/welcome/' % slug)
 
     data = {'title': 'Kolabria - Create a new Account ', 'form': form,
              }
