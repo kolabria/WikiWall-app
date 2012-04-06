@@ -66,6 +66,13 @@ def add_box(request, company):
         messages.success(request, 'Created box %s %s' % (box.name, box.location))
         return HttpResponseRedirect('/%s/admin/' % company)
 
+    data = {'title': 'Kolabria - Add New Appliance',
+            'company': company,
+            'form': form, }
+
+    return render_to_response('appliance/create.html', data,
+                              context_instance=RequestContext(request))
+
 @login_required
 def update_box(request, company, bid):
     account = Account.objects.get(name__iexact=company)
