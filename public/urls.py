@@ -1,8 +1,9 @@
 from django.conf.urls.defaults import include, patterns, url
 from django.conf import settings
 
-import views 
+import views
 
 urlpatterns = patterns('',
-    url(r'^welcome/$', views.welcome),
+    url(r'^$', views.public),
+    url(r'^create/$', views.create),
 )
